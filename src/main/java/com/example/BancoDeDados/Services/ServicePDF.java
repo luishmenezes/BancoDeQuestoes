@@ -1,5 +1,6 @@
 package com.example.BancoDeDados.Services;
 
+import lombok.Data;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -9,7 +10,9 @@ import java.io.File;
 import java.io.IOException;
 
 @Service
-public class LerPDF {
+@Data
+public class ServicePDF {
+    private String textoExtraido;
 
     public String extrairTextoPDF(String caminhoArquivo) throws IOException {
         File arquivoPDF = new File(caminhoArquivo);
@@ -22,8 +25,11 @@ public class LerPDF {
         PDFTextStripper textType = new PDFTextStripper();
         String texto = textType.getText(documento);
         documento.close();
-        System.out.println(texto);
-
         return texto;
     }
+    public String TextoExtraido() throws IOException {
+        textoExtraido =extrairTextoPDF("C:\\Users\\David\\Downloads\\BancoDeDados\\BancoDeDados\\src\\main\\resources\\Arquivos\\teste1.pdf");
+   return textoExtraido;
+    }
+
 }

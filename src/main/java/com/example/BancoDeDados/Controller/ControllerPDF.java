@@ -1,7 +1,7 @@
 package com.example.BancoDeDados.Controller;
 
-import com.example.BancoDeDados.Services.LerPDF;
-import com.example.BancoDeDados.Services.serviceChatGPT;
+import com.example.BancoDeDados.Services.ServicePDF;
+import com.example.BancoDeDados.Services.ServiceTratarTexto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,23 +13,31 @@ import java.io.IOException;
 @RequestMapping("/api/pdf")
 public class ControllerPDF {
 
-    private final LerPDF lerPDF;
-    private final serviceChatGPT serviceChatGPT;
+    private final ServicePDF servicePDF;
+    ServiceTratarTexto TratarTexto=new ServiceTratarTexto();
+
 
     @Autowired
-    public ControllerPDF(LerPDF lerPDF, serviceChatGPT serviceChatGPT) {
-        this.lerPDF = lerPDF;
-        this.serviceChatGPT = serviceChatGPT;
+    public ControllerPDF(ServicePDF servicePDF) {
+        this.servicePDF = servicePDF;
+
     }
 
     @GetMapping("/processar")
-    public String processarPDF() {
-        try {
-            String texto = lerPDF.extrairTextoPDF("C:\\Users\\David\\Downloads\\BancoDeDados\\BancoDeDados\\src\\main\\resources\\Arquivos\\teste1.pdf");
-            return texto;
-        } catch (IOException e) {
-            return "Erro ao processar o PDF: " + e.getMessage();
-        }
+    public String processarPDF() throws IOException {
+        String exibirTextoExtraido= servicePDF.TextoExtraido();
+
+        return exibirTextoExtraido;
     }
+    @GetMapping("/processado")
+    public String processado() throws IOException {
+        String exibirTextoTratado=TratarTexto.mandartextoFiltrado();
+
+        return exibirTextoTratado;
+    }
+
+
+
+
 
 }
