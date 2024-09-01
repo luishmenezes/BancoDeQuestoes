@@ -1,5 +1,6 @@
 package com.example.BancoDeDados.Controller;
 
+import com.example.BancoDeDados.Services.ServiceJson;
 import com.example.BancoDeDados.Services.ServicePDF;
 import com.example.BancoDeDados.Services.ServiceTratarTexto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/pdf")
 public class ControllerPDF {
-
+    ServiceJson json=new ServiceJson();
     private final ServicePDF servicePDF;
     ServiceTratarTexto TratarTexto=new ServiceTratarTexto();
 
@@ -32,8 +33,8 @@ public class ControllerPDF {
     @GetMapping("/processado")
     public String processado() throws IOException {
         String exibirTextoTratado=TratarTexto.mandartextoFiltrado();
-
-        return exibirTextoTratado;
+        json.jsonDoCorpo();
+        return json.jsonDoCorpo();
     }
 
 

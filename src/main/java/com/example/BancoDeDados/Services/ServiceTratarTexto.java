@@ -20,7 +20,6 @@ public class ServiceTratarTexto {
 
         return resultado.toString();
     }
-
     public String mandartextoFiltrado() throws IOException {
         return pegarQuestao();
     }
