@@ -28,7 +28,7 @@ public class ServicePDF {
         return texto;
     }
     public String TextoExtraido() throws IOException {
-        textoExtraido =extrairTextoPDF("C:\\Users\\David\\Downloads\\BancoDeDados\\BancoDeDados\\src\\main\\resources\\Arquivos\\teste1.pdf");
+        textoExtraido =extrairTextoPDF("C:\\Users\\David\\Downloads\\BancoDeDados\\BancoDeDados\\src\\main\\resources\\Arquivos\\teste.pdf");
    return textoExtraido;
     }
 

@@ -32,9 +32,10 @@ public class ControllerPDF {
     }
     @GetMapping("/processado")
     public String processado() throws IOException {
-        String exibirTextoTratado=TratarTexto.mandartextoFiltrado();
-        json.jsonDoCorpo();
-        return json.jsonDoCorpo();
+        String jsonCorpo = json.jsonDoCorpo();
+        json.exibirQuestoesDoJson(jsonCorpo);
+        TratarTexto.mandartextoFiltrado();
+        return TratarTexto.mandartextoFiltrado();
     }
 
 
