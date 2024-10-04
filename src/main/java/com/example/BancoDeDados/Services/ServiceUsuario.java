@@ -1,7 +1,10 @@
 package com.example.BancoDeDados.Services;
 
 import com.example.BancoDeDados.Model.Usuario;
+import com.example.BancoDeDados.Repositores.UsuarioRepositores;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.BancoDeDados.extencao.UserInvalid;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,13 +12,25 @@ import java.util.List;
 
 @Service
 public class ServiceUsuario {
+    @Autowired
+    private UsuarioRepositores usuarioRepositores;
+
     private List<Usuario> usuarios = new ArrayList<>();
     private int proximoId = 1;
 
-    public Usuario criarUsuario(Integer id, String nome, String email, String senha, Date dataNascimento) {
-        Usuario novoUsuario = new Usuario(proximoId++, nome, email, senha, dataNascimento);
-        usuarios.add(novoUsuario);
-        return novoUsuario;
+    public void salvando(Usuario usuario) throws UserInvalid {
+        if (usuario.getEmail().trim().isEmpty() || usuario.getNome().trim().isEmpty()
+        ) {
+            throw new UserInvalid("Os campos obrigatórios não podem estar vazio.");
+        }
+        if (this.usuarioRepositores.existsByEmail(usuario.getEmail())){
+            throw new UserInvalid("Email já cadastrado");
+        }
+
+    }
+    public Usuario criar(Usuario usuario) {
+        return usuarioRepositores.save(usuario);
+
     }
 
     public List<Usuario> listarUsuarios() {

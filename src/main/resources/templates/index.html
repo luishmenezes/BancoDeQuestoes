@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Cadastro do usuario</title>
+</head>
+
+<body>
+
+
+<div class="container">
+    <div class="form-image">
+
+        <img th:src="@{/img/usuario_img/cadastro_usuario.svg}" alt="imagem cadastro do usuario">
+    </div>
+
+    <div class="form">
+        <form action="/usuario/cadastro" method="post" th:object="${usuario}">
+
+            <div class="form-header">
+                <div class="title">
+                    <h1>Cadastre-se</h1>
+                </div>
+                <div class="login-button">
+                    <button type="button"><a href="/login/usuario">Ir login</a></button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div class="input-box">
+                    <label for="nome">Nome Sobrenome</label>
+                    <input id="nome" type="text" name="nome" placeholder="Nome e ultimo Sobrenome" required="required">
+                </div>
+
+
+                <div class="input-box">
+                    <label for="dataNascimento" class="nome-data">Data Nascimento</label>
+                    <input id="dataNascimento" type="date" name="dataNascimento" class="linha-data" required="required">
+                </div>
+
+
+                <div class="input-box">
+                    <label for="email">E-mail</label>
+                    <input id="email" type="email" name="email" placeholder="Digite seu e-mail" required="required">
+                </div>
+
+
+                <div class="input-box">
+                    <label for="password">Senha</label>
+                    <input id="password" type="password" name="senha" placeholder="Digite sua senha" required="required">
+
+                </div>
+
+                <div class="input-exibir-senha">
+                    <label for="confirmPassword">Exibir Senha</label>
+                    <input type="checkbox" id="confirmPassword" name="confirmPassword" onchange="exibirPassword()">
+                </div>
+
+
+
+            </div>
+            <div class="input-box">
+                <div class="gender-inputs">
+                    <div class="gender-title">
+                        <h6>Sexo</h6>
+                    </div>
+
+                    <div class="gender-group">
+                        <div class="gender-input">
+                            <input id="feminino" type="radio" name="sexo" value="FEMININO"  data-input>
+                            <label for="FEMININO">Feminino</label>
+                        </div>
+
+                        <div class="gender-input">
+                            <input id="masculino" type="radio" name="sexo" value="MASCULINO"  data-input>
+                            <label for="MASCULINO">Masculino</label>
+                        </div>
+
+                        <div class="gender-input">
+                            <input id="outro" type="radio" name="sexo" value="OUTRO" data-input>
+                            <label for="OUTRO">Outro</label>
+                        </div>
+                    </div>
+                    <div class="continue-button" >
+                        <button type="submit"><a>Cadastrar</a></button>
+
+                    </div>
+
+        </form>
+    </div>
+</div>
+
+
+
+</body>
+
+</html>
