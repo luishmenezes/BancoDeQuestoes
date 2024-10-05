@@ -4,56 +4,48 @@ import com.example.BancoDeDados.Model.Usuario;
 import com.example.BancoDeDados.Repositores.UsuarioRepositores;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.BancoDeDados.extencao.UserInvalid;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServiceUsuario {
+
     @Autowired
     private UsuarioRepositores usuarioRepositores;
 
-    private List<Usuario> usuarios = new ArrayList<>();
-    private int proximoId = 1;
-
-    public void salvando(Usuario usuario) throws UserInvalid {
-        if (usuario.getEmail().trim().isEmpty() || usuario.getNome().trim().isEmpty()
-        ) {
-            throw new UserInvalid("Os campos obrigatórios não podem estar vazio.");
-        }
-        if (this.usuarioRepositores.existsByEmail(usuario.getEmail())){
-            throw new UserInvalid("Email já cadastrado");
-        }
-
-    }
+    @Transactional
     public Usuario criar(Usuario usuario) {
-        return usuarioRepositores.save(usuario);
-
-    }
-
-    public List<Usuario> listarUsuarios() {
-        return usuarios;
-    }
-
-    public Usuario buscarUsuario(int id) {
-        return usuarios.stream().filter(usuario -> usuario.getId().equals(id)).findFirst().orElse(null);
-    }
-
-    public Usuario atualizarUsuario(int id, String nome, String email,String senha, Date dataNascimento) {
-        Usuario usuarioExistente = buscarUsuario(id);
-        if (usuarioExistente != null) {
-            usuarioExistente.setNome(nome);
-            usuarioExistente.setEmail(email);
-            usuarioExistente.setSenha(senha);
-            usuarioExistente.setDataNascimento(dataNascimento);
-            return usuarioExistente;
+        try {
+            return usuarioRepositores.save(usuario);  // Salva o usuário no banco
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao criar o usuário: " + e.getMessage());  // Lança exceção em caso de falha
         }
-        return null;
     }
 
-    public boolean removerUsuario(int id) {
-        return usuarios.removeIf(usuario -> usuario.getId().equals(id));
+    public List<Usuario> listar(Usuario usuario) {
+        return usuarioRepositores.findAll();
+    }
+
+    public boolean deletar(Integer id) {
+        try {
+            if (usuarioRepositores.existsById(id)) {  // Verifica se o ID existe antes de deletar
+                usuarioRepositores.deleteById(id);
+                return true;  // Retorna true caso a exclusão tenha sido bem-sucedida
+            } else {
+                return false;  // Retorna false caso o usuário não seja encontrado
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao deletar o usuário: " + e.getMessage());
+        }
+    }
+
+    public Optional<Usuario> editar(Integer id) {
+        try {
+            return usuarioRepositores.findById(id);  // Busca o usuário pelo ID
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar o usuário: " + e.getMessage());
+        }
     }
 }

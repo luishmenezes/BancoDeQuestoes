@@ -11,10 +11,6 @@
 
 
 <div class="container">
-    <div class="form-image">
-
-        <img th:src="@{/img/usuario_img/cadastro_usuario.svg}" alt="imagem cadastro do usuario">
-    </div>
 
     <div class="form">
         <form action="/usuario/cadastro" method="post" th:object="${usuario}">
@@ -24,7 +20,7 @@
                     <h1>Cadastre-se</h1>
                 </div>
                 <div class="login-button">
-                    <button type="button"><a href="/login/usuario">Ir login</a></button>
+                    <button type="button"><a href="/usuario/cadastro">Ir login</a></button>
                 </div>
             </div>
 
@@ -48,41 +44,16 @@
 
 
                 <div class="input-box">
-                    <label for="password">Senha</label>
-                    <input id="password" type="password" name="senha" placeholder="Digite sua senha" required="required">
+                    <label for="senha">Senha</label>
+                    <input id="senha" type="password" name="senha" placeholder="Digite sua senha" required="required">
 
                 </div>
 
-                <div class="input-exibir-senha">
-                    <label for="confirmPassword">Exibir Senha</label>
-                    <input type="checkbox" id="confirmPassword" name="confirmPassword" onchange="exibirPassword()">
-                </div>
+
 
 
 
             </div>
-            <div class="input-box">
-                <div class="gender-inputs">
-                    <div class="gender-title">
-                        <h6>Sexo</h6>
-                    </div>
-
-                    <div class="gender-group">
-                        <div class="gender-input">
-                            <input id="feminino" type="radio" name="sexo" value="FEMININO"  data-input>
-                            <label for="FEMININO">Feminino</label>
-                        </div>
-
-                        <div class="gender-input">
-                            <input id="masculino" type="radio" name="sexo" value="MASCULINO"  data-input>
-                            <label for="MASCULINO">Masculino</label>
-                        </div>
-
-                        <div class="gender-input">
-                            <input id="outro" type="radio" name="sexo" value="OUTRO" data-input>
-                            <label for="OUTRO">Outro</label>
-                        </div>
-                    </div>
                     <div class="continue-button" >
                         <button type="submit"><a>Cadastrar</a></button>
 
