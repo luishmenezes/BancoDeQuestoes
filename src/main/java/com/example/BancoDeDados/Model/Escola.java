@@ -1,5 +1,6 @@
 package com.example.BancoDeDados.Model;
 
+import com.example.BancoDeDados.ResponseDTO.EscolaResponseDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,5 +34,12 @@ public class Escola {
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataNascimento;
+
+    public Escola(EscolaResponseDTO escolaDTO){
+        this.nome=escolaDTO.nome();
+        this.email=escolaDTO.email();
+        this.senha=escolaDTO.senha();
+        this.dataNascimento=escolaDTO.dataNascimento();
+    }
 
 }
