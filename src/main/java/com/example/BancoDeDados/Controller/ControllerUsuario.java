@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/usuarios") // Define a rota base para a API de usuários
+@RequestMapping("/usuarios")
 public class ControllerUsuario {
 
     @Autowired
@@ -48,9 +48,9 @@ public class ControllerUsuario {
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
         if (serviceUsuario.deletar(id)) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Sucesso na exclusão
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // ID não encontrado
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }

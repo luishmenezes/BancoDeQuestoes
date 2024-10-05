@@ -18,9 +18,9 @@ public class ServiceUsuario {
     @Transactional
     public Usuario criar(Usuario usuario) {
         try {
-            return usuarioRepositores.save(usuario);  // Salva o usuário no banco
+            return usuarioRepositores.save(usuario);
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao criar o usuário: " + e.getMessage());  // Lança exceção em caso de falha
+            throw new RuntimeException("Erro ao criar o usuário: " + e.getMessage());
         }
     }
 
@@ -30,11 +30,11 @@ public class ServiceUsuario {
 
     public boolean deletar(Integer id) {
         try {
-            if (usuarioRepositores.existsById(id)) {  // Verifica se o ID existe antes de deletar
+            if (usuarioRepositores.existsById(id)) {
                 usuarioRepositores.deleteById(id);
-                return true;  // Retorna true caso a exclusão tenha sido bem-sucedida
+                return true;
             } else {
-                return false;  // Retorna false caso o usuário não seja encontrado
+                return false;
             }
         } catch (Exception e) {
             throw new RuntimeException("Erro ao deletar o usuário: " + e.getMessage());
@@ -43,7 +43,7 @@ public class ServiceUsuario {
 
     public Optional<Usuario> editar(Integer id) {
         try {
-            return usuarioRepositores.findById(id);  // Busca o usuário pelo ID
+            return usuarioRepositores.findById(id);
         } catch (Exception e) {
             throw new RuntimeException("Erro ao buscar o usuário: " + e.getMessage());
         }
