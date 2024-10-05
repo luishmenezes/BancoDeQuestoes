@@ -26,8 +26,8 @@ public class ControllerUsuario {
     @PostMapping("/cadastro")
     public void criar(@RequestBody UsuarioResponseDTO usuario) {
         Usuario usuarioDTO=new Usuario(usuario);
-     usuarioRepositores.save(usuarioDTO);
-     return;
+        usuarioRepositores.save(usuarioDTO);
+        return;
     }
 
     @CrossOrigin(originPatterns = "*",allowedHeaders = "*")
