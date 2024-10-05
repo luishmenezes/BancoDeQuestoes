@@ -1,7 +1,7 @@
 package com.example.BancoDeDados.Services;
 
-import com.example.BancoDeDados.Model.Estudante;
-import com.example.BancoDeDados.Repositores.EstudanteRepositores;
+import com.example.BancoDeDados.Model.Escola;
+import com.example.BancoDeDados.Repositores.EscolaRespositores;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,25 +12,25 @@ import java.util.Optional;
 @Service
 public class ServiceEscola {
     @Autowired
-    private EstudanteRepositores estudanteRepositores;
+    private EscolaRespositores escolaRepositores;
 
     @Transactional
-    public Estudante criar(Estudante estudante) {
+    public Escola criar(Escola escola) {
         try {
-            return estudanteRepositores.save(estudante);
+            return escolaRepositores.save(escola);
         } catch (Exception e) {
             throw new RuntimeException("Erro ao criar o usuário: " + e.getMessage());
         }
     }
 
-    public List<Estudante> listar(Estudante estudante) {
-        return estudanteRepositores.findAll();
+    public List<Escola> listar(Escola escola) {
+        return escolaRepositores.findAll();
     }
 
     public boolean deletar(Integer id) {
         try {
-            if (estudanteRepositores.existsById(id)) {
-                estudanteRepositores.deleteById(id);
+            if (escolaRepositores.existsById(id)) {
+                escolaRepositores.deleteById(id);
                 return true;
             } else {
                 return false;
@@ -40,9 +40,9 @@ public class ServiceEscola {
         }
     }
 
-    public Optional<Estudante> editar(Integer id) {
+    public Optional<Escola> editar(Integer id) {
         try {
-            return estudanteRepositores.findById(id);
+            return escolaRepositores.findById(id);
         } catch (Exception e) {
             throw new RuntimeException("Erro ao buscar o usuário: " + e.getMessage());
         }
