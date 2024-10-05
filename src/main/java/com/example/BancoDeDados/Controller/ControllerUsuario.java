@@ -1,6 +1,8 @@
 package com.example.BancoDeDados.Controller;
 
 import com.example.BancoDeDados.Model.Usuario;
+import com.example.BancoDeDados.Repositores.UsuarioRepositores;
+import com.example.BancoDeDados.ResponseDTO.UsuarioResponseDTO;
 import com.example.BancoDeDados.Services.ServiceUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,22 +19,24 @@ public class ControllerUsuario {
 
     @Autowired
     private ServiceUsuario serviceUsuario;
+    @Autowired
+    private UsuarioRepositores usuarioRepositores;
 
+    @CrossOrigin(originPatterns = "*",allowedHeaders = "*")
     @PostMapping("/cadastro")
-    public ResponseEntity<Usuario> criar(@RequestBody Usuario usuario) {
-        try {
-            Usuario novoUsuario = serviceUsuario.criar(usuario);
-            return new ResponseEntity<>(novoUsuario, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public void criar(@RequestBody UsuarioResponseDTO usuario) {
+        Usuario usuarioDTO=new Usuario(usuario);
+     usuarioRepositores.save(usuarioDTO);
+     return;
     }
 
+    @CrossOrigin(originPatterns = "*",allowedHeaders = "*")
     @GetMapping("/listar")
     public String listar(Model model, Usuario usuario ){
         return model.addAttribute("usuario", this.serviceUsuario.listar(usuario)).toString();
     }
 
+    @CrossOrigin(originPatterns = "*",allowedHeaders = "*")
     @GetMapping("/editar/{id}")
     public ResponseEntity<Usuario> editar(@PathVariable Integer id) {
         Optional<Usuario> usuarioOpt = serviceUsuario.editar(id);
@@ -40,6 +44,7 @@ public class ControllerUsuario {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @CrossOrigin(originPatterns = "*",allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
         if (serviceUsuario.deletar(id)) {

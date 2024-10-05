@@ -1,5 +1,6 @@
 package com.example.BancoDeDados.Model;
 
+import com.example.BancoDeDados.ResponseDTO.UsuarioResponseDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +19,7 @@ import java.util.Date;
 @Table(name="usuario")
 public class Usuario {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.UUID)
     private Integer id;
 
     @Column(nullable = false)
@@ -35,7 +36,11 @@ public class Usuario {
     private Date dataNascimento;
 
 
-    @ManyToOne
-    private Usuario usuario;
+    public Usuario(UsuarioResponseDTO usuarioDTO){
+     this.nome=usuarioDTO.nome();
+     this.email=usuarioDTO.email();
+     this.senha=usuarioDTO.senha();
+     this.dataNascimento=usuarioDTO.dataNascimento();
+    }
 
 }
