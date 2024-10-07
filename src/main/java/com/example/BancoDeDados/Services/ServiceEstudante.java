@@ -9,11 +9,11 @@ import com.example.BancoDeDados.Repositores.EstudanteRepositores;
 
 @Service
 public class ServiceEstudante {
-@Autowired
-private EstudanteRepositores estudanteRepositores;
+    @Autowired
+    private EstudanteRepositores estudanteRepositores;
 
-public Estudante criar(Estudante estudante){
-return estudanteRepositores.save(estudante);
-}
+    public Estudante criar(Estudante estudante) {
+        return estudanteRepositores.save(estudante);
+    }
 
 }

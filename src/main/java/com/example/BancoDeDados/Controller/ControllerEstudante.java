@@ -1,6 +1,5 @@
 package com.example.BancoDeDados.Controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,26 +14,23 @@ import ch.qos.logback.core.model.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
-
 @Controller
 public class ControllerEstudante {
 
-@Autowired
-private ServiceEstudante serviceEstudante;
+    @Autowired
+    private ServiceEstudante serviceEstudante;
 
-@GetMapping("/estudante/cadastrar")
-public String CadastrarEstudante() {
-    return "cadastroEstudante";
-}
+    @GetMapping("/estudante/cadastrar")
+    public String CadastrarEstudante() {
+        return "cadastroEstudante";
+    }
 
-@PostMapping("/estudante/cadastrar")
-public String CriarEstudante(Estudante estudante, RedirectAttributes attributes, Model model) {
-serviceEstudante.criar(estudante);
+    @PostMapping("/estudante/cadastrar")
+    public String CriarEstudante(Estudante estudante, RedirectAttributes attributes, Model model) {
+        serviceEstudante.criar(estudante);
 
-    return "redirect:/estudante/cadastrar";
+        return "redirect:/estudante/cadastrar";
 
-}
-
+    }
 
 }
