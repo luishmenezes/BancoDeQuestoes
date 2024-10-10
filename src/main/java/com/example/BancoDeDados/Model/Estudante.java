@@ -3,6 +3,7 @@ package com.example.BancoDeDados.Model;
 import java.sql.Date;
 
 
+import lombok.EqualsAndHashCode;
 import org.springframework.aot.generate.GeneratedTypeReference;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -23,6 +24,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of="id")
 @Entity(name="estudante")
 @Table(name="estudante")
 
@@ -46,7 +48,7 @@ private String senha;
         this.email= estudantes.email();
         this.senha= estudantes.senha();
         this.dataNascimento= estudantes.dataNascimento();
-      
+
         
     }
 
