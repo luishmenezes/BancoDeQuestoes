@@ -1,6 +1,13 @@
 package com.example.BancoDeDados.Model;
 
+import java.sql.Date;
+
+
 import org.springframework.aot.generate.GeneratedTypeReference;
+import org.springframework.format.annotation.DateTimeFormat;
+
+
+import com.example.BancoDeDados.ResponseDTO.EstudanteResponseDTO;
 
 import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
@@ -18,6 +25,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity(name="estudante")
 @Table(name="estudante")
+
 public class Estudante {
 @Id 
 @GeneratedValue(strategy = GenerationType.IDENTITY)    
@@ -26,10 +34,20 @@ private Integer id;
 @Column(nullable = false )
 private String nome;
 @Column (nullable = false)
-private int idade;
+ @DateTimeFormat(pattern = "yyyy-MM-dd")
+private java.util.Date dataNascimento;
 @Column (nullable = false, unique = true)
 private String email;
+@Column(nullable = false)
+private String senha;
  
-
+    public Estudante(EstudanteResponseDTO estudantes){
+        this.nome= estudantes.nome();
+        this.email= estudantes.email();
+        this.senha= estudantes.senha();
+        this.dataNascimento= estudantes.dataNascimento();
+      
+        
+    }
 
 }
