@@ -1,6 +1,8 @@
 package com.example.BancoDeDados.Services;
 
 import com.example.BancoDeDados.Model.Questao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,9 +10,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Service
 public class ServiceTratarTexto {
 
-    private ServicePDF texto = new ServicePDF();
+    @Autowired
+    private ServicePDF texto; // Injeção do ServicePDF
 
     public List<Questao> pegarQuestoes() throws IOException {
         List<Questao> questoes = new ArrayList<>();
@@ -64,18 +68,5 @@ public class ServiceTratarTexto {
         }
 
         return alternativas;
-    }
-
-    public String mandartextoFiltrado() throws IOException {
-        List<Questao> questoes = pegarQuestoes();
-
-        StringBuilder resultado = new StringBuilder();
-        for (Questao questao : questoes) {
-            resultado.append("Cabeçalho: ").append(questao.getCabecalho()).append("\n");
-            resultado.append("Enunciado: ").append(questao.getEnunciado()).append("\n");
-            resultado.append("Alternativas: ").append(String.join(", ", questao.getAlternativas())).append("\n\n");
-        }
-
-        return resultado.toString();
     }
 }

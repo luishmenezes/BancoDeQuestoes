@@ -1,45 +1,36 @@
 package com.example.BancoDeDados.Controller;
 
+import com.example.BancoDeDados.Model.Questao;
 import com.example.BancoDeDados.Services.ServiceJson;
 import com.example.BancoDeDados.Services.ServicePDF;
+import com.example.BancoDeDados.Services.ServiceQuestao;
 import com.example.BancoDeDados.Services.ServiceTratarTexto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/pdf")
+@RequestMapping("/pdf")
 public class ControllerPDF {
-    ServiceJson json=new ServiceJson();
-    private final ServicePDF servicePDF;
-    ServiceTratarTexto TratarTexto=new ServiceTratarTexto();
-
 
     @Autowired
-    public ControllerPDF(ServicePDF servicePDF) {
-        this.servicePDF = servicePDF;
+    private ServicePDF servicePDF;
 
+    @Autowired
+    private ServiceTratarTexto tratarTexto;
+
+    @Autowired
+    private ServiceJson json;
+
+    @Autowired
+    private ServiceQuestao serviceQuestao;
+
+    @PostMapping("/processar-salvar")
+    public String processarESalvarPdf() throws IOException {
+        List<Questao> questoes = tratarTexto.pegarQuestoes();
+        serviceQuestao.salvarQuestoes(questoes);
+        return json.exibirQuestoesDoJson(json.jsonDoCorpo());
     }
-
-    @GetMapping("/processar")
-    public String processarPDF() throws IOException {
-        String exibirTextoExtraido= servicePDF.TextoExtraido();
-
-        return exibirTextoExtraido;
-    }
-    @GetMapping("/processado")
-    public String processado() throws IOException {
-        String jsonCorpo = json.jsonDoCorpo();
-        json.exibirQuestoesDoJson(jsonCorpo);
-        TratarTexto.mandartextoFiltrado();
-        return TratarTexto.mandartextoFiltrado();
-    }
-
-
-
-
-
 }
