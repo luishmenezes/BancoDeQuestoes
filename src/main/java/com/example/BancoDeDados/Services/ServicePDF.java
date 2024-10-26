@@ -1,7 +1,6 @@
 package com.example.BancoDeDados.Services;
 
 import lombok.Data;
-import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ public class ServicePDF {
             throw new IOException("Arquivo não encontrado: " + arquivoPDF.getAbsolutePath());
         }
 
-        PDDocument documento = Loader.loadPDF(arquivoPDF);
+        PDDocument documento =PDDocument.load(arquivoPDF);
         PDFTextStripper textType = new PDFTextStripper();
         String texto = textType.getText(documento);
         documento.close();
