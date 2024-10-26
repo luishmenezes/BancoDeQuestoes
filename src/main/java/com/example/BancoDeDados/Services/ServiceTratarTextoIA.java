@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public class ServiceTratarTextoIA {
 
     @Autowired
-    private ServicePDF servicePDF; // Injeção do ServicePDF
+    private ServicePDF servicePDF;
 
     public List<Questao> pegarQuestoes(InputStream inputStream) throws IOException {
         String textoExtraido = servicePDF.extrairTextoPDF(inputStream.toString());

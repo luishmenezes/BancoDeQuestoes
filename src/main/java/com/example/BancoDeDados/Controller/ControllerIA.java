@@ -36,6 +36,7 @@ public class ControllerIA {
     @PostMapping("/processar-pdf")
     public ResponseEntity<String> processarPdf(@RequestParam("file") MultipartFile arquivoPDF) {
         try {
+            System.out.println("Recebido arquivo: " + arquivoPDF.getOriginalFilename()); // Log para verificar o arquivo recebido
             String textoPDF = servicePDFIA.TextoExtraido(arquivoPDF);
             String respostaserviceIA = serviceIA.enviarParaGemini(textoPDF);
             return ResponseEntity.ok("Questões salvas com sucesso!");
