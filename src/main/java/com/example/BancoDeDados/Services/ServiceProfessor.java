@@ -20,7 +20,7 @@ public class ServiceProfessor {
         try {
             return professorRepositores.save(professor);
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao criar o usuário: " + e.getMessage());
+            throw new RuntimeException("Erro ao criar o professor: " + e.getMessage());
         }
     }
 
@@ -37,7 +37,7 @@ public class ServiceProfessor {
                 return false;
             }
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao deletar o usuário: " + e.getMessage());
+            throw new RuntimeException("Erro ao deletar o professor: " + e.getMessage());
         }
     }
 
@@ -45,7 +45,7 @@ public class ServiceProfessor {
         try {
             return professorRepositores.findById(id);
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao buscar o usuário: " + e.getMessage());
+            throw new RuntimeException("Erro ao buscar o professor: " + e.getMessage());
         }
     }
 }
