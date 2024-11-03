@@ -13,6 +13,18 @@ public class ServiceQuestao {
     @Autowired
     private QuestaoRepositores questaoRepositores;
 
+    public Questao criarQuestao(String cabecalho, String enunciado, List<String> alternativas) {
+        Questao novaQuestao = new Questao();
+        novaQuestao.setCabecalho(cabecalho);
+        novaQuestao.setEnunciado(enunciado);
+        novaQuestao.setAlternativas(alternativas);
+        return questaoRepositores.save(novaQuestao);
+    }
+
+    public Questao salvarQuestao(Questao questao){
+        return questaoRepositores.save(questao);
+    }
+
     public void salvarQuestoes(List<Questao> questoes) {
         questaoRepositores.saveAll(questoes);
     }
