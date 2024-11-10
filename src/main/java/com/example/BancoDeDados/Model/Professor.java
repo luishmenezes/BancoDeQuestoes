@@ -1,5 +1,6 @@
 package com.example.BancoDeDados.Model;
 
+import com.example.BancoDeDados.ResponseDTO.ProfessorLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorRegistrarDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorResponseDTO;
 import jakarta.persistence.*;
@@ -63,6 +64,11 @@ public class Professor implements UserDetails {
         this.email=email;
         this.senha=encriptarSenha;
         this.role=role;
+    }
+
+    public Professor(ProfessorLoginResponseDTO professorLoginResponseDTO) {
+        this.email=professorLoginResponseDTO.email();
+        this.senha=professorLoginResponseDTO.senha();
     }
 
 

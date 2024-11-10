@@ -2,6 +2,7 @@ package com.example.BancoDeDados.Controller;
 
 import com.example.BancoDeDados.Model.Professor;
 import com.example.BancoDeDados.Repositores.ProfessorRepositores;
+import com.example.BancoDeDados.ResponseDTO.ProfessorLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorRegistrarDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +27,9 @@ public class ControllerProfessorLogin {
     private ProfessorRepositores professorRepositores;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid ProfessorRegistrarDTO professorRegistrarDTO) {
-        Professor professor = new Professor(professorRegistrarDTO);
-        var usuarioSenha = new UsernamePasswordAuthenticationToken(professorRegistrarDTO.email(), professorRegistrarDTO.senha());
+    public ResponseEntity login(@RequestBody @Valid ProfessorLoginResponseDTO professorLoginResponseDTO) {
+        Professor professor = new Professor(professorLoginResponseDTO);
+        var usuarioSenha = new UsernamePasswordAuthenticationToken(professorLoginResponseDTO.email(), professorLoginResponseDTO.senha());
 
         try {
             var autorizar = this.authenticationManager.authenticate(usuarioSenha);
@@ -37,8 +38,8 @@ public class ControllerProfessorLogin {
         } catch (Exception e) {
             return ResponseEntity.status(401).body("Credenciais inválidas");
         }
-    }
 
+}
     @PostMapping("/registrar")
     public ResponseEntity registrar(@RequestBody @Valid ProfessorRegistrarDTO professorRegistrarDTO) {
         if (this.professorRepositores.findByEmail(professorRegistrarDTO.email()).isPresent()) {
