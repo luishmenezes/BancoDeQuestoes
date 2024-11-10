@@ -15,7 +15,8 @@ public class ServiceLoginProfessor implements UserDetailsService {
     ProfessorRepositores professorRepositores;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return professorRepositores.findByLogin(username);
+    public UserDetails loadUserByUsername(String email) {
+        return professorRepositores.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + email));
     }
 }

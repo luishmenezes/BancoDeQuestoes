@@ -1,12 +1,13 @@
 package com.example.BancoDeDados.Repositores;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.example.BancoDeDados.Model.Professor;
 
+import java.util.Optional;
+
 @Component
 public interface ProfessorRepositores extends JpaRepository<Professor, Integer> {
- UserDetails findByLogin(String login);
+ Optional<Professor> findByEmail(String email);
 }

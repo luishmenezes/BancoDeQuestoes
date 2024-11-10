@@ -1,5 +1,6 @@
 package com.example.BancoDeDados.Model;
 
+import com.example.BancoDeDados.ResponseDTO.ProfessorRegistrarDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorResponseDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,7 @@ public class Professor implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column
     private String nome;
 
     @Column(unique = true, nullable = false)
@@ -36,19 +37,34 @@ public class Professor implements UserDetails {
     @Column(nullable = false)
     private String senha;
 
-    @Column(nullable = false)
+    @Column
+    @Enumerated(EnumType.STRING)
     private ProfessorRole role;
 
-    @Column(nullable = false)
+    @Column
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataNascimento;
+
+    public Professor(ProfessorRegistrarDTO professorRegistrarDTO) {
+        this.email = professorRegistrarDTO.email();
+        this.senha = professorRegistrarDTO.senha();
+        this.role = professorRegistrarDTO.role();
+    }
 
     public Professor(ProfessorResponseDTO professorDTO) {
         this.nome = professorDTO.nome();
         this.email = professorDTO.email();
         this.senha = professorDTO.senha();
+        this.role= professorDTO.role();
         this.dataNascimento = professorDTO.dataNascimento();
     }
+
+    public Professor(String email, String encriptarSenha, ProfessorRole role) {
+        this.email=email;
+        this.senha=encriptarSenha;
+        this.role=role;
+    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -56,13 +72,11 @@ public class Professor implements UserDetails {
             return List.of(new SimpleGrantedAuthority("ROLE_PROFESSOR"), new SimpleGrantedAuthority("ROLE_USER"));
         else
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-
     }
 
     @Override
     public String getPassword() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPassword'");
+    return this.senha;
     }
 
     @Override
