@@ -2,8 +2,10 @@ package com.example.BancoDeDados.Controller;
 
 import com.example.BancoDeDados.Model.Professor;
 import com.example.BancoDeDados.Repositores.ProfessorRepositores;
+import com.example.BancoDeDados.ResponseDTO.AuthResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorRegistrarDTO;
+import com.example.BancoDeDados.Security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +21,8 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/login/professor")
 public class ControllerProfessorLogin {
+    @Autowired
+    private TokenService tokenService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -30,11 +34,12 @@ public class ControllerProfessorLogin {
     public ResponseEntity login(@RequestBody @Valid ProfessorLoginResponseDTO professorLoginResponseDTO) {
         Professor professor = new Professor(professorLoginResponseDTO);
         var usuarioSenha = new UsernamePasswordAuthenticationToken(professorLoginResponseDTO.email(), professorLoginResponseDTO.senha());
-
+        var auth=this.authenticationManager.authenticate(usuarioSenha);
+        var token =tokenService.gerarToken((Professor) auth.getPrincipal());
         try {
             var autorizar = this.authenticationManager.authenticate(usuarioSenha);
             // Aqui você pode gerar um token JWT ou uma resposta personalizada
-            return ResponseEntity.ok("Login bem-sucedido");
+            return ResponseEntity.ok(new AuthResponseDTO(token));
         } catch (Exception e) {
             return ResponseEntity.status(401).body("Credenciais inválidas");
         }
