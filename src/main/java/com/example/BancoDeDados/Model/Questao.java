@@ -15,6 +15,22 @@ import java.util.List;
 @Entity(name = "questoes")
 @Table(name = "questoes")
 public class Questao {
+
+    @Column
+    public void setCabecalho(String cabecalho) {
+        this.cabecalho = cabecalho;
+    }
+
+    @Column
+    public void setEnunciado(String enunciado) {
+        this.enunciado = enunciado;
+    }
+
+    @Column
+    public void setAlternativas(List<String> alternativas) {
+        this.alternativas = alternativas;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

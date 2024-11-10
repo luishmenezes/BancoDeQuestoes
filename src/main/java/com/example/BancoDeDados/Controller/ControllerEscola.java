@@ -25,7 +25,7 @@ public class ControllerEscola {
         Escola escolaDTO=new Escola(escola);
         escolaRepositores.save(escolaDTO);
         return;
-    }
+    }   
 
     @CrossOrigin(originPatterns = "*",allowedHeaders = "*")
     @GetMapping("/listar")
