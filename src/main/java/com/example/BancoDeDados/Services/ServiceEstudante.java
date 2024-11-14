@@ -19,16 +19,20 @@ public class ServiceEstudante {
     private EstudanteRepositores estudanteRepositores;
 
     public Estudante criar(Estudante estudante) {
+        if (!validarSenha(estudante.getSenha())) {
+            throw new IllegalArgumentException(
+                    "A senha não atende aos requisitos: mínimo de 8 caracteres, incluindo letras maiúsculas, minúsculas e números.");
+        }
         return estudanteRepositores.save(estudante);
     }
 
-    public List<Estudante> listaEstudantes(Estudante estudante){
-    
+    public List<Estudante> listaEstudantes(Estudante estudante) {
+
         return estudanteRepositores.findAll();
-    
+
     }
 
-    public boolean deletar(Integer id){
+    public boolean deletar(Integer id) {
         try {
             if (estudanteRepositores.existsById(id)) {
                 estudanteRepositores.deleteById(id);
@@ -42,7 +46,7 @@ public class ServiceEstudante {
 
     }
 
-    public Optional<Estudante> editar(Integer id){
+    public Optional<Estudante> editar(Integer id) {
         try {
             return estudanteRepositores.findById(id);
         } catch (Exception e) {
@@ -51,4 +55,26 @@ public class ServiceEstudante {
 
     }
 
+    private boolean validarSenha(String senha) {
+        if (senha.length() < 8) {
+            return false;
+        }
+        boolean hasUpperCase = false;
+        boolean hasLowerCase = false;
+        boolean hasDigit = false;
+
+        for (char c : senha.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                hasUpperCase = true;
+            } else if (Character.isLowerCase(c)) {
+                hasLowerCase = true;
+            } else if (Character.isDigit(c)) {
+                hasDigit = true;
+            }
+            if (hasUpperCase && hasLowerCase && hasDigit) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
