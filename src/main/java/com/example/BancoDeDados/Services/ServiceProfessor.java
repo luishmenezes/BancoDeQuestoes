@@ -3,6 +3,9 @@ package com.example.BancoDeDados.Services;
 import com.example.BancoDeDados.Model.Estudante;
 import com.example.BancoDeDados.Model.Professor;
 import com.example.BancoDeDados.Repositores.ProfessorRepositores;
+
+import jakarta.validation.ConstraintValidatorContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +24,9 @@ public class ServiceProfessor {
         if (!validarSenha(professor.getSenha())) {
             throw new IllegalArgumentException(
                     "A senha não atende aos requisitos: mínimo de 8 caracteres, incluindo letras maiúsculas, minúsculas e números.");
+        } else if (!validarEmail(professor.getEmail())) {
+            throw new IllegalArgumentException(
+                    "Email inválido.");
         }
         return professorRepositores.save(professor);
     }
@@ -72,4 +78,20 @@ public class ServiceProfessor {
         }
         return false;
     }
+
+    public boolean validarEmail(String email) {
+        if (email == null) {
+            return false;
+        }
+
+        int atIndex = email.indexOf('@');
+        int dotIndex = email.lastIndexOf('.');
+
+        if (atIndex > 0 && dotIndex > atIndex + 1 && dotIndex < email.length() - 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

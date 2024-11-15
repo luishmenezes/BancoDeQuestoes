@@ -22,6 +22,9 @@ public class ServiceEstudante {
         if (!validarSenha(estudante.getSenha())) {
             throw new IllegalArgumentException(
                     "A senha não atende aos requisitos: mínimo de 8 caracteres, incluindo letras maiúsculas, minúsculas e números.");
+        } else if (!validarEmail(estudante.getEmail())) {
+            throw new IllegalArgumentException(
+                    "Email inválido.");
         }
         return estudanteRepositores.save(estudante);
     }
@@ -76,5 +79,20 @@ public class ServiceEstudante {
             }
         }
         return false;
+    }
+
+    public boolean validarEmail(String email) {
+        if (email == null) {
+            return false;
+        }
+
+        int atIndex = email.indexOf('@');
+        int dotIndex = email.lastIndexOf('.');
+
+        if (atIndex > 0 && dotIndex > atIndex + 1 && dotIndex < email.length() - 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
