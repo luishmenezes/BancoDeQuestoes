@@ -1,7 +1,9 @@
 package com.example.BancoDeDados.Controller;
 
+import com.example.BancoDeDados.Model.Estudante;
 import com.example.BancoDeDados.Model.Professor;
 import com.example.BancoDeDados.Repositores.ProfessorRepositores;
+import com.example.BancoDeDados.ResponseDTO.EstudanteResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorResponseDTO;
 import com.example.BancoDeDados.Services.ServiceProfessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +26,14 @@ public class ControllerProfessor {
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @PostMapping("/cadastro")
-    public void criar(@RequestBody ProfessorResponseDTO professor) {
-        Professor professorDTO = new Professor(professor);
-        professorRepositores.save(professorDTO);
-        return;
+    public ResponseEntity<String> cadastrar(@RequestBody ProfessorResponseDTO professorResponseDTO) {
+        Professor professor = new Professor(professorResponseDTO);
+        try {
+            serviceProfessor.criar(professor);
+            return new ResponseEntity<>("Professor cadastrado com sucesso!", HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")

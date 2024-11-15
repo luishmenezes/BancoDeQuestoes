@@ -1,5 +1,6 @@
 package com.example.BancoDeDados.Services;
 
+import com.example.BancoDeDados.Model.Estudante;
 import com.example.BancoDeDados.Model.Professor;
 import com.example.BancoDeDados.Repositores.ProfessorRepositores;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,11 @@ public class ServiceProfessor {
 
     @Transactional
     public Professor criar(Professor professor) {
-        try {
-            return professorRepositores.save(professor);
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao criar o professor: " + e.getMessage());
+        if (!validarSenha(professor.getSenha())) {
+            throw new IllegalArgumentException(
+                    "A senha não atende aos requisitos: mínimo de 8 caracteres, incluindo letras maiúsculas, minúsculas e números.");
         }
+        return professorRepositores.save(professor);
     }
 
     public List<Professor> listar(Professor professor) {
@@ -47,5 +48,28 @@ public class ServiceProfessor {
         } catch (Exception e) {
             throw new RuntimeException("Erro ao buscar o professor: " + e.getMessage());
         }
+    }
+
+    private boolean validarSenha(String senha) {
+        if (senha.length() < 8) {
+            return false;
+        }
+        boolean hasUpperCase = false;
+        boolean hasLowerCase = false;
+        boolean hasDigit = false;
+
+        for (char c : senha.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                hasUpperCase = true;
+            } else if (Character.isLowerCase(c)) {
+                hasLowerCase = true;
+            } else if (Character.isDigit(c)) {
+                hasDigit = true;
+            }
+            if (hasUpperCase && hasLowerCase && hasDigit) {
+                return true;
+            }
+        }
+        return false;
     }
 }
