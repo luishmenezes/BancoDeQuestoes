@@ -5,48 +5,49 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.BancoDeDados.Model.Professor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Optional;
 
 @Service
 public class TokenService {
 
-    @Value("${api.secret}")
-    private String secret;
+    private String secret = "1234";
 
     public String gerarToken(Professor professor) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
-                    .withIssuer("auth0")
+                    .withIssuer("BancoDeQuestoes")
                     .withSubject(professor.getEmail())
-                    .withExpiresAt(generateTokenExpiration())
+                    .withExpiresAt(this.generateTokenExpiration())
+
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
-            throw new RuntimeException("Erro de geração do Token", exception);
+            throw new RuntimeException("Erro ao gerar o token", exception);
         }
     }
 
-    public Optional<String> validarToken(String token) {
+    public String validarToken(String token) {
         try {
+            if (token.startsWith("Bearer ")) {
+                token = token.substring(7);
+            }
+
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            String subject = JWT.require(algorithm)
-                    .withIssuer("auth0")
+            return JWT.require(algorithm)
+                    .withIssuer("BancoDeQuestoes")
                     .build()
                     .verify(token)
                     .getSubject();
-            return Optional.ofNullable(subject);
         } catch (JWTVerificationException exception) {
-            return Optional.empty();
+            return null;
         }
     }
 
     private Instant generateTokenExpiration() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.UTC); // Set to UTC for consistency
+        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
 }

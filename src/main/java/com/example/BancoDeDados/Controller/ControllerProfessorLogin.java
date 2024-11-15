@@ -2,15 +2,14 @@ package com.example.BancoDeDados.Controller;
 
 import com.example.BancoDeDados.Model.Professor;
 import com.example.BancoDeDados.Repositores.ProfessorRepositores;
-import com.example.BancoDeDados.ResponseDTO.AuthResponseDTO;
+import com.example.BancoDeDados.ResponseDTO.LoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorLoginResponseDTO;
-import com.example.BancoDeDados.ResponseDTO.ProfessorRegistrarDTO;
+import com.example.BancoDeDados.ResponseDTO.ProfessorResponseDTO;
 import com.example.BancoDeDados.Security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 
+import java.util.Optional;
+
 @RestController
-@RequestMapping("/login/professor")
+@RequestMapping("/professo")
 public class ControllerProfessorLogin {
     @Autowired
     private TokenService tokenService;
@@ -27,36 +28,42 @@ public class ControllerProfessorLogin {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
     private ProfessorRepositores professorRepositores;
 
+    public ControllerProfessorLogin(TokenService tokenService, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, ProfessorRepositores professorRepositores) {
+        this.tokenService = tokenService;
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
+        this.professorRepositores = professorRepositores;
+    }
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid ProfessorLoginResponseDTO professorLoginResponseDTO) {
-        Professor professor = new Professor(professorLoginResponseDTO);
-        var usuarioSenha = new UsernamePasswordAuthenticationToken(professorLoginResponseDTO.email(), professorLoginResponseDTO.senha());
-        var auth=this.authenticationManager.authenticate(usuarioSenha);
-        var token =tokenService.gerarToken((Professor) auth.getPrincipal());
-        try {
-            var autorizar = this.authenticationManager.authenticate(usuarioSenha);
-            // Aqui você pode gerar um token JWT ou uma resposta personalizada
-            return ResponseEntity.ok(new AuthResponseDTO(token));
-        } catch (Exception e) {
-            return ResponseEntity.status(401).body("Credenciais inválidas");
+        Professor professor = this.professorRepositores.findByEmail(professorLoginResponseDTO.email()).orElseThrow(() -> new RuntimeException("usuario não encontrado"));
+        if (passwordEncoder.matches(professorLoginResponseDTO.senha(), professor.getSenha())) {
+            String token = this.tokenService.gerarToken(professor);
+            return ResponseEntity.ok(new LoginResponseDTO(token));
         }
+        return ResponseEntity.badRequest().build();
 
-}
+    }
     @PostMapping("/registrar")
-    public ResponseEntity registrar(@RequestBody @Valid ProfessorRegistrarDTO professorRegistrarDTO) {
-        if (this.professorRepositores.findByEmail(professorRegistrarDTO.email()).isPresent()) {
-            return ResponseEntity.badRequest().body("E-mail já está em uso");
+    public ResponseEntity registrar(@RequestBody @Valid ProfessorResponseDTO professorRegistrarDTO) {
+        Optional<Professor> professor=this.professorRepositores.findByEmail(professorRegistrarDTO.email());
+        if (professor.isEmpty()){
+            Professor professornovo=new Professor();
+            professornovo.setSenha(passwordEncoder.encode(professorRegistrarDTO.senha()));
+            professornovo.setEmail(professorRegistrarDTO.email());
+            professornovo.setRole(professorRegistrarDTO.role());
+            this.professorRepositores.save(professornovo);
+
+            String token=this.tokenService.gerarToken(professornovo);
+            return ResponseEntity.ok(new LoginResponseDTO(token));
         }
-
-        String encriptarSenha = new BCryptPasswordEncoder().encode(professorRegistrarDTO.senha());
-        Professor professor = new Professor(professorRegistrarDTO.email(),encriptarSenha,professorRegistrarDTO.role());
-
-        this.professorRepositores.save(professor);
-
-        return ResponseEntity.ok("Registro realizado com sucesso");
+        return ResponseEntity.badRequest().build();
     }
 
 

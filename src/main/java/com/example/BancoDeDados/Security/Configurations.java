@@ -19,27 +19,29 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class Configurations {
 
     @Autowired
-    SecurityFilter securityFilter;
+    private SecurityFilter securityFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/pdf/**").hasRole("PROFESSOR")
-                        .anyRequest().permitAll())
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
-    }
+                        .requestMatchers(HttpMethod.POST, "/pdf/processar-salvar").hasRole("PROFESSOR")
+                        .anyRequest().permitAll()
+                )
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+        return http.build();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 }

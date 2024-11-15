@@ -1,4 +1,4 @@
-package com.example.BancoDeDados.ResponseDTO;
+    package com.example.BancoDeDados.ResponseDTO;
 
-public record ProfessorLoginResponseDTO(String email, String senha) {
-}
+    public record ProfessorLoginResponseDTO(String email, String senha) {
+    }

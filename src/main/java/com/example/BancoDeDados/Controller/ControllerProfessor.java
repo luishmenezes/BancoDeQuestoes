@@ -24,13 +24,13 @@ public class ControllerProfessor {
     @Autowired
     private ProfessorRepositores professorRepositores;
 
-    @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
-    @PostMapping("/cadastro")
-    public void criar(@RequestBody ProfessorResponseDTO professor) {
-        Professor professorDTO = new Professor(professor);
-        professorRepositores.save(professorDTO);
-        return;
-    }
+//    @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
+//    @PostMapping("/cadastro")
+//    public void criar(@RequestBody ProfessorResponseDTO professor) {
+//        Professor professorDTO = new Professor(professor);
+//        professorRepositores.save(professorDTO);
+//        return;
+//    }
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @GetMapping("/listar")

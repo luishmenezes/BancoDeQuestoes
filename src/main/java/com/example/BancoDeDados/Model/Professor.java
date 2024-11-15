@@ -1,7 +1,6 @@
 package com.example.BancoDeDados.Model;
 
 import com.example.BancoDeDados.ResponseDTO.ProfessorLoginResponseDTO;
-import com.example.BancoDeDados.ResponseDTO.ProfessorRegistrarDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorResponseDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -46,12 +45,6 @@ public class Professor implements UserDetails {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataNascimento;
 
-    public Professor(ProfessorRegistrarDTO professorRegistrarDTO) {
-        this.email = professorRegistrarDTO.email();
-        this.senha = professorRegistrarDTO.senha();
-        this.role = professorRegistrarDTO.role();
-    }
-
     public Professor(ProfessorResponseDTO professorDTO) {
         this.nome = professorDTO.nome();
         this.email = professorDTO.email();
@@ -78,6 +71,7 @@ public class Professor implements UserDetails {
             return List.of(new SimpleGrantedAuthority("ROLE_PROFESSOR"), new SimpleGrantedAuthority("ROLE_USER"));
         else
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+
     }
 
     @Override
