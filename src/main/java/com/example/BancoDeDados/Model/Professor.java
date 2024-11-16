@@ -1,5 +1,6 @@
 package com.example.BancoDeDados.Model;
 
+import com.example.BancoDeDados.ResponseDTO.ProfessorLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorResponseDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,7 @@ public class Professor implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column
     private String nome;
 
     @Column(nullable = false)
@@ -45,10 +46,11 @@ public class Professor implements UserDetails {
     @Column(nullable = false)
     private String senha;
 
-    @Column(nullable = false)
+    @Column
+    @Enumerated(EnumType.STRING)
     private ProfessorRole role;
 
-    @Column(nullable = false)
+    @Column
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataNascimento;
 
@@ -59,9 +61,22 @@ public class Professor implements UserDetails {
         this.instituicao = professorDTO.instituicao();
         this.email = professorDTO.email();
         this.senha = professorDTO.senha();
+        this.role= professorDTO.role();
         this.dataNascimento = professorDTO.dataNascimento();
         this.role = professorDTO.role();
     }
+
+    public Professor(String email, String encriptarSenha, ProfessorRole role) {
+        this.email=email;
+        this.senha=encriptarSenha;
+        this.role=role;
+    }
+
+    public Professor(ProfessorLoginResponseDTO professorLoginResponseDTO) {
+        this.email=professorLoginResponseDTO.email();
+        this.senha=professorLoginResponseDTO.senha();
+    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -74,8 +89,7 @@ public class Professor implements UserDetails {
 
     @Override
     public String getPassword() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPassword'");
+    return this.senha;
     }
 
     @Override
