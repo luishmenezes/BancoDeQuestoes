@@ -31,6 +31,15 @@ public class Professor implements UserDetails {
     @Column
     private String nome;
 
+    @Column(nullable = false)
+    private String materia1;
+
+    @Column(nullable = false)
+    private String materia2;
+
+    @Column(nullable = false)
+    private String instituicao;
+
     @Column(unique = true, nullable = false)
     private String email;
 
@@ -47,10 +56,14 @@ public class Professor implements UserDetails {
 
     public Professor(ProfessorResponseDTO professorDTO) {
         this.nome = professorDTO.nome();
+        this.materia1 = professorDTO.materia1();
+        this.materia2 = professorDTO.materia2();
+        this.instituicao = professorDTO.instituicao();
         this.email = professorDTO.email();
         this.senha = professorDTO.senha();
         this.role= professorDTO.role();
         this.dataNascimento = professorDTO.dataNascimento();
+        this.role = professorDTO.role();
     }
 
     public Professor(String email, String encriptarSenha, ProfessorRole role) {

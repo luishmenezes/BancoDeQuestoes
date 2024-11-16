@@ -1,9 +1,11 @@
 package com.example.BancoDeDados.ResponseDTO;
 
-import com.example.BancoDeDados.Model.ProfessorRole;
-
 import java.util.Date;
 
-public record ProfessorResponseDTO(String nome, String email, String senha, Date dataNascimento, ProfessorRole role) {
+import com.example.BancoDeDados.Model.ProfessorRole;
+
+public record ProfessorResponseDTO(String nome, String materia1, String materia2, String instituicao,
+                String email,
+                String senha, Date dataNascimento, ProfessorRole role) {
 
 }

@@ -1,6 +1,5 @@
 package com.example.BancoDeDados.Controller;
 
-
 import java.lang.Integer;
 import java.util.Optional;
 
@@ -24,37 +23,40 @@ import com.example.BancoDeDados.Repositores.EstudanteRepositores;
 import com.example.BancoDeDados.ResponseDTO.EstudanteResponseDTO;
 import com.example.BancoDeDados.Services.ServiceEstudante;
 
-
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
-@RequestMapping ("/estudantes")
+@RequestMapping("/estudantes")
 @RestController
 public class ControllerEstudante {
-    
-    @Autowired 
+
+    @Autowired
     private ServiceEstudante serviceEstudante;
     @Autowired
     private EstudanteRepositores estudanteRepositores;
-    @PostMapping("/cadastro")
-    public void cadastrar(@RequestBody EstudanteResponseDTO estudanteResponseDTO) {
-        Estudante estudantesDTO = new Estudante(estudanteResponseDTO);
-        estudanteRepositores.save(estudantesDTO);
-        return;
-    }
-    @GetMapping ("/listar")
-    public String listar(Model model, Estudante estudante){
 
-        return model.addAttribute("estudante", this.serviceEstudante.listaEstudantes(estudante) ).toString();
+    @PostMapping("/cadastro")
+    public ResponseEntity<String> cadastrar(@RequestBody EstudanteResponseDTO estudanteResponseDTO) {
+        Estudante estudante = new Estudante(estudanteResponseDTO);
+        try {
+            serviceEstudante.criar(estudante);
+            return new ResponseEntity<>("Estudante cadastrado com sucesso!", HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
-    
-    @DeleteMapping ("/deletar/{id}")
-    public ResponseEntity <Void> deletar(@PathVariable Integer id){
-        
-         if (serviceEstudante.deletar(id)) {
+
+    @GetMapping("/listar")
+    public String listar(Model model, Estudante estudante) {
+
+        return model.addAttribute("estudante", this.serviceEstudante.listaEstudantes(estudante)).toString();
+    }
+
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+
+        if (serviceEstudante.deletar(id)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
