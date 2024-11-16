@@ -19,6 +19,9 @@ public class ServiceProfessor {
     @Autowired
     private ProfessorRepositores professorRepositores;
 
+    @Autowired
+    private EmailService emailService;
+
     @Transactional
     public Professor criar(Professor professor) {
         if (!validarSenha(professor.getSenha())) {
@@ -28,6 +31,11 @@ public class ServiceProfessor {
             throw new IllegalArgumentException(
                     "Email inválido.");
         }
+
+        String assunto = "Confirmação de cadastro";
+        String mensagem = String.format("Olá " + professor.getNome() + " obrigado por se cadastrar no nosso site! ");
+        emailService.enviarEmail(professor.getEmail(), assunto, mensagem);
+
         return professorRepositores.save(professor);
     }
 

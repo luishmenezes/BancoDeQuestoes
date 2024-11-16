@@ -13,10 +13,15 @@ import com.example.BancoDeDados.Model.Estudante;
 import com.example.BancoDeDados.Model.Usuario;
 import com.example.BancoDeDados.Repositores.EstudanteRepositores;
 
+import jakarta.validation.constraints.Email;
+
 @Service
 public class ServiceEstudante {
     @Autowired
     private EstudanteRepositores estudanteRepositores;
+
+    @Autowired
+    private EmailService emailService;
 
     public Estudante criar(Estudante estudante) {
         if (!validarSenha(estudante.getSenha())) {
@@ -26,6 +31,10 @@ public class ServiceEstudante {
             throw new IllegalArgumentException(
                     "Email inválido.");
         }
+
+        String assunto = "Confirmação de cadastro";
+        String mensagem = String.format("Olá " + estudante.getNome() + " obrigado por se cadastrar no nosso site! ");
+        emailService.enviarEmail(estudante.getEmail(), assunto, mensagem);
         return estudanteRepositores.save(estudante);
     }
 
