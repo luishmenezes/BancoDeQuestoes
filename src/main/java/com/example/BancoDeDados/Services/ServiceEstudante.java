@@ -9,8 +9,10 @@ import org.hibernate.internal.util.collections.ConcurrentReferenceHashMap.Option
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.BancoDeDados.Model.Escola;
 import com.example.BancoDeDados.Model.Estudante;
 import com.example.BancoDeDados.Model.Usuario;
+import com.example.BancoDeDados.Repositores.EscolaRespositores;
 import com.example.BancoDeDados.Repositores.EstudanteRepositores;
 
 import jakarta.validation.constraints.Email;
@@ -21,15 +23,23 @@ public class ServiceEstudante {
     private EstudanteRepositores estudanteRepositores;
 
     @Autowired
+    private EscolaRespositores escolaRepositor;
+
+    @Autowired
     private EmailService emailService;
 
     public Estudante criar(Estudante estudante) {
+        String nomeInstituicao = estudante.getInstituicao();
+        Optional<Escola> instituicaoExistente = escolaRepositor.findByNome(nomeInstituicao);
+
         if (!validarSenha(estudante.getSenha())) {
             throw new IllegalArgumentException(
                     "A senha não atende aos requisitos: mínimo de 8 caracteres, incluindo letras maiúsculas, minúsculas e números.");
         } else if (!validarEmail(estudante.getEmail())) {
             throw new IllegalArgumentException(
                     "Email inválido.");
+        } else if (instituicaoExistente.isEmpty()) {
+            throw new IllegalArgumentException("Instituição não encontrada no banco de dados.");
         }
 
         String assunto = "Confirmação de cadastro";
@@ -104,4 +114,5 @@ public class ServiceEstudante {
             return false;
         }
     }
+
 }
