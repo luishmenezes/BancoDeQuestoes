@@ -6,6 +6,7 @@ import com.example.BancoDeDados.Services.ServicePDF;
 import com.example.BancoDeDados.Services.ServiceQuestao;
 import com.example.BancoDeDados.Services.ServiceTratarTexto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class ControllerPDF {
 
     @Autowired
     private ServiceQuestao serviceQuestao;
+
 
     @PostMapping("/processar-salvar")
     public String processarESalvarPdf() throws IOException {
