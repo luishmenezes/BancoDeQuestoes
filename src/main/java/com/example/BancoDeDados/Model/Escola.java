@@ -48,6 +48,7 @@ public class Escola implements UserDetails {
         this.email = escolaDTO.email();
         this.senha = escolaDTO.senha();
         this.dataNascimento = escolaDTO.dataNascimento();
+        this.role = escolaDTO.role();
     }
 
     @Override
