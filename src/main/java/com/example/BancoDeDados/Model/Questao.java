@@ -31,6 +31,7 @@ public class Questao {
         this.alternativas = alternativas;
     }
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -41,4 +42,7 @@ public class Questao {
     private String enunciado;
     @ElementCollection
     private List<String> alternativas;
+    @Column
+    private Integer gabarito;
+
 }
