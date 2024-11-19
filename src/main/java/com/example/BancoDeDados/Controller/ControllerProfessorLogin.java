@@ -50,21 +50,6 @@ public class ControllerProfessorLogin {
         return ResponseEntity.badRequest().build();
 
     }
-    @PostMapping("/registrar")
-    public ResponseEntity registrar(@RequestBody @Valid ProfessorResponseDTO professorRegistrarDTO) {
-        Optional<Professor> professor=this.professorRepositores.findByEmail(professorRegistrarDTO.email());
-        if (professor.isEmpty()){
-            Professor professornovo=new Professor();
-            professornovo.setSenha(passwordEncoder.encode(professorRegistrarDTO.senha()));
-            professornovo.setEmail(professorRegistrarDTO.email());
-            professornovo.setRole(professorRegistrarDTO.role());
-            this.professorRepositores.save(professornovo);
-
-            String token=this.tokenService.gerarToken(professornovo);
-            return ResponseEntity.ok(new LoginResponseDTO(token));
-        }
-        return ResponseEntity.badRequest().build();
-    }
 
 
 }
