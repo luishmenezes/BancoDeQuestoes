@@ -7,6 +7,7 @@ import com.example.BancoDeDados.ResponseDTO.ProfessorLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorResponseDTO;
 import com.example.BancoDeDados.Security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,15 +42,23 @@ public class ControllerProfessorLogin {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid ProfessorLoginResponseDTO professorLoginResponseDTO) {
-        Professor professor = this.professorRepositores.findByEmail(professorLoginResponseDTO.email()).orElseThrow(() -> new RuntimeException("usuario não encontrado"));
-        if (passwordEncoder.matches(professorLoginResponseDTO.senha(), professor.getSenha())) {
-            String token = this.tokenService.gerarToken(professor);
-            return ResponseEntity.ok(new LoginResponseDTO(token));
-        }
-        return ResponseEntity.badRequest().build();
+    public ResponseEntity<?> login(@RequestBody @Valid ProfessorLoginResponseDTO professorLoginResponseDTO) {
+        try {
+            Professor professor = this.professorRepositores.findByEmail(professorLoginResponseDTO.email())
+                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-    }   
+            if (passwordEncoder.matches(professorLoginResponseDTO.senha(), professor.getSenha())) {
+                String token = this.tokenService.gerarToken(professor);
+
+                // Retorna o token e o nome do professor
+                return ResponseEntity.ok(new LoginResponseDTO(token, professor.getNome()));
+            }
+
+            return ResponseEntity.badRequest().body("Credenciais inválidas.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao realizar login.");
+        }
+    }
 
 
 }

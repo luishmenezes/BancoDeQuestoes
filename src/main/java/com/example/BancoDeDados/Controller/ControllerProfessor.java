@@ -66,13 +66,15 @@ public class ControllerProfessor {
 
             String token = tokenService.gerarToken(novoProfessor);
 
-            return ResponseEntity.ok(new LoginResponseDTO(token));
+            // Retornando o nome e o token
+            return ResponseEntity.ok(new LoginResponseDTO(token, novoProfessor.getNome()));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao cadastrar o professor.");
         }
     }
+
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @GetMapping("/listar")
