@@ -18,7 +18,7 @@ public class ServiceTratarRespostaIA {
         List<Questao> questoes = new ArrayList<>();
 
         Pattern modeloQuestaoCompleta = Pattern.compile(
-                "\\{\\s*\"(?:cabecalho)\":\\s*\"([^\"]+)\",\\s*\"enunciado\":\\s*\"([^\"]+)\",\\s*\"alternativas\":\\s*\\[(.*?)\\]\\s*\\}",
+                "\\{\\s*\"cabecalho\":\\s*\"([^\"]+)\",\\s*\"enunciado\":\\s*\"([^\"]+)\",\\s*\"alternativas\":\\s*\\[(.*?)\\],\\s*\"gabarito\":\\s*(\\d+)\\s*\\}",
                 Pattern.DOTALL
         );
 
@@ -28,12 +28,14 @@ public class ServiceTratarRespostaIA {
             Questao questao = new Questao();
 
             questao.setCabecalho(matcherQuestaoCompleta.group(1).trim());
-
             questao.setEnunciado(matcherQuestaoCompleta.group(2).trim());
 
             String alternativasBrutas = matcherQuestaoCompleta.group(3);
             List<String> alternativas = processarAlternativas(alternativasBrutas);
             questao.setAlternativas(alternativas);
+
+            questao.setGabarito(Integer.parseInt(matcherQuestaoCompleta.group(4).trim()));
+
             questoes.add(questao);
         }
 

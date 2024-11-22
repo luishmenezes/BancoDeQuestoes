@@ -23,18 +23,21 @@ public class ServiceIA {
         RestTemplate restTemplate = new RestTemplate();
 
         String prompt = "Extraia as questões do texto abaixo e formate-as no seguinte padrão JSON, mesmo que o texto original não esteja totalmente estruturado assim. O padrão é:\n" +
-                "{\n" +
-                "  \"cabecalho\": \"(Exemplo - 2023)\",\n" +
-                "  \"enunciado\": \"Exemplo de enunciado de questão.\",\n" +
-                "  \"alternativas\": [\n" +
-                "    \"a) Alternativa A.\",\n" +
-                "    \"b) Alternativa B.\",\n" +
-                "    \"c) Alternativa C.\",\n" +
-                "    \"d) Alternativa D.\",\n" +
-                "    \"e) Alternativa E.\"\n" +
-                "  ]\n" +
-                "}\n" +
-                "Certifique-se de que cada questão extraída tenha um campo \"cabecalho\", um campo \"enunciado\", e uma lista de \"alternativas\". Preencha o campo \"cabecalho\" com a fonte e o ano da questão entre parênteses, mesmo que não esteja claro no texto original, e organize as alternativas no formato solicitado.\n" + textoPDF;
+                "[\n" +
+                "  {\n" +
+                "    \"cabecalho\": \"(Exemplo - 2023)\",\n" +
+                "    \"enunciado\": \"Exemplo de enunciado de questão.\",\n" +
+                "    \"alternativas\": [\n" +
+                "      \"a) Alternativa A.\",\n" +
+                "      \"b) Alternativa B.\",\n" +
+                "      \"c) Alternativa C.\",\n" +
+                "      \"d) Alternativa D.\",\n" +
+                "      \"e) Alternativa E.\"\n" +
+                "    ],\n" +
+                "    \"gabarito\": 0\n" +
+                "  }\n" +
+                "]\n" +
+                "Certifique-se de que cada questão extraída tenha os campos \"cabecalho\", \"enunciado\", uma lista de \"alternativas\", e o campo \"gabarito\". Preencha o campo \"cabecalho\" com a fonte e o ano da questão entre parênteses, mesmo que não esteja claro no texto original, e organize as alternativas no formato solicitado. O campo \"gabarito\" deve conter o índice correspondente à alternativa correta (0 para \"a\", 1 para \"b\", etc.).\n" + textoPDF;
 
         JSONObject requestPayload = new JSONObject();
         JSONObject content = new JSONObject();
