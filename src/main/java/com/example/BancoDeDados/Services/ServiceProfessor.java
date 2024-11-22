@@ -64,7 +64,7 @@ public class ServiceProfessor {
         }
     }
 
-    private boolean validarSenha(String senha) {
+    public boolean validarSenha(String senha) {
         if (senha.length() < 8) {
             return false;
         }

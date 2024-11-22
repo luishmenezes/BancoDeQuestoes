@@ -1,20 +1,21 @@
 package com.example.BancoDeDados.Controller;
 
-import com.example.BancoDeDados.Model.Estudante;
 import com.example.BancoDeDados.Model.Professor;
 import com.example.BancoDeDados.Repositores.ProfessorRepositores;
-import com.example.BancoDeDados.ResponseDTO.EstudanteResponseDTO;
+import com.example.BancoDeDados.ResponseDTO.LoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorResponseDTO;
+import com.example.BancoDeDados.Security.TokenService;
 import com.example.BancoDeDados.Services.ServiceProfessor;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -25,19 +26,55 @@ public class ControllerProfessor {
     private ServiceProfessor serviceProfessor;
     @Autowired
     private ProfessorRepositores professorRepositores;
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    private final PasswordEncoder passwordEncoder;
+    public ControllerProfessor(TokenService tokenService, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, ProfessorRepositores professorRepositores) {
+        this.tokenService = tokenService;
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
+        this.professorRepositores = professorRepositores;
+    }
 
 
-    @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
-    @PostMapping("/cadastro")
-    public ResponseEntity<String> cadastrar(@RequestBody ProfessorResponseDTO professorResponseDTO) {
-        Professor professor = new Professor(professorResponseDTO);
+    @PostMapping("/registrar")
+    public ResponseEntity<?> registrar(@RequestBody @Valid ProfessorResponseDTO professorRegistrarDTO) {
         try {
-            serviceProfessor.criar(professor);
-            return new ResponseEntity<>("Professor cadastrado com sucesso!", HttpStatus.CREATED);
+            Optional<Professor> professorExistente = professorRepositores.findByEmail(professorRegistrarDTO.email());
+            if (professorExistente.isPresent()) {
+                return ResponseEntity.badRequest().body("Email já cadastrado.");
+            }
+
+            Professor novoProfessor = new Professor(professorRegistrarDTO);
+
+            if (!serviceProfessor.validarEmail(professorRegistrarDTO.email())) {
+                return ResponseEntity.badRequest().body("Email inválido.");
+            }
+
+            if (!serviceProfessor.validarSenha(professorRegistrarDTO.senha())) {
+                return ResponseEntity.badRequest().body(
+                        "A senha deve ter no mínimo 8 caracteres, incluindo letras maiúsculas, minúsculas e números.");
+            }
+
+            novoProfessor.setSenha(passwordEncoder.encode(professorRegistrarDTO.senha()));
+
+            serviceProfessor.criar(novoProfessor);
+
+            String token = tokenService.gerarToken(novoProfessor);
+
+            // Retornando o nome e o token
+            return ResponseEntity.ok(new LoginResponseDTO(token, novoProfessor.getNome()));
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao cadastrar o professor.");
         }
     }
+
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @GetMapping("/listar")

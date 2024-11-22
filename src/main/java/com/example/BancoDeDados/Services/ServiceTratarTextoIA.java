@@ -1,6 +1,5 @@
 package com.example.BancoDeDados.Services;
 
-
 import com.example.BancoDeDados.Model.Questao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +37,10 @@ public class ServiceTratarTextoIA {
 
             List<String> alternativas = pegarAlternativas(enunciadoCompleto);
             questao.setAlternativas(alternativas);
+
+            int gabarito = identificarGabarito(enunciadoCompleto, alternativas);
+            questao.setGabarito(gabarito);
+
             questoes.add(questao);
         }
 
@@ -54,7 +57,7 @@ public class ServiceTratarTextoIA {
         return matcherAlternativas.replaceAll("").trim();
     }
 
-    public List<String> pegarAlternativas(String texto) {
+    private List<String> pegarAlternativas(String texto) {
         List<String> alternativas = new ArrayList<>();
 
         Pattern modeloAlternativas = Pattern.compile(
@@ -71,5 +74,14 @@ public class ServiceTratarTextoIA {
         }
 
         return alternativas;
+    }
+
+    private int identificarGabarito(String texto, List<String> alternativas) {
+        for (int i = 0; i < alternativas.size(); i++) {
+            if (texto.contains(alternativas.get(i))) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

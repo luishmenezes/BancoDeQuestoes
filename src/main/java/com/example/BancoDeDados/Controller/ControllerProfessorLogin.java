@@ -7,6 +7,7 @@ import com.example.BancoDeDados.ResponseDTO.ProfessorLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorResponseDTO;
 import com.example.BancoDeDados.Security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,29 +42,22 @@ public class ControllerProfessorLogin {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid ProfessorLoginResponseDTO professorLoginResponseDTO) {
-        Professor professor = this.professorRepositores.findByEmail(professorLoginResponseDTO.email()).orElseThrow(() -> new RuntimeException("usuario não encontrado"));
-        if (passwordEncoder.matches(professorLoginResponseDTO.senha(), professor.getSenha())) {
-            String token = this.tokenService.gerarToken(professor);
-            return ResponseEntity.ok(new LoginResponseDTO(token));
-        }
-        return ResponseEntity.badRequest().build();
+    public ResponseEntity<?> login(@RequestBody @Valid ProfessorLoginResponseDTO professorLoginResponseDTO) {
+        try {
+            Professor professor = this.professorRepositores.findByEmail(professorLoginResponseDTO.email())
+                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-    }
-    @PostMapping("/registrar")
-    public ResponseEntity registrar(@RequestBody @Valid ProfessorResponseDTO professorRegistrarDTO) {
-        Optional<Professor> professor=this.professorRepositores.findByEmail(professorRegistrarDTO.email());
-        if (professor.isEmpty()){
-            Professor professornovo=new Professor();
-            professornovo.setSenha(passwordEncoder.encode(professorRegistrarDTO.senha()));
-            professornovo.setEmail(professorRegistrarDTO.email());
-            professornovo.setRole(professorRegistrarDTO.role());
-            this.professorRepositores.save(professornovo);
+            if (passwordEncoder.matches(professorLoginResponseDTO.senha(), professor.getSenha())) {
+                String token = this.tokenService.gerarToken(professor);
 
-            String token=this.tokenService.gerarToken(professornovo);
-            return ResponseEntity.ok(new LoginResponseDTO(token));
+                // Retorna o token e o nome do professor
+                return ResponseEntity.ok(new LoginResponseDTO(token, professor.getNome()));
+            }
+
+            return ResponseEntity.badRequest().body("Credenciais inválidas.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao realizar login.");
         }
-        return ResponseEntity.badRequest().build();
     }
 
 

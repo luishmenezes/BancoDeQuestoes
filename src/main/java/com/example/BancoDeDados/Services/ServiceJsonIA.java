@@ -1,4 +1,3 @@
-
 package com.example.BancoDeDados.Services;
 
 import com.example.BancoDeDados.Model.Questao;
@@ -11,8 +10,6 @@ import java.util.List;
 
 @Service
 public class ServiceJsonIA {
-
-
 
     @Autowired
     private ServiceTratarRespostaIA tratarRespostaIA;
