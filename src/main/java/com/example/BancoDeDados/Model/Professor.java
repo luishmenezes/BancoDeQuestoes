@@ -61,22 +61,20 @@ public class Professor implements UserDetails {
         this.instituicao = professorDTO.instituicao();
         this.email = professorDTO.email();
         this.senha = professorDTO.senha();
-        this.role= professorDTO.role();
         this.dataNascimento = professorDTO.dataNascimento();
         this.role = professorDTO.role();
     }
 
     public Professor(String email, String encriptarSenha, ProfessorRole role) {
-        this.email=email;
-        this.senha=encriptarSenha;
-        this.role=role;
+        this.email = email;
+        this.senha = encriptarSenha;
+        this.role = role;
     }
 
     public Professor(ProfessorLoginResponseDTO professorLoginResponseDTO) {
-        this.email=professorLoginResponseDTO.email();
-        this.senha=professorLoginResponseDTO.senha();
+        this.email = professorLoginResponseDTO.email();
+        this.senha = professorLoginResponseDTO.senha();
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -89,7 +87,7 @@ public class Professor implements UserDetails {
 
     @Override
     public String getPassword() {
-    return this.senha;
+        return this.senha;
     }
 
     @Override
