@@ -33,13 +33,14 @@ public class ControllerProfessor {
     private AuthenticationManager authenticationManager;
 
     private final PasswordEncoder passwordEncoder;
-    public ControllerProfessor(TokenService tokenService, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, ProfessorRepositores professorRepositores) {
+
+    public ControllerProfessor(TokenService tokenService, AuthenticationManager authenticationManager,
+            PasswordEncoder passwordEncoder, ProfessorRepositores professorRepositores) {
         this.tokenService = tokenService;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.professorRepositores = professorRepositores;
     }
-
 
     @PostMapping("/registrar")
     public ResponseEntity<?> registrar(@RequestBody @Valid ProfessorResponseDTO professorRegistrarDTO) {
@@ -74,7 +75,6 @@ public class ControllerProfessor {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao cadastrar o professor.");
         }
     }
-
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @GetMapping("/listar")
