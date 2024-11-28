@@ -45,7 +45,7 @@ public class ServiceQuestao {
                 questao.getCabecalho(),
                 questao.getEnunciado(),
                 questao.getAlternativas(),
-                alternativaCorreta
+                questao.getGabarito()
         );
     }
 
@@ -61,7 +61,8 @@ public class ServiceQuestao {
         questaoRepositores.deleteById(id);
     }
 
-    public void salvarQuestoes(List<Questao> questoes) {
+    public List<Questao> salvarQuestoes(List<Questao> questoes) {
         questaoRepositores.saveAll(questoes);
+        return questoes;
     }
 }

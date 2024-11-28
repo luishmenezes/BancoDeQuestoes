@@ -7,16 +7,20 @@ public class QuestaoResponseDTO {
     private String cabecalho;
     private String enunciado;
     private List<String> alternativas;
-    private String gabarito;
+    private Integer gabarito;
 
 
-    public QuestaoResponseDTO(Integer id, String cabecalho, String enunciado, List<String> alternativas, String gabarito) {
+    public QuestaoResponseDTO(Integer id, String cabecalho, String enunciado, List<String> alternativas, Integer gabarito) {
         this.id = id;
         this.cabecalho = cabecalho;
         this.enunciado = enunciado;
         this.alternativas = alternativas;
         this.gabarito = gabarito;
     }
+
+
+
+
 
     public Integer getId() {
         return id;
@@ -50,11 +54,11 @@ public class QuestaoResponseDTO {
         this.alternativas = alternativas;
     }
 
-    public String getGabarito() {
+    public Integer getGabarito() {
         return gabarito;
     }
 
-    public void setGabarito(String gabarito) {
+    public void setGabarito(Integer gabarito) {
         this.gabarito = gabarito;
     }
 }
