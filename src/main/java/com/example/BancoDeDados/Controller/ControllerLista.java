@@ -10,7 +10,6 @@ import com.example.BancoDeDados.Services.ListaService;
 import com.example.BancoDeDados.Services.ServiceQuestao;
 import com.example.BancoDeDados.Services.ServiceTratarRespostaIA;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +19,7 @@ import static java.util.stream.Collectors.*;
 
 @RestController
 @RequestMapping("/listas")
-public class ListaController {
+public class ControllerLista {
 
     private final ListaService listaService;
 
@@ -33,7 +32,7 @@ public class ListaController {
     @Autowired
     private ServiceTratarRespostaIA serviceTratarRespostaIA;
 
-    public ListaController(ListaService listaService) {
+    public ControllerLista(ListaService listaService) {
         this.listaService = listaService;
     }
 
