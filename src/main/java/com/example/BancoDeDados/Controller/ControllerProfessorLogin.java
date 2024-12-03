@@ -2,7 +2,7 @@ package com.example.BancoDeDados.Controller;
 
 import com.example.BancoDeDados.Model.Professor;
 import com.example.BancoDeDados.Repositores.ProfessorRepositores;
-import com.example.BancoDeDados.ResponseDTO.LoginResponseDTO;
+import com.example.BancoDeDados.ResponseDTO.PLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorResponseDTO;
 import com.example.BancoDeDados.Security.TokenService;
@@ -21,7 +21,7 @@ import jakarta.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/professo")
+@RequestMapping("/professor")
 public class ControllerProfessorLogin {
     @Autowired
     private TokenService tokenService;
@@ -34,7 +34,8 @@ public class ControllerProfessorLogin {
     @Autowired
     private ProfessorRepositores professorRepositores;
 
-    public ControllerProfessorLogin(TokenService tokenService, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, ProfessorRepositores professorRepositores) {
+    public ControllerProfessorLogin(TokenService tokenService, AuthenticationManager authenticationManager,
+            PasswordEncoder passwordEncoder, ProfessorRepositores professorRepositores) {
         this.tokenService = tokenService;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
@@ -48,10 +49,10 @@ public class ControllerProfessorLogin {
                     .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
             if (passwordEncoder.matches(professorLoginResponseDTO.senha(), professor.getSenha())) {
-                String token = this.tokenService.gerarToken(professor);
+                String token = this.tokenService.gerarTokenProfessor(professor);
 
                 // Retorna o token e o nome do professor
-                return ResponseEntity.ok(new LoginResponseDTO(token, professor.getNome()));
+                return ResponseEntity.ok(new PLoginResponseDTO(token, professor.getNome(), professor.getRole()));
             }
 
             return ResponseEntity.badRequest().body("Credenciais inválidas.");
@@ -59,6 +60,5 @@ public class ControllerProfessorLogin {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao realizar login.");
         }
     }
-
 
 }
