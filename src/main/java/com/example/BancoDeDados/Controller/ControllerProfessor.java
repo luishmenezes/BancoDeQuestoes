@@ -2,7 +2,7 @@ package com.example.BancoDeDados.Controller;
 
 import com.example.BancoDeDados.Model.Professor;
 import com.example.BancoDeDados.Repositores.ProfessorRepositores;
-import com.example.BancoDeDados.ResponseDTO.LoginResponseDTO;
+import com.example.BancoDeDados.ResponseDTO.PLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorResponseDTO;
 import com.example.BancoDeDados.Security.TokenService;
 import com.example.BancoDeDados.Services.ServiceProfessor;
@@ -65,14 +65,15 @@ public class ControllerProfessor {
 
             serviceProfessor.criar(novoProfessor);
 
-            String token = tokenService.gerarToken(novoProfessor);
+            String token = tokenService.gerarTokenProfessor(novoProfessor);
 
             // Retornando o nome e o token
-            return ResponseEntity.ok(new LoginResponseDTO(token, novoProfessor.getNome()));
+            return ResponseEntity.ok(new PLoginResponseDTO(token, novoProfessor.getNome(), novoProfessor.getRole()));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao cadastrar o professor.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao cadastrar o professor." + e.getMessage());
         }
     }
 

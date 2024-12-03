@@ -4,6 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.example.BancoDeDados.Model.Escola;
+import com.example.BancoDeDados.Model.Estudante;
 import com.example.BancoDeDados.Model.Professor;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +18,40 @@ public class TokenService {
 
     private String secret = "1234";
 
-    public String gerarToken(Professor professor) {
+    public String gerarTokenProfessor(Professor professor) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer("BancoDeQuestoes")
                     .withSubject(professor.getEmail())
+                    .withExpiresAt(this.generateTokenExpiration())
+
+                    .sign(algorithm);
+        } catch (JWTCreationException exception) {
+            throw new RuntimeException("Erro ao gerar o token", exception);
+        }
+    }
+
+    public String gerarTokenEstudante(Estudante estudante) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            return JWT.create()
+                    .withIssuer("BancoDeQuestoes")
+                    .withSubject(estudante.getEmail())
+                    .withExpiresAt(this.generateTokenExpiration())
+
+                    .sign(algorithm);
+        } catch (JWTCreationException exception) {
+            throw new RuntimeException("Erro ao gerar o token", exception);
+        }
+    }
+
+    public String gerarTokenEscola(Escola escola) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            return JWT.create()
+                    .withIssuer("BancoDeQuestoes")
+                    .withSubject(escola.getEmail())
                     .withExpiresAt(this.generateTokenExpiration())
 
                     .sign(algorithm);

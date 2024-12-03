@@ -20,7 +20,9 @@ import org.springframework.ui.Model;
 import com.example.BancoDeDados.Model.Estudante;
 import com.example.BancoDeDados.Model.Usuario;
 import com.example.BancoDeDados.Repositores.EstudanteRepositores;
+import com.example.BancoDeDados.ResponseDTO.ELoginRespondeDTO;
 import com.example.BancoDeDados.ResponseDTO.EstudanteResponseDTO;
+import com.example.BancoDeDados.Security.TokenService;
 import com.example.BancoDeDados.Services.ServiceEstudante;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,15 +37,22 @@ public class ControllerEstudante {
     private ServiceEstudante serviceEstudante;
     @Autowired
     private EstudanteRepositores estudanteRepositores;
+    @Autowired
+    private TokenService tokenService;
 
     @PostMapping("/cadastro")
-    public ResponseEntity<String> cadastrar(@RequestBody EstudanteResponseDTO estudanteResponseDTO) {
+    public ResponseEntity<?> cadastrar(@RequestBody EstudanteResponseDTO estudanteResponseDTO) {
         Estudante estudante = new Estudante(estudanteResponseDTO);
         try {
             serviceEstudante.criar(estudante);
-            return new ResponseEntity<>("Estudante cadastrado com sucesso!", HttpStatus.CREATED);
+
+            String token = tokenService.gerarTokenEstudante(estudante);
+            return ResponseEntity.ok(new ELoginRespondeDTO(token, estudante.getNome()));
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao cadastrar o estudante." + e.getMessage());
         }
     }
 

@@ -1,9 +1,17 @@
 package com.example.BancoDeDados.Controller;
 
 import com.example.BancoDeDados.Model.Escola;
+import com.example.BancoDeDados.Model.Estudante;
 import com.example.BancoDeDados.Repositores.EscolaRespositores;
+import com.example.BancoDeDados.ResponseDTO.ELoginRespondeDTO;
+import com.example.BancoDeDados.ResponseDTO.EscLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.EscolaResponseDTO;
+import com.example.BancoDeDados.ResponseDTO.ProfessorResponseDTO;
+import com.example.BancoDeDados.Security.TokenService;
 import com.example.BancoDeDados.Services.ServiceEscola;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+
 @RestController
 @RequestMapping("/escola")
 public class ControllerEscola {
@@ -18,22 +27,33 @@ public class ControllerEscola {
     private ServiceEscola serviceEscola;
     @Autowired
     private EscolaRespositores escolaRepositores;
+    @Autowired
+    private TokenService tokenService;
 
-    @CrossOrigin(originPatterns = "*",allowedHeaders = "*")
+    @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @PostMapping("/cadastro")
-    public void criar(@RequestBody EscolaResponseDTO escola) {
-        Escola escolaDTO=new Escola(escola);
-        escolaRepositores.save(escolaDTO);
-        return;
-    }   
+    public ResponseEntity<?> registrar(@RequestBody @Valid EscolaResponseDTO escolaRegristrarDto) {
+        Escola escola = new Escola(escolaRegristrarDto);
+        try {
+            serviceEscola.criar(escola);
 
-    @CrossOrigin(originPatterns = "*",allowedHeaders = "*")
+            String token = tokenService.gerarTokenEscola(escola);
+            return ResponseEntity.ok(new EscLoginResponseDTO(token, escola.getNome(), escola.getRole()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao cadastrar o estudante." + e.getMessage());
+        }
+    }
+
+    @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @GetMapping("/listar")
-    public String listar(Model model, Escola escola ){
+    public String listar(Model model, Escola escola) {
         return model.addAttribute("escola", this.serviceEscola.listar(escola)).toString();
     }
 
-    @CrossOrigin(originPatterns = "*",allowedHeaders = "*")
+    @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @GetMapping("/editar/{id}")
     public ResponseEntity<Escola> editar(@PathVariable Integer id) {
         Optional<Escola> escolaOpt = serviceEscola.editar(id);
@@ -41,7 +61,7 @@ public class ControllerEscola {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @CrossOrigin(originPatterns = "*",allowedHeaders = "*")
+    @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
         if (serviceEscola.deletar(id)) {
