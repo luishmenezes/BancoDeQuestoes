@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EscolaRespositores extends JpaRepository<Escola, Integer> {
     Optional<Escola> findByNome(String nome);
+
+    Optional<Escola> findByEmail(String email);
 }

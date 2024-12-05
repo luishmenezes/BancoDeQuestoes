@@ -1,10 +1,15 @@
 package com.example.BancoDeDados.Model;
 
 import java.sql.Date;
+import java.util.Collection;
+import java.util.List;
 
 import lombok.EqualsAndHashCode;
 import org.springframework.aot.generate.GeneratedTypeReference;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.BancoDeDados.ResponseDTO.EstudanteResponseDTO;
 
@@ -26,7 +31,7 @@ import lombok.NoArgsConstructor;
 @Entity(name = "estudante")
 @Table(name = "estudante")
 
-public class Estudante {
+public class Estudante implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -51,6 +56,25 @@ public class Estudante {
         this.senha = estudantes.senha();
         this.dataNascimento = estudantes.dataNascimento();
         this.instituicao = estudantes.instituicao();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+
+    }
+
+    @Override
+    public String getPassword() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getPassword'");
+    }
+
+    @Override
+    public String getUsername() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
     }
 
 }
