@@ -25,9 +25,6 @@ public class ServiceEstudante {
     @Autowired
     private EscolaRespositores escolaRepositor;
 
-    @Autowired
-    private EmailService emailService;
-
     public Estudante criar(Estudante estudante) {
         String nomeInstituicao = estudante.getInstituicao();
         Optional<Escola> instituicaoExistente = escolaRepositor.findByNome(nomeInstituicao);
@@ -42,10 +39,7 @@ public class ServiceEstudante {
             throw new IllegalArgumentException("Instituição não encontrada no banco de dados.");
         }
 
-        String assunto = "Confirmação de cadastro";
-        String mensagem = String.format("Olá " + estudante.getNome() + " obrigado por se cadastrar no nosso site! ");
-        emailService.enviarEmail(estudante.getEmail(), assunto, mensagem);
-        return estudanteRepositores.save(estudante);
+        return (estudanteRepositores.save(estudante));
     }
 
     public List<Estudante> listaEstudantes(Estudante estudante) {
