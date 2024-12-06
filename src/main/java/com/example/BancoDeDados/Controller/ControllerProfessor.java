@@ -5,6 +5,7 @@ import com.example.BancoDeDados.Repositores.ProfessorRepositores;
 import com.example.BancoDeDados.ResponseDTO.PLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorResponseDTO;
 import com.example.BancoDeDados.Security.TokenService;
+import com.example.BancoDeDados.Services.EmailService;
 import com.example.BancoDeDados.Services.ServiceProfessor;
 
 import jakarta.validation.Valid;
@@ -33,6 +34,9 @@ public class ControllerProfessor {
     private AuthenticationManager authenticationManager;
 
     private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmailService emailService;
 
     public ControllerProfessor(TokenService tokenService, AuthenticationManager authenticationManager,
             PasswordEncoder passwordEncoder, ProfessorRepositores professorRepositores) {
@@ -67,6 +71,10 @@ public class ControllerProfessor {
 
             String token = tokenService.gerarTokenProfessor(novoProfessor);
 
+            String assunto = "Confirmação de cadastro";
+            String mensagem = String
+                    .format("Olá " + novoProfessor.getNome() + " obrigado por se cadastrar no nosso site! ");
+            emailService.enviarEmail(novoProfessor.getEmail(), assunto, mensagem);
             // Retornando o nome e o token
             return ResponseEntity.ok(new PLoginResponseDTO(token, novoProfessor.getNome(), novoProfessor.getRole()));
         } catch (IllegalArgumentException e) {

@@ -23,6 +23,7 @@ import com.example.BancoDeDados.Repositores.EstudanteRepositores;
 import com.example.BancoDeDados.ResponseDTO.ELoginRespondeDTO;
 import com.example.BancoDeDados.ResponseDTO.EstudanteResponseDTO;
 import com.example.BancoDeDados.Security.TokenService;
+import com.example.BancoDeDados.Services.EmailService;
 import com.example.BancoDeDados.Services.ServiceEstudante;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,6 +41,9 @@ public class ControllerEstudante {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private EmailService emailService;
+
     @PostMapping("/cadastro")
     public ResponseEntity<?> cadastrar(@RequestBody EstudanteResponseDTO estudanteResponseDTO) {
         Estudante estudante = new Estudante(estudanteResponseDTO);
@@ -47,6 +51,10 @@ public class ControllerEstudante {
             serviceEstudante.criar(estudante);
 
             String token = tokenService.gerarTokenEstudante(estudante);
+            String assunto = "Confirmação de cadastro";
+            String mensagem = String
+                    .format("Olá " + estudante.getNome() + " obrigado por se cadastrar no nosso site! ");
+            emailService.enviarEmail(estudante.getEmail(), assunto, mensagem);
             return ResponseEntity.ok(new ELoginRespondeDTO(token, estudante.getNome()));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

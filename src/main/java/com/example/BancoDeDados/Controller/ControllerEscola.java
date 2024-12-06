@@ -8,6 +8,7 @@ import com.example.BancoDeDados.ResponseDTO.EscLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.EscolaResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorResponseDTO;
 import com.example.BancoDeDados.Security.TokenService;
+import com.example.BancoDeDados.Services.EmailService;
 import com.example.BancoDeDados.Services.ServiceEscola;
 
 import jakarta.validation.Valid;
@@ -29,6 +30,8 @@ public class ControllerEscola {
     private EscolaRespositores escolaRepositores;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private EmailService emailService;
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @PostMapping("/cadastro")
@@ -38,6 +41,10 @@ public class ControllerEscola {
             serviceEscola.criar(escola);
 
             String token = tokenService.gerarTokenEscola(escola);
+            String assunto = "Confirmação de cadastro";
+            String mensagem = String
+                    .format("Olá " + escola.getNome() + " obrigado por se cadastrar no nosso site! ");
+            emailService.enviarEmail(escola.getEmail(), assunto, mensagem);
             return ResponseEntity.ok(new EscLoginResponseDTO(token, escola.getNome(), escola.getRole()));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
