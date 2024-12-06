@@ -1,6 +1,7 @@
 package com.example.BancoDeDados.Controller;
 
 import com.example.BancoDeDados.Model.Professor;
+import com.example.BancoDeDados.Model.Questao;
 import com.example.BancoDeDados.Repositores.ProfessorRepositores;
 import com.example.BancoDeDados.ResponseDTO.PLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorResponseDTO;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -79,8 +81,8 @@ public class ControllerProfessor {
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @GetMapping("/listar")
-    public String listar(Model model, Professor professor) {
-        return model.addAttribute("professor", this.serviceProfessor.listar(professor)).toString();
+    public List<Professor> listarProfessor() {
+        return serviceProfessor.listar();
     }
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
