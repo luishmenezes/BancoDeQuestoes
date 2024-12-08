@@ -55,6 +55,7 @@ public class Professor implements UserDetails {
     private Date dataNascimento;
 
     public Professor(ProfessorResponseDTO professorDTO) {
+        this.id=professorDTO.id();
         this.nome = professorDTO.nome();
         this.materia1 = professorDTO.materia1();
         this.materia2 = professorDTO.materia2();
@@ -65,13 +66,15 @@ public class Professor implements UserDetails {
         this.role = professorDTO.role();
     }
 
-    public Professor(String email, String encriptarSenha, ProfessorRole role) {
+    public Professor(Integer id ,String email, String encriptarSenha, ProfessorRole role) {
+        this.id=id;
         this.email = email;
         this.senha = encriptarSenha;
         this.role = role;
     }
 
     public Professor(ProfessorLoginResponseDTO professorLoginResponseDTO) {
+        this.id=professorLoginResponseDTO.id();
         this.email = professorLoginResponseDTO.email();
         this.senha = professorLoginResponseDTO.senha();
     }
