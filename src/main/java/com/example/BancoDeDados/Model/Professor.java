@@ -73,6 +73,7 @@ public class Professor implements UserDetails {
     }
 
     public Professor(ProfessorLoginResponseDTO professorLoginResponseDTO) {
+        this.id=professorLoginResponseDTO.id();
         this.email = professorLoginResponseDTO.email();
         this.senha = professorLoginResponseDTO.senha();
     }

@@ -77,7 +77,7 @@ public class ControllerEstudante {
             String mensagem = String
                     .format("Olá " + estudante.getNome() + " obrigado por se cadastrar no nosso site! ");
             emailService.enviarEmail(estudante.getEmail(), assunto, mensagem);
-            return ResponseEntity.ok(new ELoginRespondeDTO(token, estudante.getNome()));
+            return ResponseEntity.ok(new ELoginRespondeDTO(estudante.getId(), token, estudante.getNome()));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {

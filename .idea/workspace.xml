@@ -99,6 +99,17 @@
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.example.BancoDeDados.BancoDeDadosApplicationTests.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.example.BancoDeDados.BancoDeDadosApplicationTests.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/com/example/BancoDeDados/BancoDeDadosApplicationTests.class" beforeDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/ControllerProfessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/ControllerProfessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/ControllerProfessorLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/ControllerProfessorLogin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Model/Professor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Model/Professor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/PLoginResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/PLoginResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/ProfessorLoginResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/ProfessorLoginResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/ProfessorResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/ProfessorResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+>>>>>>> 086a18528804956fa4a267b7d920f03bb3720c8f
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -50,7 +50,7 @@ public class ControllerEstudanteLogin {
             if (passwordEncoder.matches(estudanteLoginResponseDTO.senha(), estudante.getSenha())) {
                 String token = this.tokenService.gerarTokenEstudante(estudante);
 
-                return ResponseEntity.ok(new ELoginRespondeDTO(token, estudante.getNome()));
+                return ResponseEntity.ok(new ELoginRespondeDTO(estudante.getId(), token, estudante.getNome()));
             } else {
                 return ResponseEntity.badRequest().body("Credenciais inválidas.");
             }
