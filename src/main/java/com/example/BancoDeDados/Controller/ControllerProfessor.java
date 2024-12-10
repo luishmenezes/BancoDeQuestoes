@@ -1,6 +1,7 @@
 package com.example.BancoDeDados.Controller;
 
 import com.example.BancoDeDados.Model.Professor;
+import com.example.BancoDeDados.Model.Questao;
 import com.example.BancoDeDados.Repositores.ProfessorRepositores;
 import com.example.BancoDeDados.ResponseDTO.PLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorResponseDTO;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -76,7 +78,7 @@ public class ControllerProfessor {
                     .format("Olá " + novoProfessor.getNome() + " obrigado por se cadastrar no nosso site! ");
             emailService.enviarEmail(novoProfessor.getEmail(), assunto, mensagem);
             // Retornando o nome e o token
-            return ResponseEntity.ok(new PLoginResponseDTO(token, novoProfessor.getNome(), novoProfessor.getRole()));
+            return ResponseEntity.ok(new PLoginResponseDTO(novoProfessor.getId(), token, novoProfessor.getNome(), novoProfessor.getRole()));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
@@ -87,8 +89,8 @@ public class ControllerProfessor {
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @GetMapping("/listar")
-    public String listar(Model model, Professor professor) {
-        return model.addAttribute("professor", this.serviceProfessor.listar(professor)).toString();
+    public List<Professor> listarProfessor() {
+        return serviceProfessor.listar();
     }
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
