@@ -78,7 +78,7 @@ public class ControllerProfessor {
                     .format("Olá " + novoProfessor.getNome() + " obrigado por se cadastrar no nosso site! ");
             emailService.enviarEmail(novoProfessor.getEmail(), assunto, mensagem);
             // Retornando o nome e o token
-            return ResponseEntity.ok(new PLoginResponseDTO( token, novoProfessor.getNome(), novoProfessor.getRole()));
+            return ResponseEntity.ok(new PLoginResponseDTO(novoProfessor.getId(), token, novoProfessor.getNome(), novoProfessor.getRole()));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
