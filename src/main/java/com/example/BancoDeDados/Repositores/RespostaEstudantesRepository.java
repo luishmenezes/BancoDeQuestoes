@@ -1,4 +1,4 @@
-package com.example.BancoDeDados.Repository;
+package com.example.BancoDeDados.Repositores;
 
 import com.example.BancoDeDados.Model.RespostaEstudantes;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface RespostaEstudantesRepository extends JpaRepository<RespostaEstudantes, Long> {
     Optional<RespostaEstudantes> findByQuestaoIdAndEstudanteId(Long questaoId, Long estudanteId);
+
+    boolean existsByEstudanteId(Long estudanteId);
 }

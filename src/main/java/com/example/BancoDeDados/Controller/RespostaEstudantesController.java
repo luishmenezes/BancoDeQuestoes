@@ -6,6 +6,8 @@ import com.example.BancoDeDados.Services.RespostaEstudantesService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class RespostaEstudantesController {
 
@@ -26,4 +28,12 @@ public class RespostaEstudantesController {
         respostaEstudantesService.salvarResposta(enviarRespostaDTO);
         return ResponseEntity.ok("Resposta enviada com sucesso.");
     }
+    @GetMapping("/respostas/lista-questoes")
+    public ResponseEntity<List<Integer>> buscarQuestoesPorListaEEstudante(
+            @RequestParam Long listaId,
+            @RequestParam Long estudanteId) {
+        List<Integer> questoes = respostaEstudantesService.buscarQuestoesPorListaEEstudante(listaId, estudanteId);
+        return ResponseEntity.ok(questoes);
+    }
+
 }

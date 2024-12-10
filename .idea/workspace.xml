@@ -6,9 +6,20 @@
   <component name="ChangeListManager">
     <list default="true" id="2de0229c-d23a-442f-8825-63864644b0d7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/ControllerEstudante.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/ControllerEstudante.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/ControllerEstudanteLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/ControllerEstudanteLogin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/ELoginRespondeDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/ELoginRespondeDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/RespostaEstudantesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/RespostaEstudantesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Repositores/RespostaEstudantesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Repositores/RespostaEstudantesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Services/RespostaEstudantesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Services/RespostaEstudantesService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Controller/ControllerEstudante.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Controller/ControllerEstudante.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Controller/ControllerEstudanteLogin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Controller/ControllerEstudanteLogin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Controller/ControllerProfessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Controller/ControllerProfessor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Controller/ControllerProfessorLogin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Controller/ControllerProfessorLogin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Repository/RespostaEstudantesRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/ResponseDTO/ELoginRespondeDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/ResponseDTO/ELoginRespondeDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/ResponseDTO/PLoginResponseDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/ResponseDTO/PLoginResponseDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/ResponseDTO/ProfessorResponseDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/ResponseDTO/ProfessorResponseDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Services/RespostaEstudantesService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Services/RespostaEstudantesService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

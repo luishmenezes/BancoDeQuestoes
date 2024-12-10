@@ -3,19 +3,26 @@ package com.example.BancoDeDados.Services;
 import com.example.BancoDeDados.Model.Estudante;
 import com.example.BancoDeDados.Model.Questao;
 import com.example.BancoDeDados.Repositores.EstudanteRepositores;
+import com.example.BancoDeDados.Repositores.ListaRepository;
 import com.example.BancoDeDados.Repositores.QuestaoRepositores;
 import com.example.BancoDeDados.ResponseDTO.EnviarRespostaDTO;
 import com.example.BancoDeDados.ResponseDTO.RespostaEstudanteDTO;
 import com.example.BancoDeDados.Model.RespostaEstudantes;
-import com.example.BancoDeDados.Repository.RespostaEstudantesRepository;
+import com.example.BancoDeDados.Repositores.RespostaEstudantesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RespostaEstudantesService {
 
-    private final RespostaEstudantesRepository respostaEstudantesRepository;
+    @Autowired
+    RespostaEstudantesRepository respostaEstudantesRepository;
 
+    @Autowired
+    ListaRepository listaRepository;
     @Autowired
     QuestaoRepositores questaoRepository;
     @Autowired
@@ -24,10 +31,12 @@ public class RespostaEstudantesService {
     public RespostaEstudantesService(
             RespostaEstudantesRepository respostaEstudantesRepository,
             QuestaoRepositores questaoRepository,
-            EstudanteRepositores estudanteRepository) {
+            EstudanteRepositores estudanteRepository,ListaRepository listaRepository) {
         this.respostaEstudantesRepository = respostaEstudantesRepository;
         this.questaoRepository = questaoRepository;
         this.estudanteRepository = estudanteRepository;
+        this.listaRepository = listaRepository;
+
     }
     public void salvarResposta(EnviarRespostaDTO enviarRespostaDTO) {
         Questao questao = questaoRepository.findById(enviarRespostaDTO.getQuestaoId())
@@ -41,6 +50,19 @@ public class RespostaEstudantesService {
         resposta.setResposta(enviarRespostaDTO.getResposta());
 
         respostaEstudantesRepository.save(resposta);
+    }
+    public List<Integer> buscarQuestoesPorListaEEstudante(Long listaId, Long estudanteId) {
+        // Validar se o estudante existe
+        if (!respostaEstudantesRepository.existsByEstudanteId(estudanteId)) {
+            throw new IllegalArgumentException("Estudante não encontrado.");
+        }
+
+        // Obter as questões associadas à lista
+        return listaRepository.findById(listaId)
+                .map(lista -> lista.getQuestoes().stream()
+                        .map(Questao::getId)
+                        .collect(Collectors.toList()))
+                .orElseThrow(() -> new IllegalArgumentException("Lista não encontrada."));
     }
 
     public RespostaEstudanteDTO buscarRespostaPorQuestaoEEstudante(Long questaoId, Long estudanteId) {
