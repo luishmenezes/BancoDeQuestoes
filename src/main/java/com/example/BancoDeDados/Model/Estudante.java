@@ -11,7 +11,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.example.BancoDeDados.ResponseDTO.EstudanteLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.EstudanteResponseDTO;
+import com.example.BancoDeDados.ResponseDTO.ProfessorLoginResponseDTO;
 
 import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
@@ -56,6 +58,11 @@ public class Estudante implements UserDetails {
         this.senha = estudantes.senha();
         this.dataNascimento = estudantes.dataNascimento();
         this.instituicao = estudantes.instituicao();
+    }
+
+    public Estudante(EstudanteLoginResponseDTO estudanteLoginResponseDTO) {
+        this.email = estudanteLoginResponseDTO.email();
+        this.senha = estudanteLoginResponseDTO.senha();
     }
 
     @Override
