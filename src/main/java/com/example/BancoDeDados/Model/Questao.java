@@ -45,4 +45,8 @@ public class Questao {
     @Column
     private Integer gabarito;
 
+    @OneToMany(mappedBy = "questao", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RespostaEstudantes> respostasEstudantes;
+
+
 }

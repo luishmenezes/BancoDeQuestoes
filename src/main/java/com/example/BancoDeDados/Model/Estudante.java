@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import org.springframework.aot.generate.GeneratedTypeReference;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,12 +18,6 @@ import com.example.BancoDeDados.ResponseDTO.EstudanteResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorLoginResponseDTO;
 
 import jakarta.annotation.Generated;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -52,6 +47,8 @@ public class Estudante implements UserDetails {
     private String email;
     @Column(nullable = false)
     private String senha;
+    @OneToMany(mappedBy = "estudante", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RespostaEstudantes> respostas;
 
     public Estudante(EstudanteResponseDTO estudantes) {
         this.nome = estudantes.nome();
