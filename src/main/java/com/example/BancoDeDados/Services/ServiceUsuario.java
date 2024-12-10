@@ -48,4 +48,9 @@ public class ServiceUsuario {
             throw new RuntimeException("Erro ao buscar o usuário: " + e.getMessage());
         }
     }
+
+    public long contarUsuarios() {
+        return usuarioRepositores.count();
+    }
+
 }

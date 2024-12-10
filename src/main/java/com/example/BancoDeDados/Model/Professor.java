@@ -47,7 +47,7 @@ public class Professor implements UserDetails {
     private String senha;
 
     @Column
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private ProfessorRole role;
 
     @Column

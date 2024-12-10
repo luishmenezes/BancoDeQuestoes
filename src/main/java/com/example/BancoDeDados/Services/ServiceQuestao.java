@@ -65,4 +65,8 @@ public class ServiceQuestao {
         questaoRepositores.saveAll(questoes);
         return questoes;
     }
+    public long contarQuestoes() {
+        return questaoRepositores.count();
+    }
+
 }

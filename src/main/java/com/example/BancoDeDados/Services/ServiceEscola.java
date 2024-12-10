@@ -1,18 +1,25 @@
 package com.example.BancoDeDados.Services;
 
 import com.example.BancoDeDados.Model.Escola;
+import com.example.BancoDeDados.Model.Professor;
 import com.example.BancoDeDados.Repositores.EscolaRespositores;
+import com.example.BancoDeDados.Repositores.ProfessorRepositores;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class ServiceEscola {
     @Autowired
     private EscolaRespositores escolaRepositores;
+
+    @Autowired
+    private ProfessorRepositores professorRepositores;
 
     @Transactional
     public Escola criar(Escola escola) {
@@ -46,5 +53,9 @@ public class ServiceEscola {
         } catch (Exception e) {
             throw new RuntimeException("Erro ao buscar o usuário: " + e.getMessage());
         }
+    }
+
+    public long contarEscolas() {
+        return escolaRepositores.count();
     }
 }
