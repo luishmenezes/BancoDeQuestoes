@@ -1,8 +1,10 @@
 package com.example.BancoDeDados.Controller;
 
 import java.lang.Integer;
+import java.util.List;
 import java.util.Optional;
 
+import com.example.BancoDeDados.Model.Questao;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.support.Repositories;
@@ -77,7 +79,7 @@ public class ControllerEstudante {
             String mensagem = String
                     .format("Olá " + estudante.getNome() + " obrigado por se cadastrar no nosso site! ");
             emailService.enviarEmail(estudante.getEmail(), assunto, mensagem);
-            return ResponseEntity.ok(new ELoginRespondeDTO(estudante.getId(), token, estudante.getNome()));
+            return ResponseEntity.ok(new ELoginRespondeDTO(token, estudante.getNome()));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
@@ -87,9 +89,8 @@ public class ControllerEstudante {
     }
 
     @GetMapping("/listar")
-    public String listar(Model model, Estudante estudante) {
-
-        return model.addAttribute("estudante", this.serviceEstudante.listaEstudantes(estudante)).toString();
+    public List<Estudante> listarEstudantes() {
+        return serviceEstudante.listaEstudantes();
     }
 
     @DeleteMapping("/deletar/{id}")
