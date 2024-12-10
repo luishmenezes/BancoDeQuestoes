@@ -108,4 +108,13 @@ public class ControllerProfessor {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestHeader("Authorization") String token) {
+        String cleanedToken = token.replace("Bearer ", "");
+
+        tokenService.revokeToken(cleanedToken);
+
+        return ResponseEntity.ok("Logout realizado com sucesso");
+    }
 }
