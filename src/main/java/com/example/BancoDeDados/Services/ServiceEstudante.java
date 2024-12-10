@@ -42,7 +42,7 @@ public class ServiceEstudante {
         return (estudanteRepositores.save(estudante));
     }
 
-    public List<Estudante> listaEstudantes() {
+    public List<Estudante> listaEstudantes(Estudante estudante) {
 
         return estudanteRepositores.findAll();
 

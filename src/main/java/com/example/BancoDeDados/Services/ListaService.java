@@ -1,8 +1,10 @@
 package com.example.BancoDeDados.Services;
 
+import com.example.BancoDeDados.Model.Estudante;
 import com.example.BancoDeDados.Model.Lista;
 import com.example.BancoDeDados.Model.Professor;
 import com.example.BancoDeDados.Model.Questao;
+import com.example.BancoDeDados.Repositores.EstudanteRepositores;
 import com.example.BancoDeDados.Repositores.ListaRepository;
 import com.example.BancoDeDados.Repositores.ProfessorRepositores;
 import com.example.BancoDeDados.Repositores.QuestaoRepositores;
@@ -18,6 +20,9 @@ public class ListaService {
 
     @Autowired
     private ListaRepository listaRepository;
+
+    @Autowired
+    private EstudanteRepositores estudanteRepositores;
 
     @Autowired
     private QuestaoRepositores questaoRepository;
@@ -124,5 +129,30 @@ public class ListaService {
                 lista.getTitulo(),
                 lista.getProfessor().getNome()
         );
+    }
+    public ListaResponseDTO adicionarEstudante(Long listaId, Integer estudanteId) {
+        Lista lista = listaRepository.findById(listaId)
+                .orElseThrow(() -> new RuntimeException("Lista não encontrada"));
+
+        Estudante estudante = estudanteRepositores.findById(estudanteId)
+                .orElseThrow(() -> new RuntimeException("Estudante não encontrado"));
+
+        lista.getEstudantes().add(estudante);
+        listaRepository.save(lista);
+
+        return new ListaResponseDTO(lista.getId(), lista.getTitulo(), lista.getProfessor(), lista.getQuestoes(), lista.getEstudantes());
+    }
+
+    public ListaResponseDTO removerEstudante(Long listaId, Integer estudanteId) {
+        Lista lista = listaRepository.findById(listaId)
+                .orElseThrow(() -> new RuntimeException("Lista não encontrada"));
+
+        Estudante estudante = estudanteRepositores.findById(estudanteId)
+                .orElseThrow(() -> new RuntimeException("Estudante não encontrado"));
+
+        lista.getEstudantes().remove(estudante);
+        listaRepository.save(lista);
+
+        return new ListaResponseDTO(lista.getId(), lista.getTitulo(), lista.getProfessor(), lista.getQuestoes(), lista.getEstudantes());
     }
 }

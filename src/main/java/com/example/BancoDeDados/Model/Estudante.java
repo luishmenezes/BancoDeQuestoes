@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import org.springframework.aot.generate.GeneratedTypeReference;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -74,14 +75,12 @@ public class Estudante implements UserDetails {
 
     @Override
     public String getPassword() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPassword'");
+        return this.senha;
     }
 
     @Override
     public String getUsername() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
+        return this.email;
     }
 
 }

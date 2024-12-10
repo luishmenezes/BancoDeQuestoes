@@ -2,11 +2,13 @@ package com.example.BancoDeDados.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -36,4 +38,21 @@ public class Lista {
             inverseJoinColumns = @JoinColumn(name = "questao_id")
     )
     private List<Questao> questoes;
+
+    @ManyToMany
+    @JoinTable(
+            name = "lista_estudantes",
+            joinColumns = @JoinColumn(name = "lista_id"),
+            inverseJoinColumns = @JoinColumn(name = "estudante_id")
+    )
+    private List<Estudante> estudantes;
+
+    // Construtor para inicializar a lista de estudantes
+    public Lista(Long id, String titulo, Professor professor, List<Questao> questoes) {
+        this.id = id;
+        this.titulo = titulo;
+        this.professor = professor;
+        this.questoes = questoes;
+        this.estudantes = new ArrayList<>(); // Inicializando a lista manualmente
+    }
 }

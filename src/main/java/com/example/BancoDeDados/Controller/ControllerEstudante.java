@@ -89,8 +89,14 @@ public class ControllerEstudante {
     }
 
     @GetMapping("/listar")
-    public List<Estudante> listarEstudantes() {
-        return serviceEstudante.listaEstudantes();
+    public ResponseEntity<List<Estudante>> listar() {
+        try {
+            List<Estudante> estudantes = serviceEstudante.listaEstudantes(new Estudante());
+            return ResponseEntity.ok(estudantes);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null); // ou uma mensagem personalizada
+        }
     }
 
     @DeleteMapping("/deletar/{id}")

@@ -1,5 +1,6 @@
 package com.example.BancoDeDados.Controller;
 
+import com.example.BancoDeDados.Model.Estudante;
 import com.example.BancoDeDados.Model.Lista;
 import com.example.BancoDeDados.Model.Questao;
 import com.example.BancoDeDados.Repositores.ListaRepository;
@@ -97,5 +98,27 @@ public class ControllerLista {
     @DeleteMapping("/{listaId}")
     public void excluirLista(@PathVariable Integer listaId) {
         listaService.excluirLista(listaId);
+    }
+
+    // Adicionar um estudante à lista
+    @PostMapping("/{listaId}/estudantes")
+    public ListaResponseDTO adicionarEstudante(@PathVariable Long listaId, @RequestParam Integer estudanteId) {
+        ListaResponseDTO listaAtualizada = listaService.adicionarEstudante(listaId, estudanteId);
+        return listaAtualizada;
+    }
+
+    // Remover um estudante da lista
+    @DeleteMapping("/{listaId}/estudantes/{estudanteId}")
+    public ListaResponseDTO removerEstudante(@PathVariable Long listaId, @PathVariable Integer estudanteId) {
+        ListaResponseDTO listaAtualizada = listaService.removerEstudante(listaId, estudanteId);
+        return listaAtualizada;
+    }
+
+    // Listar estudantes associados a uma lista
+    @GetMapping("/{listaId}/estudantes")
+    public List<Estudante> listarEstudantes(@PathVariable Long listaId) {
+        Lista lista = listaRepository.findById(listaId)
+                .orElseThrow(() -> new RuntimeException("Lista não encontrada"));
+        return lista.getEstudantes();
     }
 }
