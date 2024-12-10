@@ -65,7 +65,8 @@ public class Professor implements UserDetails {
         this.role = professorDTO.role();
     }
 
-    public Professor(String email, String encriptarSenha, ProfessorRole role) {
+    public Professor(Integer id ,String email, String encriptarSenha, ProfessorRole role) {
+        this.id=id;
         this.email = email;
         this.senha = encriptarSenha;
         this.role = role;

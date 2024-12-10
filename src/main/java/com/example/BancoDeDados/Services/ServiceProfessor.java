@@ -32,7 +32,7 @@ public class ServiceProfessor {
         return professorRepositores.save(professor);
     }
 
-    public List<Professor> listar(Professor professor) {
+    public List<Professor> listar() {
         return professorRepositores.findAll();
     }
 
