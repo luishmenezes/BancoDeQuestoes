@@ -5,7 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2de0229c-d23a-442f-8825-63864644b0d7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/DashboardController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/DashboardDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Services/DashboardService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Repositores/ListaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Repositores/ListaRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Security/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Security/CorsConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Security/CorsConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Security/CorsConfig.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +24,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Record" />
+        <option value="Class" />
       </list>
     </option>
   </component>
