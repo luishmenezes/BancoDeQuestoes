@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface ListaRepository extends JpaRepository<Lista, Long> {
     List<Lista> findByProfessorId(Integer professorId);
 
-    Optional<Object> findByIdAndProfessor(Long listaId, Professor professor);
+    Optional<Professor> findByIdAndProfessor(Long listaId, Professor professor);
 }

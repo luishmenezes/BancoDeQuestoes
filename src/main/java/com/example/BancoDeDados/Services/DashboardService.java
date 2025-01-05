@@ -55,38 +55,34 @@ public class DashboardService {
 
     // Obter dashboard por ID do professor e ID da lista
     public Map<String, Object> getDashboardByProfessorAndLista(Long professorId, Long listaId) {
-        Optional<Professor> professorOpt = professorRepository.findById(Math.toIntExact(professorId));
-        if (professorOpt.isEmpty()) {
-            throw new RuntimeException("Professor não encontrado para o ID: " + professorId);
+        Lista lista = listaRepository.findById(listaId)
+                .orElseThrow(() -> new RuntimeException("Lista não encontrada"));
+
+        if (lista.getProfessor().getId().equals(professorId)) {
+            throw new RuntimeException("Lista não pertence ao professor informado");
         }
 
-        Professor professor = professorOpt.get();
-
-        Optional<Lista> listaOpt = listaRepository.findById(listaId);
-        if (listaOpt.isEmpty()) {
-            throw new RuntimeException("Lista não encontrada para o ID: " + listaId);
-        }
-
-        Lista lista = listaOpt.get();
-
-        if (!lista.getProfessor().getId().equals(professor.getId())) {
-            throw new RuntimeException("A lista não pertence ao professor com ID: " + professorId);
-        }
-
-        // Construir o dashboard
         Map<String, Object> dashboard = new HashMap<>();
-        dashboard.put("listaId", lista.getId());
         dashboard.put("tituloLista", lista.getTitulo());
-        dashboard.put("professor", professor.getNome());
-        dashboard.put("questoes", lista.getQuestoes().stream()
-                .map(Questao::getCabecalho)
-                .collect(Collectors.toList()));
-        dashboard.put("estudantes", lista.getEstudantes().stream()
-                .map(estudante -> Map.of(
-                        "id", estudante.getId(),
-                        "nome", estudante.getNome()
-                ))
-                .collect(Collectors.toList()));
+        dashboard.put("nomeProfessor", lista.getProfessor().getNome());
+
+        List<Map<String, Object>> questoesData = lista.getQuestoes().stream().map(questao -> {
+            Map<String, Object> questaoInfo = new HashMap<>();
+            questaoInfo.put("id", questao.getId());
+            questaoInfo.put("enunciado", questao.getEnunciado());
+
+            List<Map<String, Object>> respostasEstudantes = questao.getRespostasEstudantes().stream().map(resposta -> {
+                Map<String, Object> respostaInfo = new HashMap<>();
+                respostaInfo.put("estudante", resposta.getEstudante().getNome());
+                respostaInfo.put("respostaCorreta", resposta.getResposta().equals(questao.getGabarito()));
+                return respostaInfo;
+            }).collect(Collectors.toList());
+
+            questaoInfo.put("respostas", respostasEstudantes);
+            return questaoInfo;
+        }).collect(Collectors.toList());
+
+        dashboard.put("questoes", questoesData);
 
         return dashboard;
     }
