@@ -52,7 +52,7 @@ public class ControllerProfessorLogin {
                 String token = this.tokenService.gerarTokenProfessor(professor);
 
                 // Retorna o token e o nome do professor
-                return ResponseEntity.ok(new PLoginResponseDTO(token, professor.getNome(), professor.getRole()));
+                return ResponseEntity.ok(new PLoginResponseDTO(professor.getId(), token, professor.getNome(), professor.getRole()));
             }
 
             return ResponseEntity.badRequest().body("Credenciais inválidas.");

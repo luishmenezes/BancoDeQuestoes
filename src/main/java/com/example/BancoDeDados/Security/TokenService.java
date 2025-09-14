@@ -12,9 +12,13 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class TokenService {
+
+    private final Set<String> revokedTokens = new HashSet();
 
     private String secret = "1234";
 
@@ -79,5 +83,13 @@ public class TokenService {
 
     private Instant generateTokenExpiration() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+    }
+
+    public void revokeToken(String token) {
+        revokedTokens.add(token);
+    }
+
+    public boolean isTokenRevoked(String token) {
+        return revokedTokens.contains(token);
     }
 }

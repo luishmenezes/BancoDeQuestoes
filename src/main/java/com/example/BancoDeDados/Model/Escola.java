@@ -62,13 +62,12 @@ public class Escola implements UserDetails {
 
     @Override
     public String getPassword() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPassword'");
+        return this.senha;
     }
 
     @Override
     public String getUsername() {
-        return email;
+        return this.email;
     }
 
     @Override

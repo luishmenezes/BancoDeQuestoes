@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.BancoDeDados.Model.Estudante;
 
 import com.example.BancoDeDados.Repositores.EstudanteRepositores;
-
+import com.example.BancoDeDados.ResponseDTO.ELoginRespondeDTO;
 import com.example.BancoDeDados.ResponseDTO.EstudanteLoginResponseDTO;
 import com.example.BancoDeDados.Security.TokenService;
 
@@ -50,13 +50,14 @@ public class ControllerEstudanteLogin {
             if (passwordEncoder.matches(estudanteLoginResponseDTO.senha(), estudante.getSenha())) {
                 String token = this.tokenService.gerarTokenEstudante(estudante);
 
-                // Retorna o token e o nome do professor
-                return ResponseEntity.ok(new EstudanteLoginResponseDTO(token, estudante.getNome()));
+                return ResponseEntity.ok(new ELoginRespondeDTO(estudante.getId(),token, estudante.getNome()));
+            } else {
+                return ResponseEntity.badRequest().body("Credenciais inválidas.");
             }
 
-            return ResponseEntity.badRequest().body("Credenciais inválidas.");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao realizar login.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao realizar login. " + e.getMessage());
         }
     }
 }
