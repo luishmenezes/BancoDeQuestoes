@@ -1,4 +1,96 @@
-HELP.md
+# ========================
+# Java / Spring Boot
+# ========================
+/target/
+/build/
+/out/
+/bin/
 
+# Arquivos de log
+*.log
+*.out
+*.err
+
+# ========================
+# Maven
+# ========================
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+.mvn/wrapper/MavenWrapperDownloader.java
+
+# ========================
+# Gradle
+# ========================
+.gradle/
+**/build/
+!gradle/wrapper/gradle-wrapper.jar
+gradle-app.setting
+
+# ========================
+# IDEs
+# ========================
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse
+.project
+.classpath
+.settings/
+.apt_generated/
+.factorypath
+
+# VS Code
 .vscode/
-/src/main/resources/application.properties
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# ========================
+# Sistema Operacional
+# ========================
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Linux
+*~
+
+# ========================
+# Variáveis de ambiente
+# ========================
+.env
+*.env
+
+# ========================
+# Arquivos temporários
+# ========================
+*.swp
+*.swo
+*.bak
+*.tmp
+*.cache
+
+# ========================
+# Testes
+# ========================
+/test-output/
+/surefire-reports/
+/failsafe-reports/
+/jacoco.exec
+
+# ========================
+# Docker
+# ========================
+/docker-compose.override.yml
+/.idea/
