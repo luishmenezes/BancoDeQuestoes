@@ -3,6 +3,7 @@ package com.example.BancoDeDados.Controller;
 import java.lang.Integer;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.example.BancoDeDados.Model.Questao;
 import org.apache.catalina.connector.Response;
@@ -100,7 +101,7 @@ public class ControllerEstudante {
     }
 
     @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+    public ResponseEntity<Void> deletar(@PathVariable UUID id) {
 
         if (serviceEstudante.deletar(id)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -110,7 +111,7 @@ public class ControllerEstudante {
     }
 
     @GetMapping("/editar/{id}")
-    public ResponseEntity<Estudante> editar(@PathVariable Integer id) {
+    public ResponseEntity<Estudante> editar(@PathVariable UUID id) {
         Optional<Estudante> estudanteOpt = serviceEstudante.editar(id);
         return estudanteOpt.map(estudante -> new ResponseEntity<>(estudante, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

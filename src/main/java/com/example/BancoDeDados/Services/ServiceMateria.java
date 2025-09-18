@@ -1,6 +1,7 @@
 package com.example.BancoDeDados.Services;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class ServiceMateria {
         return materiarepositores.save(materia);
     }
 
-    public boolean deletarMateria(Long id) {
+    public boolean deletarMateria(UUID id) {
         try {
             if (materiarepositores.existsById(id)) {
                 materiarepositores.deleteById(id);

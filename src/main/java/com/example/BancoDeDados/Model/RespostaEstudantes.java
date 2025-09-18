@@ -27,36 +27,5 @@ public class RespostaEstudantes {
     public boolean isCorreta() {
         return resposta.equals(questao.getGabarito());
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Questao getQuestao() {
-        return questao;
-    }
-
-    public void setQuestao(Questao questao) {
-        this.questao = questao;
-    }
-
-    public Boolean getResposta() {
-        return resposta;
-    }
-
-    public void setResposta(Boolean resposta) {
-        this.resposta = resposta;
-    }
-
-    public Estudante getEstudante() {
-        return estudante;
-    }
-
-    public void setEstudante(Estudante estudante) {
-        this.estudante = estudante;
-    }
 }
+

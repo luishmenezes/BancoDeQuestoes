@@ -1,34 +1,41 @@
 package com.example.BancoDeDados.Model;
 
 import com.example.BancoDeDados.ResponseDTO.MateriaResponseDTO;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import java.util.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@Entity(name = " materia")
-@Table(name = "materia")
+@Data
+@Entity
 public class Materia {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     @Column(nullable = false)
     private String nome;
 
-    public Materia(MateriaResponseDTO materias) {
-        this.nome = materias.nome();
+    @ManyToOne
+    @JoinColumn(name = "professor_id")
+    @JsonBackReference
+    private Professor professor;
+
+    @ManyToMany(mappedBy = "materias")
+    private List<Estudante> estudantes = new ArrayList<>();
+    @OneToMany(mappedBy = "materia", cascade = CascadeType.ALL)
+    private List<Evento> eventos = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "escola_id")
+    private Escola escola;
+
+    public Materia(MateriaResponseDTO dto) {
+        this.nome = dto.getNome();
     }
 }

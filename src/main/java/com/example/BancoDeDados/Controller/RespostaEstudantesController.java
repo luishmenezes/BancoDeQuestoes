@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class RespostaEstudantesController {
@@ -20,7 +21,7 @@ public class RespostaEstudantesController {
     @GetMapping("/respostas/buscar")
     public RespostaEstudanteDTO buscarRespostaPorQuestaoEEstudante(
             @RequestParam Long questaoId,
-            @RequestParam Long estudanteId) {
+            @RequestParam UUID estudanteId) {
         return respostaEstudantesService.buscarRespostaPorQuestaoEEstudante(questaoId, estudanteId);
     }
     @PostMapping("/enviaresposta")
@@ -31,7 +32,7 @@ public class RespostaEstudantesController {
     @GetMapping("/respostas/lista-questoes")
     public ResponseEntity<List<Integer>> buscarQuestoesPorListaEEstudante(
             @RequestParam Long listaId,
-            @RequestParam Long estudanteId) {
+            @RequestParam UUID estudanteId) {
         List<Integer> questoes = respostaEstudantesService.buscarQuestoesPorListaEEstudante(listaId, estudanteId);
         return ResponseEntity.ok(questoes);
     }

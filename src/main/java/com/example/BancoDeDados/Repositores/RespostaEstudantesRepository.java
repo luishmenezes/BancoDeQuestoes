@@ -5,10 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface RespostaEstudantesRepository extends JpaRepository<RespostaEstudantes, Long> {
-    Optional<RespostaEstudantes> findByQuestaoIdAndEstudanteId(Long questaoId, Long estudanteId);
+    Optional<RespostaEstudantes> findByQuestaoIdAndEstudanteId(Long questaoId, UUID estudanteId);
 
-    boolean existsByEstudanteId(Long estudanteId);
+    boolean existsByEstudanteId(UUID estudanteId);
 }

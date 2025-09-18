@@ -3,6 +3,7 @@ package com.example.BancoDeDados.Services;
 import java.util.List;
 import java.lang.Integer;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.antlr.v4.runtime.misc.IntegerList;
 import org.hibernate.internal.util.collections.ConcurrentReferenceHashMap.Option;
@@ -48,7 +49,7 @@ public class ServiceEstudante {
 
     }
 
-    public boolean deletar(Integer id) {
+    public boolean deletar(UUID id) {
         try {
             if (estudanteRepositores.existsById(id)) {
                 estudanteRepositores.deleteById(id);
@@ -62,7 +63,7 @@ public class ServiceEstudante {
 
     }
 
-    public Optional<Estudante> editar(Integer id) {
+    public Optional<Estudante> editar(UUID id) {
         try {
             return estudanteRepositores.findById(id);
         } catch (Exception e) {

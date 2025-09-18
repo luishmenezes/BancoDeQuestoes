@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
@@ -102,14 +103,14 @@ public class ControllerLista {
 
     // Adicionar um estudante à lista
     @PostMapping("/{listaId}/estudantes")
-    public ListaResponseDTO adicionarEstudante(@PathVariable Long listaId, @RequestParam Integer estudanteId) {
+    public ListaResponseDTO adicionarEstudante(@PathVariable Long listaId, @RequestParam UUID estudanteId) {
         ListaResponseDTO listaAtualizada = listaService.adicionarEstudante(listaId, estudanteId);
         return listaAtualizada;
     }
 
     // Remover um estudante da lista
     @DeleteMapping("/{listaId}/estudantes/{estudanteId}")
-    public ListaResponseDTO removerEstudante(@PathVariable Long listaId, @PathVariable Integer estudanteId) {
+    public ListaResponseDTO removerEstudante(@PathVariable Long listaId, @PathVariable UUID estudanteId) {
         ListaResponseDTO listaAtualizada = listaService.removerEstudante(listaId, estudanteId);
         return listaAtualizada;
     }
