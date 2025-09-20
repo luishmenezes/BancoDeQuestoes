@@ -1,0 +1,120 @@
+package com.example.BancoDeDados.Controller;
+
+import com.example.BancoDeDados.Model.Professor;
+import com.example.BancoDeDados.Repositores.ProfessorRepositores;
+import com.example.BancoDeDados.ResponseDTO.PLoginResponseDTO;
+import com.example.BancoDeDados.ResponseDTO.ProfessorResponseDTO;
+import com.example.BancoDeDados.Security.TokenService;
+import com.example.BancoDeDados.Services.EmailService;
+import com.example.BancoDeDados.Services.ProfessorService;
+
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/professor")
+public class ProfessorController {
+
+    @Autowired
+    private ProfessorService professorService;
+    @Autowired
+    private ProfessorRepositores professorRepositores;
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmailService emailService;
+
+    public ProfessorController(TokenService tokenService, AuthenticationManager authenticationManager,
+                               PasswordEncoder passwordEncoder, ProfessorRepositores professorRepositores) {
+        this.tokenService = tokenService;
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
+        this.professorRepositores = professorRepositores;
+    }
+
+    @PostMapping("/registrar")
+    public ResponseEntity<?> registrar(@RequestBody @Valid ProfessorResponseDTO professorRegistrarDTO) {
+        try {
+            Optional<Professor> professorExistente = professorRepositores.findByEmail(professorRegistrarDTO.email());
+            if (professorExistente.isPresent()) {
+                return ResponseEntity.badRequest().body("Email já cadastrado.");
+            }
+
+            Professor novoProfessor = new Professor(professorRegistrarDTO);
+
+            if (!professorService.validarEmail(professorRegistrarDTO.email())) {
+                return ResponseEntity.badRequest().body("Email inválido.");
+            }
+
+            if (!professorService.validarSenha(professorRegistrarDTO.senha())) {
+                return ResponseEntity.badRequest().body(
+                        "A senha deve ter no mínimo 8 caracteres, incluindo letras maiúsculas, minúsculas e números.");
+            }
+
+            novoProfessor.setSenha(passwordEncoder.encode(professorRegistrarDTO.senha()));
+
+            professorService.criar(novoProfessor);
+
+            String token = tokenService.gerarTokenProfessor(novoProfessor);
+
+            String assunto = "Confirmação de cadastro";
+            String mensagem = String
+                    .format("Olá " + novoProfessor.getNome() + " obrigado por se cadastrar no nosso site! ");
+            emailService.enviarEmail(novoProfessor.getEmail(), assunto, mensagem);
+            // Retornando o nome e o token
+            return ResponseEntity.ok(new PLoginResponseDTO(novoProfessor.getId(), token, novoProfessor.getNome(), novoProfessor.getRole()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao cadastrar o professor." + e.getMessage());
+        }
+    }
+
+    @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
+    @GetMapping("/listar")
+    public List<Professor> listarProfessores() {
+        return professorService.listar();
+    }
+
+    @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
+    @GetMapping("/editar/{id}")
+    public ResponseEntity<Professor> editar(@PathVariable Integer id) {
+        Optional<Professor> professorOpt = professorService.editar(id);
+        return professorOpt.map(professor -> new ResponseEntity<>(professor, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+        if (professorService.deletar(id)) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestHeader("Authorization") String token) {
+        String cleanedToken = token.replace("Bearer ", "");
+
+        tokenService.revokeToken(cleanedToken);
+
+        return ResponseEntity.ok("Logout realizado com sucesso");
+    }
+}

@@ -1,6 +1,8 @@
 package com.example.BancoDeDados.ResponseDTO;
 
-//cadastro estudante 
-public record ELoginRespondeDTO(Integer id, String token, String nome) {
+import java.util.UUID;
+
+//cadastro estudante
+public record ELoginRespondeDTO(UUID id, String token, String nome) {
 
 }

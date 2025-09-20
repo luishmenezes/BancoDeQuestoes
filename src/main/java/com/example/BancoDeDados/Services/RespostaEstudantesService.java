@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,8 +65,8 @@ public class RespostaEstudantesService {
     /**
      * Retorna as questões associadas a uma lista específica para um determinado estudante.
      */
-    public List<Integer> buscarQuestoesPorListaEEstudante(Long listaId, Long estudanteId) {
-        if (!estudanteRepository.existsById(Math.toIntExact(estudanteId))) {
+    public List<Integer> buscarQuestoesPorListaEEstudante(Long listaId, UUID estudanteId) {
+        if (!estudanteRepository.existsById((estudanteId))) {
             throw new IllegalArgumentException("Estudante não encontrado.");
         }
 
@@ -79,7 +80,7 @@ public class RespostaEstudantesService {
     /**
      * Busca a resposta de um estudante para uma questão específica.
      */
-    public RespostaEstudanteDTO buscarRespostaPorQuestaoEEstudante(Long questaoId, Long estudanteId) {
+    public RespostaEstudanteDTO buscarRespostaPorQuestaoEEstudante(Long questaoId, UUID estudanteId) {
         RespostaEstudantes resposta = respostaEstudantesRepository
                 .findByQuestaoIdAndEstudanteId(questaoId, estudanteId)
                 .orElseThrow(() -> new IllegalArgumentException("Resposta não encontrada."));

@@ -1,96 +1,33 @@
-# ========================
-# Java / Spring Boot
-# ========================
-/target/
-/build/
-/out/
-/bin/
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
-# Arquivos de log
-*.log
-*.out
-*.err
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
 
-# ========================
-# Maven
-# ========================
-.mvn/wrapper/maven-wrapper.jar
-.mvn/wrapper/maven-wrapper.properties
-.mvn/wrapper/MavenWrapperDownloader.java
-
-# ========================
-# Gradle
-# ========================
-.gradle/
-**/build/
-!gradle/wrapper/gradle-wrapper.jar
-gradle-app.setting
-
-# ========================
-# IDEs
-# ========================
-# IntelliJ IDEA
-.idea/
+### IntelliJ IDEA ###
+.idea
+*.iws
 *.iml
 *.ipr
-*.iws
 
-# Eclipse
-.project
-.classpath
-.settings/
-.apt_generated/
-.factorypath
-
-# VS Code
-.vscode/
-
-# NetBeans
+### NetBeans ###
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-# ========================
-# Sistema Operacional
-# ========================
-# macOS
-.DS_Store
-
-# Windows
-Thumbs.db
-ehthumbs.db
-desktop.ini
-
-# Linux
-*~
-
-# ========================
-# Variáveis de ambiente
-# ========================
-.env
-*.env
-
-# ========================
-# Arquivos temporários
-# ========================
-*.swp
-*.swo
-*.bak
-*.tmp
-*.cache
-
-# ========================
-# Testes
-# ========================
-/test-output/
-/surefire-reports/
-/failsafe-reports/
-/jacoco.exec
-
-# ========================
-# Docker
-# ========================
-/docker-compose.override.yml
-.idea
+### VS Code ###
+.vscode/

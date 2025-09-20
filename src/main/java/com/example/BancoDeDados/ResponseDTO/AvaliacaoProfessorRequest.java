@@ -5,10 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class MateriaResponseDTO {
-    private String nome;
-    private Integer professorId;
-    private Integer escolaId;
+@NoArgsConstructor
+public class AvaliacaoProfessorRequest {
+    private Double nota;
+    private String observacao;
 }

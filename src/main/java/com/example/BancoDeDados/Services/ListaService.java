@@ -13,6 +13,7 @@ import com.example.BancoDeDados.ResponseDTO.QuestaoResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -130,7 +131,7 @@ public class ListaService {
                 lista.getProfessor().getNome()
         );
     }
-    public ListaResponseDTO adicionarEstudante(Long listaId, Integer estudanteId) {
+    public ListaResponseDTO adicionarEstudante(Long listaId, UUID estudanteId) {
         Lista lista = listaRepository.findById(listaId)
                 .orElseThrow(() -> new RuntimeException("Lista não encontrada"));
 
@@ -143,7 +144,7 @@ public class ListaService {
         return new ListaResponseDTO(lista.getId(), lista.getTitulo(), lista.getProfessor(), lista.getQuestoes(), lista.getEstudantes());
     }
 
-    public ListaResponseDTO removerEstudante(Long listaId, Integer estudanteId) {
+    public ListaResponseDTO removerEstudante(Long listaId, UUID estudanteId) {
         Lista lista = listaRepository.findById(listaId)
                 .orElseThrow(() -> new RuntimeException("Lista não encontrada"));
 
