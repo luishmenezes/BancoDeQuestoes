@@ -13,5 +13,5 @@ public class EventoRequest {
     private Double notaMaxima;
     private LocalDateTime data;
     private UUID materiaId;
-    private List<String> arquivos; // caso queira anexar arquivos
+    private List<String> arquivos;
 }

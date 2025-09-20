@@ -35,7 +35,9 @@ public class Materia {
     @JoinColumn(name = "escola_id")
     private Escola escola;
 
-    public Materia(MateriaResponseDTO dto) {
+    public Materia(MateriaResponseDTO dto, Professor professor, Escola escola) {
         this.nome = dto.getNome();
+        this.professor = professor;
+        this.escola = escola;
     }
 }

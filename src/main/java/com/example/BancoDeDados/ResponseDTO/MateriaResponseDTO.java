@@ -9,4 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MateriaResponseDTO {
     private String nome;
+    private Integer professorId;
+    private Integer escolaId;
 }

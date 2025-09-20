@@ -13,4 +13,6 @@ import java.util.UUID;
 public interface MateriaRepositores extends JpaRepository<Materia, UUID> {
 
     Optional<Materia> findById(UUID Id);
+    Optional<Materia> findByNome(String nome);
+
 }

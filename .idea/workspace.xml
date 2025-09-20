@@ -5,72 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2de0229c-d23a-442f-8825-63864644b0d7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/EventoController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Exceptions/ResourceNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Model/Evento.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Model/NotaEvento.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Repositores/EventoRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Repositores/NotaEventoRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/AvaliacaoProfessorRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/EntregaEstudanteRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/EstudanteNotaPendenteResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/EventoComNotasResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/EventoRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/EventoResumoResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/NotaEstudanteResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/NotaEventoRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/NotaEventoResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Services/EventoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Mapper/EventoMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/ControllerEstudante.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/ControllerEstudante.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/ControllerLista.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/ControllerLista.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/EventoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/EventoController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/MateriaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/MateriaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/RespostaEstudantesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Controller/RespostaEstudantesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Model/Estudante.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Model/Estudante.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Model/Materia.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Model/Materia.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Model/RespostaEstudantes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Model/RespostaEstudantes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Repositores/EstudanteRepositores.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Repositores/EstudanteRepositores.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Repositores/MateriaRepositores.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Repositores/MateriaRepositores.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Repositores/RespostaEstudantesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Repositores/RespostaEstudantesRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/DesempenhoEstudanteDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/DesempenhoEstudanteDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/ELoginRespondeDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/ELoginRespondeDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/EnviarRespostaDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/EnviarRespostaDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/EventoComNotasResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/EventoComNotasResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/EventoRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/EventoRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/MateriaResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/MateriaResponseDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/RespostaEstudanteDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/ResponseDTO/RespostaEstudanteDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Services/ListaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Services/ListaService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Services/RespostaEstudantesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Services/RespostaEstudantesService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Services/ServiceEstudante.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Services/ServiceEstudante.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Services/EventoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Services/EventoService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Services/ServiceMateria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/BancoDeDados/Services/ServiceMateria.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/BancoDeDados-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/BancoDeDados-0.0.1-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/BancoDeDados-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/BancoDeDados-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Controller/ControllerEstudante.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Controller/ControllerEstudante.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Controller/ControllerEstudanteLogin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Controller/ControllerEstudanteLogin.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Controller/ControllerLista.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Controller/ControllerLista.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Controller/MateriaController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Controller/MateriaController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Controller/RespostaEstudantesController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Controller/RespostaEstudantesController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Model/Estudante.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Model/Estudante.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Model/Materia.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Model/Materia.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Model/RespostaEstudantes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Model/RespostaEstudantes.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Repositores/EstudanteRepositores.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Repositores/EstudanteRepositores.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Repositores/MateriaRepositores.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Repositores/MateriaRepositores.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Repositores/RespostaEstudantesRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Repositores/RespostaEstudantesRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/ResponseDTO/DesempenhoEstudanteDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/ResponseDTO/DesempenhoEstudanteDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/ResponseDTO/ELoginRespondeDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/ResponseDTO/ELoginRespondeDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/ResponseDTO/EnviarRespostaDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/ResponseDTO/EnviarRespostaDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/ResponseDTO/MateriaResponseDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/ResponseDTO/MateriaResponseDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/ResponseDTO/RespostaEstudanteDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/ResponseDTO/RespostaEstudanteDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Services/ListaService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Services/ListaService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Services/RespostaEstudantesService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Services/RespostaEstudantesService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Services/ServiceEstudante.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Services/ServiceEstudante.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Services/ServiceMateria.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/BancoDeDados/Services/ServiceMateria.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.example.BancoDeDados.BancoDeDadosApplicationTests.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.example.BancoDeDados.BancoDeDadosApplicationTests.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/example/BancoDeDados/BancoDeDadosApplicationTests.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,10 +66,10 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Migraçao/Evento&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/David/Desktop/BackEndEduca+/BancoDeQuestoes&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/d.a.vieira.da.silva/Desktop/Migracao_Back/BancoDeQuestoes&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
@@ -132,6 +78,9 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\d.a.vieira.da.silva\Desktop\Migracao_Back\BancoDeQuestoes" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\d.a.vieira.da.silva\Desktop\Migracao_Back\BancoDeQuestoes" />
     </key>
@@ -149,9 +98,6 @@
         <env name="SPRING_DATASOURCE_URL" value="jdbc:postgresql://dpg-d3306ubipnbc73diuusg-a.oregon-postgres.render.com:5432/noteasy" />
         <env name="SPRING_DATASOURCE_USERNAME" value="noteasy_user" />
       </envs>
-      <option name="envFilePaths">
-        <option value="$PROJECT_DIR$/env" />
-      </option>
       <option name="MAIN_CLASS_NAME" value="com.example.BancoDeDados.BancoDeDadosApplication" />
       <module name="BancoDeDados" />
       <extension name="coverage">

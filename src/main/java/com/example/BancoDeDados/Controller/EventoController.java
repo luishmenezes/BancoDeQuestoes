@@ -47,9 +47,10 @@ public class EventoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Evento criarEvento(@RequestBody EventoComNotasResponse dto) {
+    public EventoComNotasResponse criarEvento(@RequestBody EventoRequest dto) {
         return service.criarEvento(dto);
     }
+
 
     @PutMapping("/{eventoId}")
     public Evento atualizarEvento(

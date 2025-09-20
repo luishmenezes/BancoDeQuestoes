@@ -1,12 +1,14 @@
 package com.example.BancoDeDados.Services;
 
 import com.example.BancoDeDados.Exceptions.ResourceNotFoundException;
+import com.example.BancoDeDados.Mapper.EventoMapper;
 import com.example.BancoDeDados.Model.*;
 import com.example.BancoDeDados.Repositores.EstudanteRepositores;
 import com.example.BancoDeDados.Repositores.EventoRepository;
 import com.example.BancoDeDados.Repositores.MateriaRepositores;
 import com.example.BancoDeDados.Repositores.NotaEventoRepository;
 import com.example.BancoDeDados.ResponseDTO.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,9 @@ public class EventoService {
     private final EstudanteRepositores estudanteRepository;
     private final NotaEventoRepository notaEventoRepository;
 
+    @Autowired
+    private EventoMapper eventoMapper;
+
     public EventoService(EventoRepository eventoRepository,
                          MateriaRepositores materiaRepository,
                          EstudanteRepositores estudanteRepository,
@@ -33,16 +38,20 @@ public class EventoService {
     }
 
     @Transactional
-    public Evento criarEvento(EventoComNotasResponse dto) {
-        Materia materia = findMateriaByIdOrThrow(dto.getId());
+    public EventoComNotasResponse criarEvento(EventoRequest dto) {
+        Materia materia = findMateriaByIdOrThrow(dto.getMateriaId());
         Professor professor = materia.getProfessor();
         if (professor == null) {
             throw new IllegalStateException("Materia sem professor associado");
         }
 
-        Evento evento = buildEventoFromDTO(dto, materia, professor);
-        return eventoRepository.save(evento);
+        Evento evento = eventoMapper.toEntity(dto, materia, professor);
+        Evento eventoSalvo = eventoRepository.save(evento);
+
+        return eventoMapper.toResponse(eventoSalvo);
     }
+
+
 
     @Transactional
     public Evento atualizarEvento(UUID eventoId, EventoComNotasResponse dto) {
@@ -210,7 +219,7 @@ public class EventoService {
        UTIL / CONVERSÕES
        =========================== */
 
-    private Evento buildEventoFromDTO(EventoComNotasResponse dto, Materia materia, Professor professor) {
+    private Evento buildEventoFromDTO(EventoRequest dto, Materia materia, Professor professor) {
         Evento evento = new Evento();
         evento.setTitulo(dto.getTitulo());
         evento.setDescricao(dto.getDescricao());
@@ -219,18 +228,13 @@ public class EventoService {
         evento.setMateria(materia);
         evento.setProfessor(professor);
 
-        for (NotaEstudanteResponse notaEstutante : Optional.ofNullable(dto.getNotasEstudantes()).orElse(Collections.emptyList())) {
-            NotaEvento notaEvento = new NotaEvento();
-            Estudante estudante = findEstudanteByIdOrThrow(notaEstutante.getAlunoId());
-            notaEvento.setEstudante(estudante);
-            notaEvento.setEvento(evento);
-            notaEvento.setProfessor(professor);
-            notaEvento.setNota(notaEstutante.getNota());
-            notaEvento.setObservacao(notaEstutante.getObservacao());
-            evento.getNotasEstudante().add(notaEvento);
+        if (dto.getArquivos() != null) {
+            evento.setArquivos(dto.getArquivos());
         }
+
         return evento;
     }
+
 
     public NotaEventoResponse convertToResponse(NotaEvento notaEvento) {
         String professorNome = notaEvento.getProfessor() != null ? notaEvento.getProfessor().getNome() : null;
@@ -251,7 +255,19 @@ public class EventoService {
                 Optional.ofNullable(notaEvento.getArquivosEntrega()).orElse(Collections.emptyList())
         );
     }
+    private EventoComNotasResponse convertToResponse(Evento evento) {
+        EventoComNotasResponse response = new EventoComNotasResponse();
+        response.setId(evento.getId());
+        response.setTitulo(evento.getTitulo());
+        response.setDescricao(evento.getDescricao());
+        response.setNotaMaxima(evento.getNotaMaxima());
+        response.setData(evento.getData());
+        response.setMateriaId(evento.getMateria().getId());
+        response.setMateriaNome(evento.getMateria().getNome());
+        response.setNotasEstudantes(new ArrayList<>()); // Inicialmente vazio
 
+        return response;
+    }
     /* ===========================
        REPOSITORY HELPERS
        =========================== */
