@@ -11,7 +11,7 @@ import com.example.BancoDeDados.Model.Materia;
 import com.example.BancoDeDados.Repositores.MateriaRepositores;
 
 @Service
-public class ServiceMateria {
+public class MateriaService {
 
     @Autowired
     private MateriaRepositores materiarepositores;

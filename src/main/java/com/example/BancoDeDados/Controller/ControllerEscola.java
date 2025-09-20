@@ -1,16 +1,12 @@
 package com.example.BancoDeDados.Controller;
 
 import com.example.BancoDeDados.Model.Escola;
-import com.example.BancoDeDados.Model.Estudante;
 import com.example.BancoDeDados.Repositores.EscolaRespositores;
-import com.example.BancoDeDados.Repositores.ProfessorRepositores;
-import com.example.BancoDeDados.ResponseDTO.ELoginRespondeDTO;
 import com.example.BancoDeDados.ResponseDTO.EscLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.EscolaResponseDTO;
-import com.example.BancoDeDados.ResponseDTO.ProfessorResponseDTO;
 import com.example.BancoDeDados.Security.TokenService;
 import com.example.BancoDeDados.Services.EmailService;
-import com.example.BancoDeDados.Services.ServiceEscola;
+import com.example.BancoDeDados.Services.EscolaService;
 
 import jakarta.validation.Valid;
 
@@ -28,7 +24,7 @@ import java.util.Optional;
 @RequestMapping("/escola")
 public class ControllerEscola {
     @Autowired
-    private ServiceEscola serviceEscola;
+    private EscolaService escolaService;
     @Autowired
     private EscolaRespositores escolaRepositores;
     @Autowired
@@ -56,7 +52,7 @@ public class ControllerEscola {
         try {
 
             escola.setSenha(passwordEncoder.encode(escolaRegristrarDto.senha()));
-            serviceEscola.criar(escola);
+            escolaService.criar(escola);
 
             String token = tokenService.gerarTokenEscola(escola);
             String assunto = "Confirmação de cadastro";
@@ -75,13 +71,13 @@ public class ControllerEscola {
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @GetMapping("/listar")
     public String listar(Model model, Escola escola) {
-        return model.addAttribute("escola", this.serviceEscola.listar(escola)).toString();
+        return model.addAttribute("escola", this.escolaService.listar(escola)).toString();
     }
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @GetMapping("/editar/{id}")
     public ResponseEntity<Escola> editar(@PathVariable Integer id) {
-        Optional<Escola> escolaOpt = serviceEscola.editar(id);
+        Optional<Escola> escolaOpt = escolaService.editar(id);
         return escolaOpt.map(escola -> new ResponseEntity<>(escola, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -89,7 +85,7 @@ public class ControllerEscola {
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
-        if (serviceEscola.deletar(id)) {
+        if (escolaService.deletar(id)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -10,7 +10,7 @@ import java.io.IOException;
 
 @Service
 @Data
-public class ServicePDFIA {
+public class PDFIAService {
     private String textoExtraido;
 
     public String extrairTextoPDF(MultipartFile arquivoPDF) throws IOException {

@@ -3,7 +3,6 @@ package com.example.BancoDeDados.Controller;
 import com.example.BancoDeDados.Model.Questao;
 import com.example.BancoDeDados.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,26 +18,26 @@ import java.util.List;
 public class ControllerIA {
 
     @Autowired
-    private ServicePDFIA servicePDFIA;
+    private PDFIAService PDFIAService;
 
     @Autowired
-    private ServiceIA serviceIA;
+    private IAService IAService;
 
     @Autowired
-    private ServiceTratarRespostaIA tratarRespostaIA;
+    private TratarRespostaIAService tratarRespostaIA;
 
     @Autowired
-    private ServiceQuestao serviceQuestao;
+    private QuestaoService questaoService;
 
     @Autowired
-    private ServiceJsonIA json;
+    private JsonIAService json;
 
     @PostMapping("/processar-pdf")
     public ResponseEntity<String> processarPdf(@RequestParam("file") MultipartFile arquivoPDF) {
         try {
             System.out.println("Recebido arquivo: " + arquivoPDF.getOriginalFilename()); // Log para verificar o arquivo recebido
-            String textoPDF = servicePDFIA.TextoExtraido(arquivoPDF);
-            String respostaserviceIA = serviceIA.enviarParaGemini(textoPDF);
+            String textoPDF = PDFIAService.TextoExtraido(arquivoPDF);
+            String respostaserviceIA = IAService.enviarParaGemini(textoPDF);
             return ResponseEntity.ok("Questões salvas com sucesso!");
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Erro ao extrair o texto do PDF: " + e.getMessage());
@@ -50,7 +49,7 @@ public class ControllerIA {
     @PostMapping("/processar-salvar")
     public String processarESalvarPdf() throws IOException {
         List<Questao> questoes = tratarRespostaIA.processarRespostaIA();
-        serviceQuestao.salvarQuestoes(questoes);
+        questaoService.salvarQuestoes(questoes);
         return json.exibirQuestoesDoJson(json.gerarJsonRespostaIA());
     }
 }

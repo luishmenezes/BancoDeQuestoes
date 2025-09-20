@@ -5,25 +5,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class ServiceTratarTexto {
+public class TratarTextoIAService {
 
     @Autowired
-    private ServicePDF texto; // Injeção do ServicePDF
+    private PDFService PDFService;
 
-    public List<Questao> pegarQuestoes() throws IOException {
+    public List<Questao> pegarQuestoes(InputStream inputStream) throws IOException {
+        String textoExtraido = PDFService.extrairTextoPDF(inputStream.toString());
         List<Questao> questoes = new ArrayList<>();
 
         Pattern modeloQuestaoCompleta = Pattern.compile(
                 "(\\d+\\.\\s\\([^\\)]+\\))\\s+(.*?)(?=(?:\\d+\\.\\s\\([^\\)]+\\))|$)",
                 Pattern.DOTALL
         );
-        Matcher matcherQuestaoCompleta = modeloQuestaoCompleta.matcher(texto.TextoExtraido());
+        Matcher matcherQuestaoCompleta = modeloQuestaoCompleta.matcher(textoExtraido);
 
         while (matcherQuestaoCompleta.find()) {
             Questao questao = new Questao();
@@ -35,6 +37,10 @@ public class ServiceTratarTexto {
 
             List<String> alternativas = pegarAlternativas(enunciadoCompleto);
             questao.setAlternativas(alternativas);
+
+            int gabarito = identificarGabarito(enunciadoCompleto, alternativas);
+            questao.setGabarito(gabarito);
+
             questoes.add(questao);
         }
 
@@ -51,7 +57,7 @@ public class ServiceTratarTexto {
         return matcherAlternativas.replaceAll("").trim();
     }
 
-    public List<String> pegarAlternativas(String texto) {
+    private List<String> pegarAlternativas(String texto) {
         List<String> alternativas = new ArrayList<>();
 
         Pattern modeloAlternativas = Pattern.compile(
@@ -68,5 +74,14 @@ public class ServiceTratarTexto {
         }
 
         return alternativas;
+    }
+
+    private int identificarGabarito(String texto, List<String> alternativas) {
+        for (int i = 0; i < alternativas.size(); i++) {
+            if (texto.contains(alternativas.get(i))) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

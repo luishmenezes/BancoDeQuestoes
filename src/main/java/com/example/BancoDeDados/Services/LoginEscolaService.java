@@ -6,22 +6,21 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.example.BancoDeDados.Model.Estudante;
-import com.example.BancoDeDados.Repositores.EstudanteRepositores;
+import com.example.BancoDeDados.Model.Escola;
+import com.example.BancoDeDados.Repositores.EscolaRespositores;
 
 @Component
-public class ServiceLoginEstudante implements UserDetailsService {
+public class LoginEscolaService implements UserDetailsService {
 
     @Autowired
-    EstudanteRepositores estudanteRepositores;
+    EscolaRespositores escolaRespositores;
 
     @Override
     public UserDetails loadUserByUsername(String nome) throws UsernameNotFoundException {
 
-        Estudante estudante = this.estudanteRepositores.findByNome(nome)
+        Escola escola = this.escolaRespositores.findByNome(nome)
                 .orElseThrow(() -> new UsernameNotFoundException("User not Found"));
-        return new org.springframework.security.core.userdetails.User(estudante.getEmail(), estudante.getSenha(),
-                estudante.getAuthorities());
+        return new org.springframework.security.core.userdetails.User(escola.getEmail(), escola.getSenha(),
+                escola.getAuthorities());
     }
-
 }

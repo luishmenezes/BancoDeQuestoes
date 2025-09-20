@@ -10,13 +10,13 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
-public class ServiceJson {
+public class JsonService {
 
     @Autowired
-    private ServiceTratarTexto serviceTratarTexto;
+    private TratarTextoService tratarTextoService;
 
     public String jsonDoCorpo() throws IOException {
-        List<Questao> questoes = serviceTratarTexto.pegarQuestoes();
+        List<Questao> questoes = tratarTextoService.pegarQuestoes();
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.toJson(questoes);

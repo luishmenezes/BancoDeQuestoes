@@ -3,14 +3,13 @@ package com.example.BancoDeDados.Controller;
 import com.example.BancoDeDados.Model.Usuario;
 import com.example.BancoDeDados.Repositores.UsuarioRepositores;
 import com.example.BancoDeDados.ResponseDTO.UsuarioResponseDTO;
-import com.example.BancoDeDados.Services.ServiceUsuario;
+import com.example.BancoDeDados.Services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -18,7 +17,7 @@ import java.util.Optional;
 public class ControllerUsuario {
 
     @Autowired
-    private ServiceUsuario serviceUsuario;
+    private UsuarioService usuarioService;
     @Autowired
     private UsuarioRepositores usuarioRepositores;
 
@@ -33,13 +32,13 @@ public class ControllerUsuario {
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @GetMapping("/listar")
     public String listar(Model model, Usuario usuario) {
-        return model.addAttribute("usuario", this.serviceUsuario.listar(usuario)).toString();
+        return model.addAttribute("usuario", this.usuarioService.listar(usuario)).toString();
     }
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @GetMapping("/editar/{id}")
     public ResponseEntity<Usuario> editar(@PathVariable Integer id) {
-        Optional<Usuario> usuarioOpt = serviceUsuario.editar(id);
+        Optional<Usuario> usuarioOpt = usuarioService.editar(id);
         return usuarioOpt.map(usuario -> new ResponseEntity<>(usuario, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -47,7 +46,7 @@ public class ControllerUsuario {
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
-        if (serviceUsuario.deletar(id)) {
+        if (usuarioService.deletar(id)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

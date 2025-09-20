@@ -11,7 +11,7 @@ import com.example.BancoDeDados.Model.Materia;
 import com.example.BancoDeDados.Model.Professor;
 import com.example.BancoDeDados.Model.Escola;
 import com.example.BancoDeDados.ResponseDTO.MateriaResponseDTO;
-import com.example.BancoDeDados.Services.ServiceMateria;
+import com.example.BancoDeDados.Services.MateriaService;
 import com.example.BancoDeDados.Repositores.ProfessorRepositores;
 
 
@@ -21,7 +21,7 @@ import com.example.BancoDeDados.Repositores.ProfessorRepositores;
 public class MateriaController {
 
     @Autowired
-    private ServiceMateria materiaService;
+    private MateriaService materiaService;
 
     @Autowired
     private ProfessorRepositores professorRepository;

@@ -10,9 +10,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class ServiceTratarRespostaIA {
+public class TratarRespostaIAService {
     @Autowired
-    ServiceIA ServiceIA;
+    IAService IAService;
 
     public List<Questao> processarRespostaIA() {
         List<Questao> questoes = new ArrayList<>();
@@ -22,7 +22,7 @@ public class ServiceTratarRespostaIA {
                 Pattern.DOTALL
         );
 
-        Matcher matcherQuestaoCompleta = modeloQuestaoCompleta.matcher(ServiceIA.getRespostaDoGemini());
+        Matcher matcherQuestaoCompleta = modeloQuestaoCompleta.matcher(IAService.getRespostaDoGemini());
 
         while (matcherQuestaoCompleta.find()) {
             Questao questao = new Questao();

@@ -1,5 +1,5 @@
 package com.example.BancoDeDados.Services;
 
-public class IntegrarGabarito {
+public class IntegrarGabaritoService {
     
 }

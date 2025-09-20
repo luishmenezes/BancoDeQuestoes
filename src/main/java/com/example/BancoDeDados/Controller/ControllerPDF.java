@@ -1,12 +1,11 @@
 package com.example.BancoDeDados.Controller;
 
 import com.example.BancoDeDados.Model.Questao;
-import com.example.BancoDeDados.Services.ServiceJson;
-import com.example.BancoDeDados.Services.ServicePDF;
-import com.example.BancoDeDados.Services.ServiceQuestao;
-import com.example.BancoDeDados.Services.ServiceTratarTexto;
+import com.example.BancoDeDados.Services.JsonService;
+import com.example.BancoDeDados.Services.PDFService;
+import com.example.BancoDeDados.Services.QuestaoService;
+import com.example.BancoDeDados.Services.TratarTextoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -17,22 +16,22 @@ import java.util.List;
 public class ControllerPDF {
 
     @Autowired
-    private ServicePDF servicePDF;
+    private PDFService PDFService;
 
     @Autowired
-    private ServiceTratarTexto tratarTexto;
+    private TratarTextoService tratarTexto;
 
     @Autowired
-    private ServiceJson json;
+    private JsonService json;
 
     @Autowired
-    private ServiceQuestao serviceQuestao;
+    private QuestaoService questaoService;
 
 
     @PostMapping("/processar-salvar")
     public String processarESalvarPdf() throws IOException {
         List<Questao> questoes = tratarTexto.pegarQuestoes();
-        serviceQuestao.salvarQuestoes(questoes);
+        questaoService.salvarQuestoes(questoes);
         return json.exibirQuestoesDoJson(json.jsonDoCorpo());
     }
 }

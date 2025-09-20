@@ -1,7 +1,7 @@
 package com.example.BancoDeDados.Services;
 
-import com.example.BancoDeDados.Model.Escola;
-import com.example.BancoDeDados.Repositores.EscolaRespositores;
+import com.example.BancoDeDados.Model.Usuario;
+import com.example.BancoDeDados.Repositores.UsuarioRepositores;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,27 +10,28 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ServiceEscola {
+public class UsuarioService {
+
     @Autowired
-    private EscolaRespositores escolaRepositores;
+    private UsuarioRepositores usuarioRepositores;
 
     @Transactional
-    public Escola criar(Escola escola) {
+    public Usuario criar(Usuario usuario) {
         try {
-            return escolaRepositores.save(escola);
+            return usuarioRepositores.save(usuario);
         } catch (Exception e) {
             throw new RuntimeException("Erro ao criar o usuário: " + e.getMessage());
         }
     }
 
-    public List<Escola> listar(Escola escola) {
-        return escolaRepositores.findAll();
+    public List<Usuario> listar(Usuario usuario) {
+        return usuarioRepositores.findAll();
     }
 
     public boolean deletar(Integer id) {
         try {
-            if (escolaRepositores.existsById(id)) {
-                escolaRepositores.deleteById(id);
+            if (usuarioRepositores.existsById(id)) {
+                usuarioRepositores.deleteById(id);
                 return true;
             } else {
                 return false;
@@ -40,9 +41,9 @@ public class ServiceEscola {
         }
     }
 
-    public Optional<Escola> editar(Integer id) {
+    public Optional<Usuario> editar(Integer id) {
         try {
-            return escolaRepositores.findById(id);
+            return usuarioRepositores.findById(id);
         } catch (Exception e) {
             throw new RuntimeException("Erro ao buscar o usuário: " + e.getMessage());
         }

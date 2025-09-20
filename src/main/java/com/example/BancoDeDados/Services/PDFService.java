@@ -10,7 +10,7 @@ import java.io.IOException;
 
 @Service
 @Data
-public class ServicePDF {
+public class PDFService {
     private String textoExtraido;
 
     public String extrairTextoPDF(String caminhoArquivo) throws IOException {

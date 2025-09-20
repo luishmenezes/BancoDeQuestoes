@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ServiceJsonIA {
+public class JsonIAService {
 
     @Autowired
-    private ServiceTratarRespostaIA tratarRespostaIA;
+    private TratarRespostaIAService tratarRespostaIA;
 
     public String gerarJsonRespostaIA() {
         List<Questao> questoes = tratarRespostaIA.processarRespostaIA();

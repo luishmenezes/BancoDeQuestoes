@@ -1,5 +1,5 @@
 package com.example.BancoDeDados.Services;
 
-public class LerGabarito {
+public class ValidarJsonService {
     
 }

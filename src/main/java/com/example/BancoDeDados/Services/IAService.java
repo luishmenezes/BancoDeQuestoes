@@ -11,7 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 @Service
-public class ServiceIA {
+public class IAService {
     private String respostaDoGemini;
 
     @Value("${apikey}")

@@ -1,63 +1,72 @@
 package com.example.BancoDeDados.Services;
 
-import com.example.BancoDeDados.Model.Estudante;
-import com.example.BancoDeDados.Model.Professor;
-import com.example.BancoDeDados.Repositores.ProfessorRepositores;
-
-import jakarta.validation.ConstraintValidatorContext;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import com.example.BancoDeDados.Model.Escola;
+import com.example.BancoDeDados.Model.Estudante;
+import com.example.BancoDeDados.Repositores.EscolaRespositores;
+import com.example.BancoDeDados.Repositores.EstudanteRepositores;
 
 @Service
-public class ServiceProfessor {
+public class EstudanteService {
+    @Autowired
+    private EstudanteRepositores estudanteRepositores;
 
     @Autowired
-    private ProfessorRepositores professorRepositores;
+    private EscolaRespositores escolaRepositor;
 
-    @Transactional
-    public Professor criar(Professor professor) {
-        if (!validarSenha(professor.getSenha())) {
+    public Estudante criar(Estudante estudante) {
+        String nomeInstituicao = estudante.getInstituicao();
+        Optional<Escola> instituicaoExistente = escolaRepositor.findByNome(nomeInstituicao);
+
+        if (!validarSenha(estudante.getSenha())) {
             throw new IllegalArgumentException(
                     "A senha não atende aos requisitos: mínimo de 8 caracteres, incluindo letras maiúsculas, minúsculas e números.");
-        } else if (!validarEmail(professor.getEmail())) {
+        } else if (!validarEmail(estudante.getEmail())) {
             throw new IllegalArgumentException(
                     "Email inválido.");
+        } else if (instituicaoExistente.isEmpty()) {
+            throw new IllegalArgumentException("Instituição não encontrada no banco de dados.");
         }
 
-        return professorRepositores.save(professor);
+        return (estudanteRepositores.save(estudante));
     }
 
-    public List<Professor> listar() {
-        return professorRepositores.findAll();
+    public List<Estudante> listaEstudantes(Estudante estudante) {
+
+        return estudanteRepositores.findAll();
+
     }
 
-    public boolean deletar(Integer id) {
+    public boolean deletar(UUID id) {
         try {
-            if (professorRepositores.existsById(id)) {
-                professorRepositores.deleteById(id);
+            if (estudanteRepositores.existsById(id)) {
+                estudanteRepositores.deleteById(id);
                 return true;
             } else {
                 return false;
             }
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao deletar o professor: " + e.getMessage());
+            throw new RuntimeException("Erro ao deletar o Estudante: " + e.getMessage());
         }
+
     }
 
-    public Optional<Professor> editar(Integer id) {
+    public Optional<Estudante> editar(UUID id) {
         try {
-            return professorRepositores.findById(id);
+            return estudanteRepositores.findById(id);
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao buscar o professor: " + e.getMessage());
+            throw new RuntimeException("Erro ao buscar o usuário: " + e.getMessage());
         }
+
     }
 
-    public boolean validarSenha(String senha) {
+    private boolean validarSenha(String senha) {
         if (senha.length() < 8) {
             return false;
         }

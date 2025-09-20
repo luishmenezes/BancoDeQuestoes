@@ -2,7 +2,7 @@ package com.example.BancoDeDados.Security;
 
 import com.example.BancoDeDados.Model.Professor;
 import com.example.BancoDeDados.Repositores.ProfessorRepositores;
-import com.example.BancoDeDados.Services.ServiceLoginProfessor;
+import com.example.BancoDeDados.Services.LoginProfessorService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +28,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     private ProfessorRepositores professorRepositores;
 
     @Autowired
-    private ServiceLoginProfessor professorService;
+    private LoginProfessorService professorService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

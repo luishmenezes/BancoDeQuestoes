@@ -8,8 +8,8 @@ import com.example.BancoDeDados.ResponseDTO.ListaAddResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ListaResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.QuestaoResponseDTO;
 import com.example.BancoDeDados.Services.ListaService;
-import com.example.BancoDeDados.Services.ServiceQuestao;
-import com.example.BancoDeDados.Services.ServiceTratarRespostaIA;
+import com.example.BancoDeDados.Services.QuestaoService;
+import com.example.BancoDeDados.Services.TratarRespostaIAService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,10 +29,10 @@ public class ControllerLista {
     private ListaRepository listaRepository;
 
     @Autowired
-    private ServiceQuestao serviceQuestao;
+    private QuestaoService questaoService;
 
     @Autowired
-    private ServiceTratarRespostaIA serviceTratarRespostaIA;
+    private TratarRespostaIAService tratarRespostaIAService;
 
     public ControllerLista(ListaService listaService) {
         this.listaService = listaService;
@@ -40,9 +40,9 @@ public class ControllerLista {
 
     @PostMapping("/salvar-questoes-do-pdf/{listaId}")
     public ListaAddResponseDTO salvarQuestoesDoPdf(@PathVariable Integer listaId) {
-        List<Questao> questoesProcessadas = serviceTratarRespostaIA.processarRespostaIA();
+        List<Questao> questoesProcessadas = tratarRespostaIAService.processarRespostaIA();
 
-        List<Questao> questoesSalvas = serviceQuestao.salvarQuestoes(questoesProcessadas);
+        List<Questao> questoesSalvas = questaoService.salvarQuestoes(questoesProcessadas);
 
         List<Integer> questaoIds = questoesSalvas.stream()
                 .map(Questao::getId)
@@ -56,7 +56,7 @@ public class ControllerLista {
     @PostMapping("/{listaId}/questoes")
     public ListaResponseDTO adicionarQuestao(@PathVariable Integer listaId,
                                              @RequestBody Questao questao) {
-        Questao novaQuestao = serviceQuestao.criarQuestao(
+        Questao novaQuestao = questaoService.criarQuestao(
                 questao.getCabecalho(),
                 questao.getEnunciado(),
                 questao.getAlternativas(),
