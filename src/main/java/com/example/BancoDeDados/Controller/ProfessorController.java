@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/professor")
-public class ControllerProfessor {
+public class ProfessorController {
 
     @Autowired
     private ProfessorService professorService;
@@ -38,8 +38,8 @@ public class ControllerProfessor {
     @Autowired
     private EmailService emailService;
 
-    public ControllerProfessor(TokenService tokenService, AuthenticationManager authenticationManager,
-            PasswordEncoder passwordEncoder, ProfessorRepositores professorRepositores) {
+    public ProfessorController(TokenService tokenService, AuthenticationManager authenticationManager,
+                               PasswordEncoder passwordEncoder, ProfessorRepositores professorRepositores) {
         this.tokenService = tokenService;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;

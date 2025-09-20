@@ -21,7 +21,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/estudante")
-public class ControllerEstudanteLogin {
+public class EstudanteLoginController {
     @Autowired
     private TokenService tokenService;
 
@@ -33,8 +33,8 @@ public class ControllerEstudanteLogin {
     @Autowired
     private EstudanteRepositores estudanteRepositores;
 
-    public ControllerEstudanteLogin(TokenService tokenService, AuthenticationManager authenticationManager,
-            PasswordEncoder passwordEncoder, EstudanteRepositores estudanteRepositores) {
+    public EstudanteLoginController(TokenService tokenService, AuthenticationManager authenticationManager,
+                                    PasswordEncoder passwordEncoder, EstudanteRepositores estudanteRepositores) {
         this.tokenService = tokenService;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;

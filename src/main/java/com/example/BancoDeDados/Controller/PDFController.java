@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/pdf")
-public class ControllerPDF {
+public class PDFController {
 
     @Autowired
     private PDFService PDFService;

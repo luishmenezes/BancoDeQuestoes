@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/serviceIA")
-public class ControllerIA {
+public class IAController {
 
     @Autowired
     private PDFIAService PDFIAService;

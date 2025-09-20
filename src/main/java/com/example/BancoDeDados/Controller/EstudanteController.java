@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/estudantes")
 @RestController
-public class ControllerEstudante {
+public class EstudanteController {
 
     @Autowired
     private EstudanteService estudanteService;
@@ -46,8 +46,8 @@ public class ControllerEstudante {
     @Autowired
     private EmailService emailService;
 
-    public ControllerEstudante(TokenService tokenService, AuthenticationManager authenticationManager,
-            PasswordEncoder passwordEncoder, EstudanteRepositores estudanteRepositores) {
+    public EstudanteController(TokenService tokenService, AuthenticationManager authenticationManager,
+                               PasswordEncoder passwordEncoder, EstudanteRepositores estudanteRepositores) {
         this.tokenService = tokenService;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;

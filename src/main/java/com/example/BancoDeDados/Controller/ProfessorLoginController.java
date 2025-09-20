@@ -1,5 +1,10 @@
 package com.example.BancoDeDados.Controller;
 
+import com.example.BancoDeDados.Model.Professor;
+import com.example.BancoDeDados.Repositores.ProfessorRepositores;
+import com.example.BancoDeDados.ResponseDTO.PLoginResponseDTO;
+import com.example.BancoDeDados.ResponseDTO.ProfessorLoginResponseDTO;
+import com.example.BancoDeDados.Security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,20 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.BancoDeDados.Model.Escola;
-
-import com.example.BancoDeDados.Repositores.EscolaRespositores;
-
-import com.example.BancoDeDados.ResponseDTO.EscLoginResponseDTO;
-import com.example.BancoDeDados.ResponseDTO.EscolaLoginResponseDTO;
-
-import com.example.BancoDeDados.Security.TokenService;
-
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/escola")
-public class ControllerEscolaLogin {
+@RequestMapping("/professor")
+public class ProfessorLoginController {
     @Autowired
     private TokenService tokenService;
 
@@ -33,27 +29,27 @@ public class ControllerEscolaLogin {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private EscolaRespositores escolaRespositores;
+    private ProfessorRepositores professorRepositores;
 
-    public ControllerEscolaLogin(TokenService tokenService, AuthenticationManager authenticationManager,
-            PasswordEncoder passwordEncoder, EscolaRespositores escolaRespositores) {
+    public ProfessorLoginController(TokenService tokenService, AuthenticationManager authenticationManager,
+                                    PasswordEncoder passwordEncoder, ProfessorRepositores professorRepositores) {
         this.tokenService = tokenService;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
-        this.escolaRespositores = escolaRespositores;
+        this.professorRepositores = professorRepositores;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Valid EscolaLoginResponseDTO escolaLoginResponseDTO) {
+    public ResponseEntity<?> login(@RequestBody @Valid ProfessorLoginResponseDTO professorLoginResponseDTO) {
         try {
-            Escola escola = this.escolaRespositores.findByEmail(escolaLoginResponseDTO.email())
+            Professor professor = this.professorRepositores.findByEmail(professorLoginResponseDTO.email())
                     .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-            if (passwordEncoder.matches(escolaLoginResponseDTO.senha(), escola.getSenha())) {
-                String token = this.tokenService.gerarTokenEscola(escola);
+            if (passwordEncoder.matches(professorLoginResponseDTO.senha(), professor.getSenha())) {
+                String token = this.tokenService.gerarTokenProfessor(professor);
 
                 // Retorna o token e o nome do professor
-                return ResponseEntity.ok(new EscLoginResponseDTO(token, escola.getNome(), escola.getRole()));
+                return ResponseEntity.ok(new PLoginResponseDTO(professor.getId(), token, professor.getNome(), professor.getRole()));
             }
 
             return ResponseEntity.badRequest().body("Credenciais inválidas.");
@@ -61,4 +57,5 @@ public class ControllerEscolaLogin {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao realizar login.");
         }
     }
+
 }

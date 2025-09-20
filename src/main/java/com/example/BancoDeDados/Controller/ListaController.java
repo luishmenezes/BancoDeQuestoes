@@ -21,7 +21,7 @@ import static java.util.stream.Collectors.*;
 
 @RestController
 @RequestMapping("/listas")
-public class ControllerLista {
+public class ListaController {
 
     private final ListaService listaService;
 
@@ -34,7 +34,7 @@ public class ControllerLista {
     @Autowired
     private TratarRespostaIAService tratarRespostaIAService;
 
-    public ControllerLista(ListaService listaService) {
+    public ListaController(ListaService listaService) {
         this.listaService = listaService;
     }
 

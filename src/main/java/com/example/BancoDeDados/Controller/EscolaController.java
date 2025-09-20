@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/escola")
-public class ControllerEscola {
+public class EscolaController {
     @Autowired
     private EscolaService escolaService;
     @Autowired
@@ -37,8 +37,8 @@ public class ControllerEscola {
 
     private PasswordEncoder passwordEncoder;
 
-    public ControllerEscola(TokenService tokenService, AuthenticationManager authenticationManager,
-            PasswordEncoder passwordEncoder, EscolaRespositores escolaRespositores) {
+    public EscolaController(TokenService tokenService, AuthenticationManager authenticationManager,
+                            PasswordEncoder passwordEncoder, EscolaRespositores escolaRespositores) {
         this.tokenService = tokenService;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
