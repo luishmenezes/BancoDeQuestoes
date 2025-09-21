@@ -48,7 +48,40 @@ public class EventoService {
         Evento evento = eventoMapper.toEntity(dto, materia, professor);
         Evento eventoSalvo = eventoRepository.save(evento);
 
+        associarTodosEstudantesDaMateria(eventoSalvo.getId(), materia);
+
         return eventoMapper.toResponse(eventoSalvo);
+    }
+    @Transactional
+    public void associarTodosEstudantesDaMateria(UUID eventoId, Materia materia) {
+        Evento evento = findEventoByIdOrThrow(eventoId);
+
+        List<Estudante> estudantesDaMateria = materia.getEstudantes();
+
+        if (estudantesDaMateria != null && !estudantesDaMateria.isEmpty()) {
+            for (Estudante estudante : estudantesDaMateria) {
+                try {
+                    boolean jaVinculado = evento.getNotasEstudante().stream()
+                            .anyMatch(ne -> ne.getEstudante() != null &&
+                                    estudante.getId().equals(ne.getEstudante().getId()));
+
+                    if (!jaVinculado) {
+                        NotaEvento notaEvento = new NotaEvento();
+                        notaEvento.setEstudante(estudante);
+                        notaEvento.setEvento(evento);
+                        notaEvento.setProfessor(evento.getProfessor());
+                        notaEvento.setNota(null);
+                        notaEvento.setObservacao(null);
+                        notaEvento.setStatusEntrega(NotaEvento.StatusEntrega.PENDENTE);
+
+                        evento.getNotasEstudante().add(notaEvento);
+                    }
+                } catch (Exception e) {
+                    System.err.println("Erro ao associar estudante " + estudante.getId() + ": " + e.getMessage());
+                }
+            }
+            eventoRepository.save(evento);
+        }
     }
 
 
