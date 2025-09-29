@@ -184,4 +184,9 @@ public class Professor implements UserDetails {
         return true;
     }
 
+    public Object getEscola() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getEscola'");
+    }
+
 }
