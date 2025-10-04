@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,8 +26,9 @@ import java.util.List;
 public class Professor implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue
+    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
+    private UUID id;
 
     @Column
     private String nome;
@@ -46,9 +48,6 @@ public class Professor implements UserDetails {
     @Column(nullable = false)
     private String senha;
 
-    @Column
-    @Enumerated(EnumType.STRING)
-    private ProfessorRole role;
 
     @Column
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -62,28 +61,19 @@ public class Professor implements UserDetails {
         this.email = professorDTO.email();
         this.senha = professorDTO.senha();
         this.dataNascimento = professorDTO.dataNascimento();
-        this.role = professorDTO.role();
     }
 
-    public Professor(Integer id ,String email, String encriptarSenha, ProfessorRole role) {
+    public Professor(UUID id ,String email, String encriptarSenha) {
         this.id=id;
         this.email = email;
         this.senha = encriptarSenha;
-        this.role = role;
     }
 
-    public Professor(ProfessorLoginResponseDTO professorLoginResponseDTO) {
-        this.id=professorLoginResponseDTO.id();
-        this.email = professorLoginResponseDTO.email();
-        this.senha = professorLoginResponseDTO.senha();
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == ProfessorRole.PROFESSOR)
-            return List.of(new SimpleGrantedAuthority("ROLE_PROFESSOR"), new SimpleGrantedAuthority("ROLE_USER"));
-        else
-            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+
+        return List.of(new SimpleGrantedAuthority("ROLE_PROFESSOR"));
 
     }
 
@@ -92,11 +82,11 @@ public class Professor implements UserDetails {
         return this.senha;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -148,13 +138,6 @@ public class Professor implements UserDetails {
         this.senha = senha;
     }
 
-    public ProfessorRole getRole() {
-        return role;
-    }
-
-    public void setRole(ProfessorRole role) {
-        this.role = role;
-    }
 
     public Date getDataNascimento() {
         return dataNascimento;

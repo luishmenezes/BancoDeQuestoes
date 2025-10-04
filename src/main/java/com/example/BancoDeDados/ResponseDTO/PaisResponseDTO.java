@@ -1,8 +1,6 @@
 package com.example.BancoDeDados.ResponseDTO;
 
-import com.example.BancoDeDados.Model.PaisRole;
+import java.util.Date;
 
-
-    public record PaisResponseDTO(String nome, String email, String senha,  PaisRole role) {
-    }
-
+public record PaisResponseDTO(String nome, String email, String senha, String telefone, String cpf, Date dataNascimento) {
+}

@@ -1,6 +1,9 @@
 package com.example.BancoDeDados.Controller;
 
+import com.example.BancoDeDados.Model.Account;
 import com.example.BancoDeDados.Model.Professor;
+import com.example.BancoDeDados.Model.Role;
+import com.example.BancoDeDados.Repositores.AccountRepository;
 import com.example.BancoDeDados.Repositores.ProfessorRepositores;
 import com.example.BancoDeDados.ResponseDTO.PLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.ProfessorResponseDTO;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/professor")
@@ -38,6 +42,9 @@ public class ProfessorController {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
     public ProfessorController(TokenService tokenService, AuthenticationManager authenticationManager,
                                PasswordEncoder passwordEncoder, ProfessorRepositores professorRepositores) {
         this.tokenService = tokenService;
@@ -47,43 +54,46 @@ public class ProfessorController {
     }
 
     @PostMapping("/registrar")
-    public ResponseEntity<?> registrar(@RequestBody @Valid ProfessorResponseDTO professorRegistrarDTO) {
+    public ResponseEntity<?> registrar(@RequestBody @Valid ProfessorResponseDTO professorDTO) {
         try {
-            Optional<Professor> professorExistente = professorRepositores.findByEmail(professorRegistrarDTO.email());
-            if (professorExistente.isPresent()) {
-                return ResponseEntity.badRequest().body("Email já cadastrado.");
-            }
-
-            Professor novoProfessor = new Professor(professorRegistrarDTO);
-
-            if (!professorService.validarEmail(professorRegistrarDTO.email())) {
-                return ResponseEntity.badRequest().body("Email inválido.");
-            }
-
-            if (!professorService.validarSenha(professorRegistrarDTO.senha())) {
-                return ResponseEntity.badRequest().body(
-                        "A senha deve ter no mínimo 8 caracteres, incluindo letras maiúsculas, minúsculas e números.");
-            }
-
-            novoProfessor.setSenha(passwordEncoder.encode(professorRegistrarDTO.senha()));
-
+          // Cria o professor
+            Professor novoProfessor = new Professor(professorDTO);
             professorService.criar(novoProfessor);
 
-            String token = tokenService.gerarTokenProfessor(novoProfessor);
+            // Cria o Account vinculado
+            Account account = new Account();
+            account.setEmail(professorDTO.email());
+            account.setSenha(passwordEncoder.encode(professorDTO.senha()));
+            account.setRole(Role.PROFESSOR);
+            account.setProfessorProfile(novoProfessor);
 
+            accountRepository.save(account);
+
+            // Gera o token JWT com base no Account
+            String token = tokenService.gerarToken(account);
+
+            // Envia e-mail de boas-vindas
             String assunto = "Confirmação de cadastro";
-            String mensagem = String
-                    .format("Olá " + novoProfessor.getNome() + " obrigado por se cadastrar no nosso site! ");
+            String mensagem = String.format("Olá %s, obrigado por se cadastrar no nosso site!", novoProfessor.getNome());
             emailService.enviarEmail(novoProfessor.getEmail(), assunto, mensagem);
-            // Retornando o nome e o token
-            return ResponseEntity.ok(new PLoginResponseDTO(novoProfessor.getId(), token, novoProfessor.getNome(), novoProfessor.getRole()));
+
+            // Retorno da resposta
+            return ResponseEntity.ok(
+                    new PLoginResponseDTO(
+                            novoProfessor.getId(),
+                            token,
+                            novoProfessor.getNome()
+
+                    )
+            );
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao cadastrar o professor." + e.getMessage());
+                    .body("Erro ao cadastrar o professor. " + e.getMessage());
         }
     }
+
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @GetMapping("/listar")
@@ -93,7 +103,7 @@ public class ProfessorController {
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @GetMapping("/editar/{id}")
-    public ResponseEntity<Professor> editar(@PathVariable Integer id) {
+    public ResponseEntity<Professor> editar(@PathVariable UUID id) {
         Optional<Professor> professorOpt = professorService.editar(id);
         return professorOpt.map(professor -> new ResponseEntity<>(professor, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -101,7 +111,7 @@ public class ProfessorController {
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+    public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         if (professorService.deletar(id)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {

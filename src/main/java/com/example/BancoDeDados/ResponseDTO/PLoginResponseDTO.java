@@ -1,7 +1,8 @@
 package com.example.BancoDeDados.ResponseDTO;
 
-import com.example.BancoDeDados.Model.ProfessorRole;
 
-//cadastro
-public record PLoginResponseDTO(Integer id, String token, String nome, ProfessorRole role) {
+import java.util.UUID;
+
+
+public record PLoginResponseDTO(UUID id, String token, String nome) {
 }

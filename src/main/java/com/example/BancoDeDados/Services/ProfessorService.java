@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProfessorService {
@@ -33,7 +34,7 @@ public class ProfessorService {
         return professorRepositores.findAll();
     }
 
-    public boolean deletar(Integer id) {
+    public boolean deletar(UUID id) {
         try {
             if (professorRepositores.existsById(id)) {
                 professorRepositores.deleteById(id);
@@ -46,7 +47,7 @@ public class ProfessorService {
         }
     }
 
-    public Optional<Professor> editar(Integer id) {
+    public Optional<Professor> editar(UUID id) {
         try {
             return professorRepositores.findById(id);
         } catch (Exception e) {

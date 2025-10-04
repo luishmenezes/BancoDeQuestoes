@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/disciplinas")
@@ -36,7 +37,7 @@ public class DisciplinaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DisciplinaResponseDTO> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<DisciplinaResponseDTO> buscarPorId(@PathVariable UUID id) {
         return disciplinaService.buscarPorId(id)
                 .map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
@@ -47,7 +48,7 @@ public class DisciplinaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+    public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         disciplinaService.deletar(id);
         return ResponseEntity.noContent().build();
     }

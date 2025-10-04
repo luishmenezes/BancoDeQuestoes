@@ -1,6 +1,10 @@
 package com.example.BancoDeDados.Controller;
 
+import com.example.BancoDeDados.Model.Account;
 import com.example.BancoDeDados.Model.Escola;
+import com.example.BancoDeDados.Model.Estudante;
+import com.example.BancoDeDados.Model.Role;
+import com.example.BancoDeDados.Repositores.AccountRepository;
 import com.example.BancoDeDados.Repositores.EscolaRespositores;
 import com.example.BancoDeDados.ResponseDTO.EscLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.EscolaResponseDTO;
@@ -19,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/escola")
@@ -33,38 +38,45 @@ public class EscolaController {
     private EmailService emailService;
 
     @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public EscolaController(TokenService tokenService, AuthenticationManager authenticationManager,
-                            PasswordEncoder passwordEncoder, EscolaRespositores escolaRespositores) {
-        this.tokenService = tokenService;
-        this.authenticationManager = authenticationManager;
-        this.passwordEncoder = passwordEncoder;
-        this.escolaRepositores = escolaRespositores;
-    }
+
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @PostMapping("/cadastro")
     public ResponseEntity<?> registrar(@RequestBody @Valid EscolaResponseDTO escolaRegristrarDto) {
-        Escola escola = new Escola(escolaRegristrarDto);
         try {
+            Escola escola = new Escola(escolaRegristrarDto);
 
             escola.setSenha(passwordEncoder.encode(escolaRegristrarDto.senha()));
             escolaService.criar(escola);
 
-            String token = tokenService.gerarTokenEscola(escola);
+            Account account = new Account();
+            account.setEmail(escola.getEmail());
+            account.setSenha(escola.getSenha());
+            account.setRole(Role.INSTITUICAO);
+            account.setInstituicaoProfile(escola);
+            accountRepository.save(account);
+
+            String token = tokenService.gerarToken(account);
+
+
             String assunto = "Confirmação de cadastro";
             String mensagem = String
                     .format("Olá " + escola.getNome() + " obrigado por se cadastrar no nosso site! ");
             emailService.enviarEmail(escola.getEmail(), assunto, mensagem);
-            return ResponseEntity.ok(new EscLoginResponseDTO(token, escola.getNome(), escola.getRole()));
+            return ResponseEntity.ok(new EscLoginResponseDTO(token, escola.getNome()));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao cadastrar o estudante." + e.getMessage());
+                    .body("Erro ao cadastrar a instituição." + e.getMessage());
         }
     }
 
@@ -76,7 +88,7 @@ public class EscolaController {
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @GetMapping("/editar/{id}")
-    public ResponseEntity<Escola> editar(@PathVariable Integer id) {
+    public ResponseEntity<Escola> editar(@PathVariable UUID id) {
         Optional<Escola> escolaOpt = escolaService.editar(id);
         return escolaOpt.map(escola -> new ResponseEntity<>(escola, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -84,7 +96,7 @@ public class EscolaController {
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+    public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         if (escolaService.deletar(id)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {

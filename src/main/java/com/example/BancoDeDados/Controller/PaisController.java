@@ -1,10 +1,12 @@
 package com.example.BancoDeDados.Controller;
 
 
-import com.example.BancoDeDados.Model.Escola;
+import com.example.BancoDeDados.Model.Account;
 import com.example.BancoDeDados.Model.Pais;
+import com.example.BancoDeDados.Model.Role;
+import com.example.BancoDeDados.Repositores.AccountRepository;
 import com.example.BancoDeDados.Repositores.PaisRepositores;
-import com.example.BancoDeDados.ResponseDTO.EscLoginResponseDTO;
+import com.example.BancoDeDados.ResponseDTO.ELoginRespondeDTO;
 import com.example.BancoDeDados.ResponseDTO.PaisLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.PaisResponseDTO;
 import com.example.BancoDeDados.Security.TokenService;
@@ -35,6 +37,8 @@ public class PaisController {
     private EmailService emailService;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private AccountRepository accountRepository;
 
     private PasswordEncoder passwordEncoder;
 
@@ -48,26 +52,39 @@ public class PaisController {
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @PostMapping("/cadastro")
-    public ResponseEntity<?> registrar(@RequestBody @Valid PaisResponseDTO paisResponseDto) {
-        Pais pais = new Pais(paisResponseDto);
+    public ResponseEntity<?> registrar(@RequestBody @Valid PaisResponseDTO paisDTO) {
         try {
+            // Cria o objeto Pais (dados pessoais)
+            Pais novoPais = new Pais(paisDTO);
+            paisService.createPais(novoPais);
 
-            pais.setSenha(passwordEncoder.encode(paisResponseDto.senha()));
-            paisService.createPais(pais);
+            // Cria a conta (Account) vinculada ao Pai
+            Account account = new Account();
+            account.setEmail(paisDTO.email());
+            account.setSenha(passwordEncoder.encode(paisDTO.senha()));
+            account.setRole(Role.PAIS);
+            account.setPaisProfile(novoPais);
 
-            String token = tokenService.gerarTokenPais(pais);
+            accountRepository.save(account);
+
+            // Gera o token JWT a partir da Account
+            String token = tokenService.gerarToken(account);
+
+            // Envia o e-mail de boas-vindas
             String assunto = "Confirmação de cadastro";
-            String mensagem = String
-                    .format("Olá " + pais.getNome() + " obrigado por se cadastrar no nosso site! ");
-            emailService.enviarEmail(pais.getEmail(), assunto, mensagem);
-            return ResponseEntity.ok(new PaisLoginResponseDTO(token, pais.getNome(), pais.getRole()));
+            String mensagem = String.format("Olá %s, obrigado por se cadastrar no nosso site!", novoPais.getNome());
+            emailService.enviarEmail(novoPais.getEmail(), assunto, mensagem);
+
+            return ResponseEntity.ok(new ELoginRespondeDTO(novoPais.getId(), token, novoPais.getNome()));
+
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao cadastrar o Pai." + e.getMessage());
+                    .body("Erro ao cadastrar o Pai: " + e.getMessage());
         }
     }
+
 
     @CrossOrigin(originPatterns = "*", allowedHeaders = "*")
     @GetMapping("/listar")

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,7 +56,7 @@ public class DisciplinaService {
         return disciplinaRepository.findAll().stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
-    public Optional<DisciplinaResponseDTO> buscarPorId(Integer id) {
+    public Optional<DisciplinaResponseDTO> buscarPorId(UUID id) {
         return disciplinaRepository.findById(id).map(this::mapToDTO);
     }
 
@@ -65,10 +66,10 @@ public class DisciplinaService {
     }
 
     @Transactional
-    public void deletar(Integer id) {
+    public void deletar(UUID id) {
         Disciplina disciplina = disciplinaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Disciplina não encontrada"));
-        disciplina.getAlunos().clear(); // remove associações
+        disciplina.getAlunos().clear();
         disciplinaRepository.delete(disciplina);
     }
 

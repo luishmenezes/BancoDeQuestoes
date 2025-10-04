@@ -1,7 +1,9 @@
 package com.example.BancoDeDados.ResponseDTO;
 
+import java.util.UUID;
+
 public record DisciplinaRequestDTO(
         String nome,
         String emailProfessor,
-        Integer escolaId
+        UUID escolaId
 ) {}
