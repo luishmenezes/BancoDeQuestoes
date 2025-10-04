@@ -4,11 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class MateriaResponseDTO {
     private String nome;
-    private Integer professorId;
-    private Integer escolaId;
+    private UUID professorId;
+    private UUID escolaId;
 }

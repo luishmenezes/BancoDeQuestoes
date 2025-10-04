@@ -1,9 +1,10 @@
 package com.example.BancoDeDados.ResponseDTO;
 
 import java.util.List;
+import java.util.UUID;
 
 public record DisciplinaResponseDTO(
-        Integer id,
+        UUID id,
         String nome,
         String nomeProfessor,
         String nomeEscola,

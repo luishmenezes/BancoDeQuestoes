@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,8 +25,9 @@ public class Pais implements UserDetails {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue
+    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
+    private UUID id;
 
     @Column(nullable = false)
     private String nome;
@@ -36,22 +38,16 @@ public class Pais implements UserDetails {
     @Column(nullable = false)
     private String senha;
 
-    @Column(nullable = false)
-    private PaisRole role;
-
     public Pais(PaisResponseDTO paisDTO) {
         this.nome = paisDTO.nome();
         this.email = paisDTO.email();
         this.senha = paisDTO.senha();
-        this.role = paisDTO .role();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == PaisRole.PAIS)
-            return List.of(new SimpleGrantedAuthority("ROLE_PAIS"), new SimpleGrantedAuthority("ROLE_USER"));
-        else
-            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+
+        return List.of(new SimpleGrantedAuthority("ROLE_PAI"));
 
     }
 

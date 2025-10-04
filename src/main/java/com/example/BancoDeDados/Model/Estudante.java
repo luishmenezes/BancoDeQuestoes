@@ -2,15 +2,13 @@ package com.example.BancoDeDados.Model;
 
 import java.util.*;
 
+import com.example.BancoDeDados.ResponseDTO.EstudanteResponseDTO;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import com.example.BancoDeDados.ResponseDTO.EstudanteLoginResponseDTO;
-import com.example.BancoDeDados.ResponseDTO.EstudanteResponseDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -60,11 +58,6 @@ public class Estudante implements UserDetails {
         this.instituicao = estudantes.instituicao();
     }
 
-    public Estudante(EstudanteLoginResponseDTO estudanteLoginResponseDTO) {
-        this.email = estudanteLoginResponseDTO.email();
-        this.senha = estudanteLoginResponseDTO.senha();
-    }
-
 
     public List<RespostaEstudantes> getRespostas() {
         return respostas;
@@ -77,7 +70,7 @@ public class Estudante implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(new SimpleGrantedAuthority("ROLE_ESTUDANTE"));
 
     }
 

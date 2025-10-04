@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.example.BancoDeDados.Model.Account;
+import com.example.BancoDeDados.Model.Role;
+import com.example.BancoDeDados.Repositores.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +44,9 @@ public class EstudanteController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -56,25 +62,37 @@ public class EstudanteController {
 
     @PostMapping("/cadastro")
     public ResponseEntity<?> cadastrar(@RequestBody EstudanteResponseDTO estudanteResponseDTO) {
-        Estudante estudante = new Estudante(estudanteResponseDTO);
         try {
 
+            Estudante estudante = new Estudante(estudanteResponseDTO);
             estudante.setSenha(passwordEncoder.encode(estudanteResponseDTO.senha()));
             estudanteService.criar(estudante);
 
-            String token = tokenService.gerarTokenEstudante(estudante);
+
+            Account account = new Account();
+            account.setEmail(estudante.getEmail());
+            account.setSenha(estudante.getSenha());
+            account.setRole(Role.ALUNO);
+            account.setEstudanteProfile(estudante);
+            accountRepository.save(account);
+
+            String token = tokenService.gerarToken(account);
+
+
             String assunto = "Confirmação de cadastro";
-            String mensagem = String
-                    .format("Olá " + estudante.getNome() + " obrigado por se cadastrar no nosso site! ");
+            String mensagem = String.format("Olá %s, obrigado por se cadastrar no nosso site!", estudante.getNome());
             emailService.enviarEmail(estudante.getEmail(), assunto, mensagem);
-            return ResponseEntity.ok(new ELoginRespondeDTO(estudante.getId(),token, estudante.getNome()));
+
+            return ResponseEntity.ok(new ELoginRespondeDTO(estudante.getId(), token, estudante.getNome()));
+
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao cadastrar o estudante." + e.getMessage());
+                    .body("Erro ao cadastrar o estudante: " + e.getMessage());
         }
     }
+
 
     @GetMapping("/listar")
     public ResponseEntity<List<Estudante>> listar() {

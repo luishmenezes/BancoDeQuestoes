@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,8 +25,9 @@ import java.util.List;
 public class Escola implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue
+    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
+    private UUID id;
 
     @Column(nullable = false)
     private String nome;
@@ -40,23 +42,19 @@ public class Escola implements UserDetails {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataNascimento;
 
-    @Column(nullable = false)
-    private EscolaRole role;
 
     public Escola(EscolaResponseDTO escolaDTO) {
         this.nome = escolaDTO.nome();
         this.email = escolaDTO.email();
         this.senha = escolaDTO.senha();
         this.dataNascimento = escolaDTO.dataNascimento();
-        this.role = escolaDTO.role();
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == EscolaRole.ESCOLA)
-            return List.of(new SimpleGrantedAuthority("ROLE_ESCOLA"), new SimpleGrantedAuthority("ROLE_USER"));
-        else
-            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+
+        return List.of(new SimpleGrantedAuthority("ROLE_INSTITUICAO"));
 
     }
 
@@ -82,6 +80,11 @@ public class Escola implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
         return true;
     }
 }

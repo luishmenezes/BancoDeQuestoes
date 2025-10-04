@@ -82,12 +82,12 @@ public class ListaController {
     }
 
     @GetMapping("/professor/{professorId}")
-    public List<ListaResponseDTO> buscarListasPorProfessor(@PathVariable Integer professorId) {
+    public List<ListaResponseDTO> buscarListasPorProfessor(@PathVariable UUID professorId) {
         return listaService.buscarListasPorProfessor(professorId);
     }
 
     @PostMapping
-    public ListaResponseDTO criarLista(@RequestParam String titulo, @RequestParam Integer professorId) {
+    public ListaResponseDTO criarLista(@RequestParam String titulo, @RequestParam UUID professorId) {
         return listaService.criarLista(titulo, professorId);
     }
 

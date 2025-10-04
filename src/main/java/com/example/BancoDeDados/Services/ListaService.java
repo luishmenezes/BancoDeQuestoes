@@ -89,7 +89,7 @@ public class ListaService {
         return convertToDTO(updatedLista);
     }
 
-    public ListaResponseDTO criarLista(String titulo, Integer professorId) {
+    public ListaResponseDTO criarLista(String titulo, UUID professorId) {
         Professor professor = professorRepository.findById(professorId)
                 .orElseThrow(() -> new RuntimeException("Professor não encontrado"));
 
@@ -115,7 +115,7 @@ public class ListaService {
         listaRepository.deleteById(Long.valueOf(listaId));
     }
 
-    public List<ListaResponseDTO> buscarListasPorProfessor(Integer professorId) {
+    public List<ListaResponseDTO> buscarListasPorProfessor(UUID professorId) {
         List<Lista> listas = listaRepository.findByProfessorId(professorId);
         return listas.stream()
                 .map(this::convertToDTO)
