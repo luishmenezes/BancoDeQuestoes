@@ -2,7 +2,6 @@ package com.example.BancoDeDados.Controller;
 
 import com.example.BancoDeDados.Model.Account;
 import com.example.BancoDeDados.Model.Escola;
-import com.example.BancoDeDados.Model.Estudante;
 import com.example.BancoDeDados.Model.Role;
 import com.example.BancoDeDados.Repositores.AccountRepository;
 import com.example.BancoDeDados.Repositores.EscolaRespositores;
