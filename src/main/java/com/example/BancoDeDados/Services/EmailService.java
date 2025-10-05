@@ -29,4 +29,18 @@ public class EmailService {
             return "Erro ao enviar email!" + e.getLocalizedMessage();
         }
     }
+    public void sendPasswordResetEmail(String toEmail, String token) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(remetente);
+        message.setTo(toEmail);
+        message.setSubject("Recuperação de Senha - Banco de Questões");
+        message.setText(
+                "Você solicitou a recuperação de senha.\n\n" +
+                        "Seu token de recuperação é: " + token + "\n\n" +
+                        "Este token expira em 15 minutos.\n\n" +
+                        "Se você não solicitou esta recuperação, ignore este email."
+        );
+
+        mailSender.send(message);
+    }
 }

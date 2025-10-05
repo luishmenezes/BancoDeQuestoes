@@ -7,6 +7,7 @@ import java.util.UUID;
 import com.example.BancoDeDados.Model.Account;
 import com.example.BancoDeDados.Model.Role;
 import com.example.BancoDeDados.Repositores.AccountRepository;
+import com.example.BancoDeDados.Services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,6 @@ import com.example.BancoDeDados.Repositores.EstudanteRepositores;
 import com.example.BancoDeDados.ResponseDTO.ELoginRespondeDTO;
 import com.example.BancoDeDados.ResponseDTO.EstudanteResponseDTO;
 import com.example.BancoDeDados.Security.TokenService;
-import com.example.BancoDeDados.Services.EmailService;
 import com.example.BancoDeDados.Services.EstudanteService;
 
 import org.springframework.web.bind.annotation.PostMapping;

@@ -7,7 +7,6 @@ import com.example.BancoDeDados.Model.Role;
 import com.example.BancoDeDados.Repositores.AccountRepository;
 import com.example.BancoDeDados.Repositores.PaisRepositores;
 import com.example.BancoDeDados.ResponseDTO.ELoginRespondeDTO;
-import com.example.BancoDeDados.ResponseDTO.PaisLoginResponseDTO;
 import com.example.BancoDeDados.ResponseDTO.PaisResponseDTO;
 import com.example.BancoDeDados.Security.TokenService;
 import com.example.BancoDeDados.Services.EmailService;
