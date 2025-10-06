@@ -1,8 +1,6 @@
 package com.example.BancoDeDados.Controller;
 
-import com.example.BancoDeDados.ResponseDTO.ForgotPasswordRequestDTO;
-import com.example.BancoDeDados.ResponseDTO.ResetPasswordRequestDTO;
-import com.example.BancoDeDados.ResponseDTO.ApiResponseDTO;
+import com.example.BancoDeDados.ResponseDTO.*;
 import com.example.BancoDeDados.Services.PasswordResetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +25,12 @@ public class PasswordResetController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/validate-token")
+    public ResponseEntity<ValidateTokenResponseDTO> validateToken(@RequestBody ValidateTokenRequestDTO request) {
+        ValidateTokenResponseDTO response = passwordResetService.validateToken(request.token());
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/reset-password")
     public ResponseEntity<ApiResponseDTO> resetPassword(@RequestBody ResetPasswordRequestDTO request) {
         boolean result = passwordResetService.resetPassword(request.token(), request.newPassword());
@@ -39,7 +43,7 @@ public class PasswordResetController {
             return ResponseEntity.ok(response);
         } else {
             ApiResponseDTO response = new ApiResponseDTO(
-                    "Token inválido ou expirado.",
+                    "Erro ao alterar senha. Token pode ter expirado.",
                     false
             );
             return ResponseEntity.badRequest().body(response);
