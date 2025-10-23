@@ -22,6 +22,8 @@ public class AuthController {
     private final TokenService tokenService;
     private final AccountRepository accountRepository;
 
+    //teste
+    
     @Autowired
     private PasswordEncoder passwordEncoder;
 
